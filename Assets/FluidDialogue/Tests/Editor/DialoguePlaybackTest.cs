@@ -58,21 +58,23 @@ namespace CleverCrow.Fluid.Dialogues {
             }
 
             public class RootEnterActions : DialoguePlaybackTest {
+                private IAction _action;
+
+                [SetUp]
+                public void BeforeEachMethod () {
+                    _action = Substitute.For<IAction>();
+                    _graph.Root.EnterActions.Returns(new List<IAction> {_action});
+                }
+
                 [Test]
                 public void It_should_run_root_enter_actions () {
-                    var action = Substitute.For<IAction>();
-                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
-
                     _playback.Play(_graph);
 
-                    action.Received(1).Tick();
+                    _action.Received(1).Tick();
                 }
 
                 [Test]
                 public void It_should_call_begin_event_on_action_failure () {
-                    var action = Substitute.For<IAction>();
-                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
-
                     _playback.Play(_graph);
 
                     _playback.Events.Begin.Received(1).Invoke();
@@ -80,12 +82,11 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void If_root_enter_action_returns_false_do_not_call_speak () {
-                    var action = Substitute.For<IAction>();
                     var node = A.Node().Build();
                     _graph = A.Graph()
                         .WithNextResult(node)
                         .Build();
-                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
+                    _graph.Root.EnterActions.Returns(new List<IAction> {_action});
 
                     _playback.Play(_graph);
 
@@ -94,13 +95,10 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void Calling_Play_a_second_time_should_call_end_on_all_active_actions () {
-                    var action = Substitute.For<IAction>();
-                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
-
                     _playback.Play(_graph);
                     _playback.Play(_graph);
 
-                    action.Received(1).End();
+                    _action.Received(1).End();
                 }
             }
         }
@@ -259,6 +257,47 @@ namespace CleverCrow.Fluid.Dialogues {
                 _playback.Next();
                 action.Tick().Returns(true);
                 _playback.Tick();
+            }
+        }
+
+        public class StopMethod : DialoguePlaybackTest {
+            private IAction _action;
+
+            [SetUp]
+            public void BeforeEachMethod () {
+                _action = Substitute.For<IAction>();
+                _graph.Root.EnterActions.Returns(new List<IAction> {_action});
+            }
+
+            [Test]
+            public void It_should_call_end_on_all_active_running_actions () {
+                _playback.Play(_graph);
+                _playback.Stop();
+
+                _action.Received(1).End();
+            }
+
+            [Test]
+            public void It_should_clear_the_pointer () {
+                _playback.Play(_graph);
+                _playback.Stop();
+
+                Assert.IsNull(_playback.Pointer);
+            }
+
+            [Test]
+            public void It_should_call_End_event () {
+                _playback.Play(_graph);
+                _playback.Stop();
+
+                _playback.Events.End.Received(1).Invoke();
+            }
+
+            [Test]
+            public void It_should_not_call_End_event_if_Play_was_not_called () {
+                _playback.Stop();
+
+                _playback.Events.End.DidNotReceive().Invoke();
             }
         }
     }

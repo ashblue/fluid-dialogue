@@ -3,19 +3,21 @@ using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues {
     public class DialoguePlayback {
-        private Queue<IAction> _actionQueue = new Queue<IAction>();
-        private IDialogueNode _pointer;
+        private bool _playing;
+        private readonly Queue<IAction> _actionQueue = new Queue<IAction>();
 
         public IDialoguePlaybackEvents Events { get;}
+        public IDialogueNode Pointer { get; private set; }
 
         public DialoguePlayback (IDialoguePlaybackEvents events) {
             Events = events;
         }
 
         public void Play (IDialogueGraph graph) {
-            ClearAllActions();
+            Stop();
 
-            _pointer = graph.Root;
+            _playing = true;
+            Pointer = graph.Root;
             Events.Begin.Invoke();
             foreach (var action in graph.Root.EnterActions) {
                 _actionQueue.Enqueue(action);
@@ -44,13 +46,13 @@ namespace CleverCrow.Fluid.Dialogues {
         public void Next () {
             if (_actionQueue.Count != 0) return;
 
-            foreach (var action in _pointer.ExitActions) {
+            foreach (var action in Pointer.ExitActions) {
                 _actionQueue.Enqueue(action);
             }
 
-            _pointer = _pointer.Next();
-            if (_pointer != null) {
-                foreach (var action in _pointer.EnterActions) {
+            Pointer = Pointer.Next();
+            if (Pointer != null) {
+                foreach (var action in Pointer.EnterActions) {
                     _actionQueue.Enqueue(action);
                 }
             }
@@ -60,17 +62,28 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         private void UpdatePointer () {
-            if (_pointer == null) {
+            if (Pointer == null) {
                 Events.End.Invoke();
+                _playing = false;
                 return;
             }
 
-            Events.Speak.Invoke(_pointer.Actor, _pointer.Dialogue);
+            Events.Speak.Invoke(Pointer.Actor, Pointer.Dialogue);
         }
 
         public void Tick () {
             if (_actionQueue.Count > 0 && UpdateActionQueue()) {
                 UpdatePointer();
+            }
+        }
+
+        public void Stop () {
+            Pointer = null;
+            ClearAllActions();
+
+            if (_playing) {
+                Events.End.Invoke();
+                _playing = false;
             }
         }
     }
