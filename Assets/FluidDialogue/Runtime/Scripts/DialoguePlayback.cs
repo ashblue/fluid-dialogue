@@ -13,15 +13,32 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         public void Play (IDialogueGraph graph) {
-            // @TODO Trigger root enter actions and set pointer to root
+            ClearAllActions();
 
-            // @TODO Call Next() instead of running this
-            var activeNode = graph.Root.Next();
-            if (activeNode == null) return;
-
-            _pointer = activeNode;
+            _pointer = graph.Root;
             Events.Begin.Invoke();
-            Events.Speak.Invoke(activeNode.Actor, activeNode.Dialogue);
+            foreach (var action in graph.Root.EnterActions) {
+                _actionQueue.Enqueue(action);
+            }
+
+            if (!UpdateActionQueue()) return;
+            Next();
+        }
+
+        private void ClearAllActions () {
+            while (_actionQueue.Count > 0) {
+                var action = _actionQueue.Dequeue();
+                action.End();
+            }
+        }
+
+        private bool UpdateActionQueue () {
+            while (_actionQueue.Count > 0) {
+                if (!_actionQueue.Peek().Tick()) return false;
+                _actionQueue.Dequeue();
+            }
+
+            return true;
         }
 
         public void Next () {
@@ -31,17 +48,18 @@ namespace CleverCrow.Fluid.Dialogues {
                 _actionQueue.Enqueue(action);
             }
 
-            foreach (var action in _pointer.EnterActions) {
-                _actionQueue.Enqueue(action);
+            _pointer = _pointer.Next();
+            if (_pointer != null) {
+                foreach (var action in _pointer.EnterActions) {
+                    _actionQueue.Enqueue(action);
+                }
             }
 
-            if (!Tick()) return;
-            AdvancePointer();
+            if (!UpdateActionQueue()) return;
+            UpdatePointer();
         }
 
-        private void AdvancePointer () {
-            _pointer = _pointer.Next();
-
+        private void UpdatePointer () {
             if (_pointer == null) {
                 Events.End.Invoke();
                 return;
@@ -50,15 +68,10 @@ namespace CleverCrow.Fluid.Dialogues {
             Events.Speak.Invoke(_pointer.Actor, _pointer.Dialogue);
         }
 
-        public bool Tick () {
-            while (_actionQueue.Count > 0) {
-                if (!_actionQueue.Peek().Tick()) return false;
-                _actionQueue.Dequeue();
-
-                if (_actionQueue.Count == 0) AdvancePointer();
+        public void Tick () {
+            if (_actionQueue.Count > 0 && UpdateActionQueue()) {
+                UpdatePointer();
             }
-
-            return true;
         }
     }
 }

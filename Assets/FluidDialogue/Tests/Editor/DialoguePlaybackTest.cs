@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Builders;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using NSubstitute;
@@ -18,40 +19,89 @@ namespace CleverCrow.Fluid.Dialogues {
             _playback = new DialoguePlayback(events);
         }
 
-        public class PlayMethod : DialoguePlaybackTest {
-            [Test]
-            public void It_should_trigger_next_on_the_root_node () {
-                _playback.Play(_graph);
+        public class PlayMethod {
+            public class Defaults : DialoguePlaybackTest {
+                [Test]
+                public void It_should_trigger_next_on_the_root_node () {
+                    _playback.Play(_graph);
 
-                _graph.Root.Received(1).Next();
+                    _graph.Root.Received(1).Next();
+                }
+
+                [Test]
+                public void It_should_trigger_a_Begin_event () {
+                    _playback.Play(_graph);
+
+                    _playback.Events.Begin.Received(1).Invoke();
+                }
+
+                [Test]
+                public void It_should_trigger_a_speak_event_with_the_root_child_dialogue () {
+                    var node = A.Node().Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+
+                    _playback.Play(_graph);
+
+                    _playback.Events.Speak.Received(1).Invoke(node.Actor, node.Dialogue);
+                }
+
+                [Test]
+                public void If_no_child_on_root_trigger_end_event () {
+                    _graph.Root.Next().Returns((x) => null);
+
+                    _playback.Play(_graph);
+
+                    _playback.Events.End.Received(1).Invoke();
+                }
             }
 
-            [Test]
-            public void It_should_trigger_a_Begin_event () {
-                _playback.Play(_graph);
+            public class RootEnterActions : DialoguePlaybackTest {
+                [Test]
+                public void It_should_run_root_enter_actions () {
+                    var action = Substitute.For<IAction>();
+                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
 
-                _playback.Events.Begin.Received(1).Invoke();
-            }
+                    _playback.Play(_graph);
 
-            [Test]
-            public void It_should_trigger_a_speak_event_with_the_root_child_dialogue () {
-                var node = A.Node().Build();
-                _graph = A.Graph()
-                    .WithNextResult(node)
-                    .Build();
+                    action.Received(1).Tick();
+                }
 
-                _playback.Play(_graph);
+                [Test]
+                public void It_should_call_begin_event_on_action_failure () {
+                    var action = Substitute.For<IAction>();
+                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
 
-                _playback.Events.Speak.Received(1).Invoke(node.Actor, node.Dialogue);
-            }
+                    _playback.Play(_graph);
 
-            [Test]
-            public void If_no_child_on_root_do_not_trigger_begin_event () {
-                _graph.Root.Next().Returns((x) => null);
+                    _playback.Events.Begin.Received(1).Invoke();
+                }
 
-                _playback.Play(_graph);
+                [Test]
+                public void If_root_enter_action_returns_false_do_not_call_speak () {
+                    var action = Substitute.For<IAction>();
+                    var node = A.Node().Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
 
-                _playback.Events.Begin.DidNotReceive().Invoke();
+                    _playback.Play(_graph);
+
+                    _playback.Events.Speak.DidNotReceive().Invoke(node.Actor, node.Dialogue);
+                }
+
+                [Test]
+                public void Calling_Play_a_second_time_should_call_end_on_all_active_actions () {
+                    var action = Substitute.For<IAction>();
+                    _graph.Root.EnterActions.Returns(new List<IAction> {action});
+
+                    _playback.Play(_graph);
+                    _playback.Play(_graph);
+
+                    action.Received(1).End();
+                }
             }
         }
 
@@ -77,6 +127,24 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void If_no_next_result_trigger_end_event () {
                     var node = A.Node()
                         .WithNextResult(null)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _playback.Events.End.Received(1).Invoke();
+                }
+
+                [Test]
+                public void If_should_trigger_end_event_only_once_when_an_action_is_present () {
+                    var action = Substitute.For<IAction>();
+                    action.Tick().Returns(true);
+                    var node = A.Node()
+                        .WithNextResult(null)
+                        .WithEnterAction(action)
                         .Build();
                     _graph = A.Graph()
                         .WithNextResult(node)
