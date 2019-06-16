@@ -55,36 +55,142 @@ namespace CleverCrow.Fluid.Dialogues {
             }
         }
 
-        public class NextMethod : DialoguePlaybackTest {
-            [Test]
-            public void It_should_trigger_speak_on_the_next_sibling_node () {
-                var nodeNested = A.Node().Build();
-                var node = A.Node()
-                    .WithNextResult(nodeNested)
-                    .Build();
-                _graph = A.Graph()
-                    .WithNextResult(node)
-                    .Build();
+        public class NextMethod {
+            public class Defaults : DialoguePlaybackTest {
+                [Test]
+                public void It_should_trigger_speak_on_the_next_sibling_node () {
+                    var nodeNested = A.Node().Build();
+                    var node = A.Node()
+                        .WithNextResult(nodeNested)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
 
-                _playback.Play(_graph);
-                _playback.Next();
+                    _playback.Play(_graph);
+                    _playback.Next();
 
-                _playback.Events.Speak.Received(1).Invoke(nodeNested.Actor, nodeNested.Dialogue);
+                    _playback.Events.Speak.Received(1).Invoke(nodeNested.Actor, nodeNested.Dialogue);
+                }
+
+                [Test]
+                public void If_no_next_result_trigger_end_event () {
+                    var node = A.Node()
+                        .WithNextResult(null)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _playback.Events.End.Received(1).Invoke();
+                }
             }
 
+            public class ExitActions : DialoguePlaybackTest {
+                private IAction _exitAction;
+                private IDialogueNode _node;
+                private IDialogueNode _nodeNested;
+
+                [SetUp]
+                public void BeforeEachMethod () {
+                    _exitAction = Substitute.For<IAction>();
+                    _nodeNested = A.Node().Build();
+                    _node = A.Node()
+                        .WithExitAction(_exitAction)
+                        .WithNextResult(_nodeNested)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(_node)
+                        .Build();
+                }
+
+                [Test]
+                public void It_should_trigger_all_exit_actions_on_current () {
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _exitAction.Received(1).Tick();
+                }
+
+                [Test]
+                public void It_should_not_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false () {
+                    _exitAction.Tick().Returns(false);
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _playback.Events.Speak.DidNotReceive().Invoke(_nodeNested.Actor, _nodeNested.Dialogue);
+                }
+
+                [Test]
+                public void It_should_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false_then_true () {
+                    _exitAction.Tick().Returns(false);
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+                    _exitAction.Tick().Returns(true);
+                    _playback.Tick();
+
+                    _playback.Events.Speak.Received(1).Invoke(_nodeNested.Actor, _nodeNested.Dialogue);
+                }
+
+                [Test]
+                public void It_should_do_nothing_if_actions_are_running () {
+                    _exitAction.Tick().Returns(false);
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+                    _playback.Next();
+
+                    _exitAction.Received(1).Tick();
+                }
+            }
+
+            public class EnterActions : DialoguePlaybackTest {
+                private IAction _enterAction;
+                private IDialogueNode _node;
+
+                [SetUp]
+                public void BeforeEachMethod () {
+                    _enterAction = Substitute.For<IAction>();
+                    _node = A.Node()
+                        .WithEnterAction(_enterAction)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(_node)
+                        .Build();
+                }
+
+                [Test]
+                public void It_should_trigger_all_enter_actions_on_current () {
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _enterAction.Received(1).Tick();
+                }
+            }
+        }
+
+        public class TickMethod : DialoguePlaybackTest {
             [Test]
-            public void If_no_next_result_trigger_end_event () {
+            public void It_should_not_crash_when_updating_multiple_actions_at_the_same_time () {
+                var action = Substitute.For<IAction>();
+                action.Tick().Returns(false);
                 var node = A.Node()
-                    .WithNextResult(null)
+                    .WithExitAction(action)
+                    .WithExitAction(action)
                     .Build();
-                _graph = A.Graph()
+                var graph = A.Graph()
                     .WithNextResult(node)
                     .Build();
 
-                _playback.Play(_graph);
+                _playback.Play(graph);
                 _playback.Next();
-
-                _playback.Events.End.Received(1).Invoke();
+                action.Tick().Returns(true);
+                _playback.Tick();
             }
         }
     }
