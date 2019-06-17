@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Builders;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using NSubstitute;
@@ -11,8 +12,8 @@ namespace CleverCrow.Fluid.Dialogues {
 
         [SetUp]
         public void BeforeEach () {
-            _graph = A.Graph()
-                .WithNextResult(A.Node().Build())
+            _graph = A.Graph
+                .WithNextResult(A.Node.Build())
                 .Build();
 
             var events = Substitute.For<IDialogueEvents>();
@@ -37,8 +38,8 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_trigger_a_speak_event_with_the_root_child_dialogue () {
-                    var node = A.Node().Build();
-                    _graph = A.Graph()
+                    var node = A.Node.Build();
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -62,7 +63,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [SetUp]
                 public void BeforeEachMethod () {
-                    _action = Substitute.For<IAction>();
+                    _action = A.Action
+                        .WithTickStatus(ActionStatus.Continue)
+                        .Build();
                     _graph.Root.EnterActions.Returns(new List<IAction> {_action});
                 }
 
@@ -82,8 +85,8 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void If_root_enter_action_returns_false_do_not_call_speak () {
-                    var node = A.Node().Build();
-                    _graph = A.Graph()
+                    var node = A.Node.Build();
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
                     _graph.Root.EnterActions.Returns(new List<IAction> {_action});
@@ -107,11 +110,11 @@ namespace CleverCrow.Fluid.Dialogues {
             public class Defaults : DialoguePlaybackTest {
                 [Test]
                 public void It_should_trigger_speak_on_the_next_sibling_node () {
-                    var nodeNested = A.Node().Build();
-                    var node = A.Node()
+                    var nodeNested = A.Node.Build();
+                    var node = A.Node
                         .WithNextResult(nodeNested)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -123,10 +126,10 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void If_no_next_result_trigger_end_event () {
-                    var node = A.Node()
+                    var node = A.Node
                         .WithNextResult(null)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -138,13 +141,12 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_trigger_end_event_only_once_when_an_action_is_present () {
-                    var action = Substitute.For<IAction>();
-                    action.Tick().Returns(true);
-                    var node = A.Node()
+                    var action = A.Action.Build();
+                    var node = A.Node
                         .WithNextResult(null)
                         .WithEnterAction(action)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -159,13 +161,13 @@ namespace CleverCrow.Fluid.Dialogues {
                 [Test]
                 public void It_should_emit_a_choice_event_if_next_node_has_choices () {
                     var choice = Substitute.For<IChoice>();
-                    var nodeNested = A.Node()
+                    var nodeNested = A.Node
                         .WithChoice(choice)
                         .Build();
-                    var node = A.Node()
+                    var node = A.Node
                         .WithNextResult(nodeNested)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -179,13 +181,13 @@ namespace CleverCrow.Fluid.Dialogues {
                 [Test]
                 public void It_should_not_emit_a_speak_event_if_next_node_has_choices () {
                     var choice = Substitute.For<IChoice>();
-                    var nodeNested = A.Node()
+                    var nodeNested = A.Node
                         .WithChoice(choice)
                         .Build();
-                    var node = A.Node()
+                    var node = A.Node
                         .WithNextResult(nodeNested)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
 
@@ -204,13 +206,15 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [SetUp]
                 public void BeforeEachMethod () {
-                    _exitAction = Substitute.For<IAction>();
-                    _nodeNested = A.Node().Build();
-                    _node = A.Node()
+                    _exitAction = A.Action
+                        .WithTickStatus(ActionStatus.Continue)
+                        .Build();
+                    _nodeNested = A.Node.Build();
+                    _node = A.Node
                         .WithExitAction(_exitAction)
                         .WithNextResult(_nodeNested)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(_node)
                         .Build();
                 }
@@ -225,8 +229,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_not_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false () {
-                    _exitAction.Tick().Returns(false);
-
                     _playback.Play(_graph);
                     _playback.Next();
 
@@ -235,11 +237,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false_then_true () {
-                    _exitAction.Tick().Returns(false);
-
                     _playback.Play(_graph);
                     _playback.Next();
-                    _exitAction.Tick().Returns(true);
+                    _exitAction.Tick().Returns(ActionStatus.Success);
                     _playback.Tick();
 
                     _playback.Events.Speak.Received(1).Invoke(_nodeNested.Actor, _nodeNested.Dialogue);
@@ -247,8 +247,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_do_nothing_if_actions_are_running () {
-                    _exitAction.Tick().Returns(false);
-
                     _playback.Play(_graph);
                     _playback.Next();
                     _playback.Next();
@@ -263,11 +261,13 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [SetUp]
                 public void BeforeEachMethod () {
-                    _enterAction = Substitute.For<IAction>();
-                    _node = A.Node()
+                    _enterAction = A.Action
+                        .WithTickStatus(ActionStatus.Continue)
+                        .Build();
+                    _node = A.Node
                         .WithEnterAction(_enterAction)
                         .Build();
-                    _graph = A.Graph()
+                    _graph = A.Graph
                         .WithNextResult(_node)
                         .Build();
                 }
@@ -285,19 +285,20 @@ namespace CleverCrow.Fluid.Dialogues {
         public class TickMethod : DialoguePlaybackTest {
             [Test]
             public void It_should_not_crash_when_updating_multiple_actions_at_the_same_time () {
-                var action = Substitute.For<IAction>();
-                action.Tick().Returns(false);
-                var node = A.Node()
+                var action = A.Action
+                    .WithTickStatus(ActionStatus.Continue)
+                    .Build();
+                var node = A.Node
                     .WithExitAction(action)
                     .WithExitAction(action)
                     .Build();
-                var graph = A.Graph()
+                var graph = A.Graph
                     .WithNextResult(node)
                     .Build();
 
                 _playback.Play(graph);
                 _playback.Next();
-                action.Tick().Returns(true);
+                action.Tick().Returns(ActionStatus.Success);
                 _playback.Tick();
             }
         }
@@ -307,7 +308,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
             [SetUp]
             public void BeforeEachMethod () {
-                _action = Substitute.For<IAction>();
+                _action = A.Action
+                    .WithTickStatus(ActionStatus.Continue)
+                    .Build();
                 _graph.Root.EnterActions.Returns(new List<IAction> {_action});
             }
 
@@ -346,17 +349,17 @@ namespace CleverCrow.Fluid.Dialogues {
         public class SelectChoiceMethod : DialoguePlaybackTest {
             [Test]
             public void It_should_trigger_the_current_pointer_choice_to_speak () {
-                var choiceNode = A.Node().Build();
+                var choiceNode = A.Node.Build();
                 var choice = Substitute.For<IChoice>();
                 choice.Node.Returns(choiceNode);
 
-                var nodeNested = A.Node()
+                var nodeNested = A.Node
                     .WithChoice(choice)
                     .Build();
-                var node = A.Node()
+                var node = A.Node
                     .WithNextResult(nodeNested)
                     .Build();
-                _graph = A.Graph()
+                _graph = A.Graph
                     .WithNextResult(node)
                     .Build();
 

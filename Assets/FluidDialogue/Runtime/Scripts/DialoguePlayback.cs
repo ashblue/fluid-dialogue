@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues {
@@ -23,7 +24,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 _actionQueue.Enqueue(action);
             }
 
-            if (!UpdateActionQueue()) return;
+            if (UpdateActionQueue() == ActionStatus.Continue) return;
             Next();
         }
 
@@ -34,13 +35,13 @@ namespace CleverCrow.Fluid.Dialogues {
             }
         }
 
-        private bool UpdateActionQueue () {
+        private ActionStatus UpdateActionQueue () {
             while (_actionQueue.Count > 0) {
-                if (!_actionQueue.Peek().Tick()) return false;
+                if (_actionQueue.Peek().Tick() == ActionStatus.Continue) return ActionStatus.Continue;
                 _actionQueue.Dequeue();
             }
 
-            return true;
+            return ActionStatus.Success;
         }
 
         public void Next () {
@@ -63,7 +64,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 }
             }
 
-            if (!UpdateActionQueue()) return;
+            if (UpdateActionQueue() == ActionStatus.Continue) return;
             UpdatePointer(next);
         }
 
@@ -84,7 +85,7 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         public void Tick () {
-            if (_actionQueue.Count > 0 && UpdateActionQueue()) {
+            if (_actionQueue.Count > 0 && UpdateActionQueue() == ActionStatus.Success) {
                 UpdatePointer(Pointer);
             }
         }

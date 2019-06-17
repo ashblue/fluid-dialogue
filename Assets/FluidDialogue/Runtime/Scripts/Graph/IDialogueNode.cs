@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Actions;
 
 namespace CleverCrow.Fluid.Dialogues.Graphs {
     public interface IDialogueNode {

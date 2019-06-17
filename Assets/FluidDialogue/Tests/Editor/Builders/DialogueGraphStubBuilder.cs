@@ -7,7 +7,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
 
         public IDialogueGraph Build () {
             var graph = Substitute.For<IDialogueGraph>();
-            var root = A.Node()
+            var root = A.Node
                 .WithNextResult(_next)
                 .Build();
             graph.Root.Returns(root);
