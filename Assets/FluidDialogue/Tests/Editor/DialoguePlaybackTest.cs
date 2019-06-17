@@ -15,7 +15,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 .WithNextResult(A.Node().Build())
                 .Build();
 
-            var events = Substitute.For<IDialoguePlaybackEvents>();
+            var events = Substitute.For<IDialogueEvents>();
             _playback = new DialoguePlayback(events);
         }
 
@@ -137,7 +137,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 }
 
                 [Test]
-                public void If_should_trigger_end_event_only_once_when_an_action_is_present () {
+                public void It_should_trigger_end_event_only_once_when_an_action_is_present () {
                     var action = Substitute.For<IAction>();
                     action.Tick().Returns(true);
                     var node = A.Node()
@@ -152,6 +152,48 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Next();
 
                     _playback.Events.End.Received(1).Invoke();
+                }
+            }
+
+            public class ChoiceHandling : DialoguePlaybackTest {
+                [Test]
+                public void It_should_emit_a_choice_event_if_next_node_has_choices () {
+                    var choice = Substitute.For<IChoice>();
+                    var nodeNested = A.Node()
+                        .WithChoice(choice)
+                        .Build();
+                    var node = A.Node()
+                        .WithNextResult(nodeNested)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _playback.Events.Choice.Received(1)
+                        .Invoke(nodeNested.Actor, nodeNested.Dialogue, nodeNested.GetChoices());
+                }
+
+                [Test]
+                public void It_should_not_emit_a_speak_event_if_next_node_has_choices () {
+                    var choice = Substitute.For<IChoice>();
+                    var nodeNested = A.Node()
+                        .WithChoice(choice)
+                        .Build();
+                    var node = A.Node()
+                        .WithNextResult(nodeNested)
+                        .Build();
+                    _graph = A.Graph()
+                        .WithNextResult(node)
+                        .Build();
+
+                    _playback.Play(_graph);
+                    _playback.Next();
+
+                    _playback.Events.Speak.DidNotReceive()
+                        .Invoke(nodeNested.Actor, nodeNested.Dialogue);
                 }
             }
 
@@ -298,6 +340,31 @@ namespace CleverCrow.Fluid.Dialogues {
                 _playback.Stop();
 
                 _playback.Events.End.DidNotReceive().Invoke();
+            }
+        }
+
+        public class SelectChoiceMethod : DialoguePlaybackTest {
+            [Test]
+            public void It_should_trigger_the_current_pointer_choice_to_speak () {
+                var choiceNode = A.Node().Build();
+                var choice = Substitute.For<IChoice>();
+                choice.Node.Returns(choiceNode);
+
+                var nodeNested = A.Node()
+                    .WithChoice(choice)
+                    .Build();
+                var node = A.Node()
+                    .WithNextResult(nodeNested)
+                    .Build();
+                _graph = A.Graph()
+                    .WithNextResult(node)
+                    .Build();
+
+                _playback.Play(_graph);
+                _playback.Next();
+                _playback.SelectChoice(0);
+
+                _playback.Events.Speak.Received(1).Invoke(choiceNode.Actor, choiceNode.Dialogue);
             }
         }
     }

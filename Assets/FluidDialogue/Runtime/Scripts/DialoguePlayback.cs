@@ -6,10 +6,10 @@ namespace CleverCrow.Fluid.Dialogues {
         private bool _playing;
         private readonly Queue<IAction> _actionQueue = new Queue<IAction>();
 
-        public IDialoguePlaybackEvents Events { get;}
+        public IDialogueEvents Events { get;}
         public IDialogueNode Pointer { get; private set; }
 
-        public DialoguePlayback (IDialoguePlaybackEvents events) {
+        public DialoguePlayback (IDialogueEvents events) {
             Events = events;
         }
 
@@ -45,35 +45,47 @@ namespace CleverCrow.Fluid.Dialogues {
 
         public void Next () {
             if (_actionQueue.Count != 0) return;
+            var current = Pointer;
+            var next = Pointer.Next();
+            Pointer = next;
 
-            foreach (var action in Pointer.ExitActions) {
+            Next(current, next);
+        }
+
+        private void Next (IDialogueNode current, IDialogueNode next) {
+            foreach (var action in current.ExitActions) {
                 _actionQueue.Enqueue(action);
             }
 
-            Pointer = Pointer.Next();
-            if (Pointer != null) {
-                foreach (var action in Pointer.EnterActions) {
+            if (next != null) {
+                foreach (var action in next.EnterActions) {
                     _actionQueue.Enqueue(action);
                 }
             }
 
             if (!UpdateActionQueue()) return;
-            UpdatePointer();
+            UpdatePointer(next);
         }
 
-        private void UpdatePointer () {
-            if (Pointer == null) {
+        private void UpdatePointer (IDialogueNode pointer) {
+            if (pointer == null) {
                 Events.End.Invoke();
                 _playing = false;
                 return;
             }
 
-            Events.Speak.Invoke(Pointer.Actor, Pointer.Dialogue);
+            var choices = pointer.GetChoices();
+            if (choices.Count > 0) {
+                Events.Choice.Invoke(pointer.Actor, pointer.Dialogue, choices);
+                return;
+            }
+
+            Events.Speak.Invoke(pointer.Actor, pointer.Dialogue);
         }
 
         public void Tick () {
             if (_actionQueue.Count > 0 && UpdateActionQueue()) {
-                UpdatePointer();
+                UpdatePointer(Pointer);
             }
         }
 
@@ -85,6 +97,13 @@ namespace CleverCrow.Fluid.Dialogues {
                 Events.End.Invoke();
                 _playing = false;
             }
+        }
+
+        public void SelectChoice (int index) {
+            var choice = Pointer.GetChoices()[index];
+            var current = Pointer;
+            Pointer = choice.Node;
+            Next(current, choice.Node);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
         List<IAction> EnterActions { get; }
 
         IDialogueNode Next ();
+        List<IChoice> GetChoices ();
     }
 }
