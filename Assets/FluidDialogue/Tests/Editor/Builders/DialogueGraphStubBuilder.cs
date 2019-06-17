@@ -1,4 +1,5 @@
 using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Builders;
 using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using NSubstitute;
 using NUnit.Framework;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
-using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {
@@ -10,6 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
         private readonly List<IAction> _exitActions = new List<IAction>();
         private readonly List<IAction> _enterActions = new List<IAction>();
         private readonly List<IChoice> _choices = new List<IChoice>();
+        private bool _isValid;
 
         public DialogueNodeStubBuilder WithNextResult (IDialogueNode node) {
             _next = node;
@@ -31,6 +32,11 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
+        public DialogueNodeStubBuilder WithIsValid (bool valid) {
+            _isValid = valid;
+            return this;
+        }
+
         public IDialogueNode Build () {
             var node = Substitute.For<IDialogueNode>();
             node.Dialogue.Returns(_dialogue);
@@ -38,6 +44,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             node.ExitActions.Returns(_exitActions);
             node.EnterActions.Returns(_enterActions);
             node.GetChoices().Returns(_choices);
+            node.IsValid.Returns(_isValid);
 
             return node;
         }
