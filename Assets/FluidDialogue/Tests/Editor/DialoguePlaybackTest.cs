@@ -46,7 +46,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play(_graph);
 
-                    _playback.Events.Speak.Received(1).Invoke(node.Actor, node.Dialogue);
+                    node.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -94,7 +94,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play(_graph);
 
-                    _playback.Events.Speak.DidNotReceive().Invoke(node.Actor, node.Dialogue);
+                    node.DidNotReceive().Play(_playback);
                 }
 
                 [Test]
@@ -122,7 +122,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    _playback.Events.Speak.Received(1).Invoke(nodeNested.Actor, nodeNested.Dialogue);
+                    nodeNested.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -175,28 +175,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    _playback.Events.Choice.Received(1)
-                        .Invoke(nodeNested.Actor, nodeNested.Dialogue, nodeNested.GetChoices());
-                }
-
-                [Test]
-                public void It_should_not_emit_a_speak_event_if_next_node_has_choices () {
-                    var choice = Substitute.For<IChoice>();
-                    var nodeNested = A.Node
-                        .WithChoice(choice)
-                        .Build();
-                    var node = A.Node
-                        .WithNextResult(nodeNested)
-                        .Build();
-                    _graph = A.Graph
-                        .WithNextResult(node)
-                        .Build();
-
-                    _playback.Play(_graph);
-                    _playback.Next();
-
-                    _playback.Events.Speak.DidNotReceive()
-                        .Invoke(nodeNested.Actor, nodeNested.Dialogue);
+                    nodeNested.Received(1).Play(_playback);
                 }
             }
 
@@ -233,7 +212,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    _playback.Events.Speak.DidNotReceive().Invoke(_nodeNested.Actor, _nodeNested.Dialogue);
+                    _nodeNested.DidNotReceive().Play(_playback);
                 }
 
                 [Test]
@@ -243,7 +222,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _exitAction.Tick().Returns(ActionStatus.Success);
                     _playback.Tick();
 
-                    _playback.Events.Speak.Received(1).Invoke(_nodeNested.Actor, _nodeNested.Dialogue);
+                    _nodeNested.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -368,7 +347,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 _playback.Next();
                 _playback.SelectChoice(0);
 
-                _playback.Events.Speak.Received(1).Invoke(choiceNode.Actor, choiceNode.Dialogue);
+                choiceNode.Received(1).Play(_playback);
             }
         }
     }

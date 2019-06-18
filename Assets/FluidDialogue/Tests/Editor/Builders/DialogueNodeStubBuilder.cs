@@ -5,7 +5,6 @@ using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {
     public class DialogueNodeStubBuilder {
-        private string _dialogue = "Lorem Ipsum";
         private IDialogueNode _next;
         private readonly List<IAction> _exitActions = new List<IAction>();
         private readonly List<IAction> _enterActions = new List<IAction>();
@@ -39,12 +38,14 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
 
         public IDialogueNode Build () {
             var node = Substitute.For<IDialogueNode>();
-            node.Dialogue.Returns(_dialogue);
             node.Next().Returns(_next);
             node.ExitActions.Returns(_exitActions);
             node.EnterActions.Returns(_enterActions);
-            node.GetChoices().Returns(_choices);
             node.IsValid.Returns(_isValid);
+
+            for (var i = 0; i < _choices.Count; i++) {
+                node.GetChoice(i).Returns(_choices[i]);
+            }
 
             return node;
         }

@@ -4,21 +4,32 @@ using CleverCrow.Fluid.Dialogues.Actions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class DialogueNode : DialogueNodeBase {
-        public List<DialogueNodeBase> children = new List<DialogueNodeBase>();
-        public List<Choice> choices = new List<Choice>();
+        private List<IChoice> _validChoices;
+        private List<DialogueNodeBase> _children = new List<DialogueNodeBase>();
+        private List<Choice> _choices = new List<Choice>();
+        private IActor _actor;
+        private string _dialogue;
 
-        public override string Dialogue { get; }
-        public override IActor Actor { get; }
         public override List<IAction> ExitActions { get; }
         public override List<IAction> EnterActions { get; }
         public override bool IsValid { get; }
 
         public override IDialogueNode Next () {
-            return DialogueNodeInternal.GetValidChild(children.ToList<IDialogueNode>());
+            return DialogueNodeInternal.GetValidChild(_children.ToList<IDialogueNode>());
         }
 
-        public override List<IChoice> GetChoices () {
-            return DialogueNodeInternal.GetValidChoices(choices.ToList<IChoice>());
+        public override void Play (DialoguePlayback playback) {
+            _validChoices = DialogueNodeInternal.GetValidChoices(_choices.ToList<IChoice>());
+            if (_validChoices.Count > 0) {
+                playback.Events.Choice.Invoke(_actor, _dialogue, _validChoices);
+                return;
+            }
+
+            playback.Events.Speak.Invoke(_actor, _dialogue);
+        }
+
+        public override IChoice GetChoice (int index) {
+            return _validChoices[index];
         }
     }
 

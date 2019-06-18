@@ -21,11 +21,13 @@ namespace CleverCrow.Fluid.Dialogues {
             _playing = true;
             Pointer = graph.Root;
             Events.Begin.Invoke();
+
             foreach (var action in graph.Root.EnterActions) {
                 _actionQueue.Enqueue(action);
             }
 
             if (UpdateActionQueue() == ActionStatus.Continue) return;
+
             Next();
         }
 
@@ -76,13 +78,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 return;
             }
 
-            var choices = pointer.GetChoices();
-            if (choices.Count > 0) {
-                Events.Choice.Invoke(pointer.Actor, pointer.Dialogue, choices);
-                return;
-            }
-
-            Events.Speak.Invoke(pointer.Actor, pointer.Dialogue);
+            pointer.Play(this);
         }
 
         public void Tick () {
@@ -102,7 +98,7 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         public void SelectChoice (int index) {
-            var choice = Pointer.GetChoices()[index];
+            var choice = Pointer.GetChoice(index);
             var current = Pointer;
             Pointer = choice.Node;
             Next(current, choice.Node);
