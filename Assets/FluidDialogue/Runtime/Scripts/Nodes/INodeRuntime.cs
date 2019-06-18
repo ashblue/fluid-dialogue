@@ -2,14 +2,13 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public interface IDialogueNode {
+    public interface INodeRuntime {
         List<IAction> ExitActions { get; }
         List<IAction> EnterActions { get; }
         bool IsValid { get; }
 
-        IDialogueNode Next ();
+        INodeRuntime Next ();
         void Play (DialoguePlayback playback);
-        IChoice GetChoice (int index);
-        IDialogueNode Clone ();
+        IChoiceRuntime GetChoice (int index);
     }
 }

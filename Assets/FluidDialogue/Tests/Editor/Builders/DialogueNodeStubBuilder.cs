@@ -5,15 +5,15 @@ using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {
     public class DialogueNodeStubBuilder {
-        private IDialogueNode _next;
+        private INodeRuntime _next;
         private readonly List<IAction> _exitActions = new List<IAction>();
         private readonly List<IAction> _enterActions = new List<IAction>();
-        private readonly List<IChoice> _choices = new List<IChoice>();
-        private bool _isValid;
-        private IDialogueNode _clone;
+        private readonly List<IChoiceRuntime> _choices = new List<IChoiceRuntime>();
+        private bool _isValid = true;
+        private INodeRuntime _clone;
 
-        public DialogueNodeStubBuilder WithNextResult (IDialogueNode node) {
-            _next = node;
+        public DialogueNodeStubBuilder WithNextResult (INodeRuntime nodeRuntime) {
+            _next = nodeRuntime;
             return this;
         }
 
@@ -27,7 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
-        public DialogueNodeStubBuilder WithChoice (IChoice choice) {
+        public DialogueNodeStubBuilder WithChoice (IChoiceRuntime choice) {
             _choices.Add(choice);
             return this;
         }
@@ -37,23 +37,12 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
-        public DialogueNodeStubBuilder WithClone (IDialogueNode clone) {
-            _clone = clone;
-            return this;
-        }
-
-        public IDialogueNode Build () {
-            var node = Substitute.For<IDialogueNode>();
+        public INodeRuntime Build () {
+            var node = Substitute.For<INodeRuntime>();
             node.Next().Returns(_next);
             node.ExitActions.Returns(_exitActions);
             node.EnterActions.Returns(_enterActions);
             node.IsValid.Returns(_isValid);
-
-            if (_clone != null) {
-                node.Clone().Returns(_clone);
-            } else {
-                node.Clone().Returns(node);
-            }
 
             for (var i = 0; i < _choices.Count; i++) {
                 node.GetChoice(i).Returns(_choices[i]);

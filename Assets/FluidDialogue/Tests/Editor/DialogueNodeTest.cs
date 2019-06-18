@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Builders;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class DialogueNodeTest {
-        public class GetValidChildMethod {
+    public class NodeDialogueTest {
+        public class NextMethod {
             [Test]
-            public void It_should_return_the_first_child_with_valid_conditions () {
+            public void It_should_return_a_child_with_IsValid_true () {
                 var child = A.Node
                     .WithIsValid(true)
                     .Build();
-                var children = new List<IDialogueNode> { child };
+                var children = new List<INodeRuntime> { child };
+                var node = new NodeDialogue(children);
 
-                var result = DialogueNodeInternal.GetValidChild(children);
+                var result = node.Next();
 
                 Assert.AreEqual(child, result);
             }
@@ -23,42 +23,44 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var child = A.Node
                     .WithIsValid(false)
                     .Build();
-                var children = new List<IDialogueNode> { child };
+                var children = new List<INodeRuntime> { child };
+                var node = new NodeDialogue(children);
 
-                var result = DialogueNodeInternal.GetValidChild(children);
+                var result = node.Next();
 
                 Assert.IsNull(result);
             }
         }
 
-        public class GetValidChoicesMethod {
-            [Test]
-            public void It_should_return_choices_with_IsValid_child_nodes () {
-                var child = A.Node
-                    .WithIsValid(true)
-                    .Build();
-                var choice = Substitute.For<IChoice>();
-                choice.Node.Returns(child);
-                var choiceList = new List<IChoice> {choice};
+        public class IsValid {
+            public void It_should_return_true_if_all_conditions_are_true () {
 
-                var result = DialogueNodeInternal.GetValidChoices(choiceList);
-
-                Assert.AreEqual(choiceList, result);
             }
 
-            [Test]
-            public void It_should_not_return_choices_with_IsValid_false_child_nodes () {
-                var child = A.Node
-                    .WithIsValid(false)
-                    .Build();
-                var choice = Substitute.For<IChoice>();
-                choice.Node.Returns(child);
-                var choiceList = new List<IChoice> {choice};
+            public void It_should_return_false_if_all_conditions_are_false () {
 
-                var result = DialogueNodeInternal.GetValidChoices(choiceList);
-
-                Assert.AreEqual(0, result.Count);
             }
+        }
+
+        public class PlayMethod {
+            // @TODO Trigger speak event
+            // * Does not trigger choice event at the same time
+            // @TODO Trigger choice event if choices
+            // * Does not trigger speak event at same time
+        }
+
+        public class ExitActionsProperty {
+            public void It_should_be_populated_by_the_constructor () {
+            }
+        }
+
+        public class EnterActionsProperty {
+            public void It_should_be_populated_by_the_constructor () {
+            }
+        }
+
+        public class GetChoiceMethod {
+            // @TODO It should return the choice by index (cached in Play)
         }
     }
 }
