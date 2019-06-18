@@ -57,6 +57,17 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Events.End.Received(1).Invoke();
                 }
+
+                [Test]
+                public void It_should_trigger_play_on_a_clone_of_the_root () {
+                    var nodeClone = A.Node.Build();
+                    var graphClone = A.Graph.WithNextResult(nodeClone).Build();
+                    _graph.Clone().Returns(graphClone);
+
+                    _playback.Play(_graph);
+
+                    nodeClone.Received(1).Play(_playback);
+                }
             }
 
             public class RootEnterActions : DialoguePlaybackTest {

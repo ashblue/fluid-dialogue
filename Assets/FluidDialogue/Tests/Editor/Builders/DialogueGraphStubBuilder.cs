@@ -12,6 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
                 .WithNextResult(_next)
                 .Build();
             graph.Root.Returns(root);
+            graph.Clone().Returns(graph);
 
             return graph;
         }

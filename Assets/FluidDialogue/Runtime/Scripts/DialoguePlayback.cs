@@ -15,14 +15,15 @@ namespace CleverCrow.Fluid.Dialogues {
             Events = events;
         }
 
-        public void Play (IDialogueGraph graph) {
+        public void Play (IGraphClone graph) {
             Stop();
 
             _playing = true;
-            Pointer = graph.Root;
+            var clone = graph.Clone();
+            Pointer = clone.Root;
             Events.Begin.Invoke();
 
-            foreach (var action in graph.Root.EnterActions) {
+            foreach (var action in clone.Root.EnterActions) {
                 _actionQueue.Enqueue(action);
             }
 

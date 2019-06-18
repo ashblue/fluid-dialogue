@@ -10,5 +10,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         IDialogueNode Next ();
         void Play (DialoguePlayback playback);
         IChoice GetChoice (int index);
+        IDialogueNode Clone ();
     }
 }

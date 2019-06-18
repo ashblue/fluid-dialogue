@@ -11,5 +11,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public abstract IDialogueNode Next ();
         public abstract void Play (DialoguePlayback playback);
         public abstract IChoice GetChoice (int index);
+        public IDialogueNode Clone () {
+            throw new System.NotImplementedException();
+        }
     }
 }
