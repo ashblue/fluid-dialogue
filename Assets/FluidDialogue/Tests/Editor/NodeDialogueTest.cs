@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Builders;
+using CleverCrow.Fluid.Dialogues.Conditions;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -9,12 +11,29 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         private IActor _actor;
         private List<INodeRuntime> _children;
         private List<IChoiceRuntime> _choiceList;
+        private List<ICondition> _conditions;
+        private List<IAction> _enterActions;
+        private List<IAction> _exitActions;
 
         [SetUp]
         public void BeforeEach () {
             _actor = Substitute.For<IActor>();
             _children = new List<INodeRuntime>();
             _choiceList = new List<IChoiceRuntime>();
+            _conditions = new List<ICondition>();
+            _enterActions = new List<IAction>();
+            _exitActions = new List<IAction>();
+        }
+
+        private NodeDialogue CreateNodeDialogue () {
+            return new NodeDialogue(
+                _actor,
+                DIALOGUE,
+                _children,
+                _choiceList,
+                _conditions,
+                _enterActions,
+                _exitActions);
         }
 
         public class NextMethod : NodeDialogueTest {
@@ -24,7 +43,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     .WithIsValid(true)
                     .Build();
                 _children.Add(child);
-                var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                var node = CreateNodeDialogue();
 
                 var result = node.Next();
 
@@ -37,7 +56,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     .WithIsValid(false)
                     .Build();
                 _children.Add(child);
-                var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                var node = CreateNodeDialogue();
 
                 var result = node.Next();
 
@@ -53,7 +72,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         .WithIsValid(true)
                         .Build();
                     _children.Add(child);
-                    var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                    var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
 
                     node.Play(events);
@@ -68,7 +87,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var choice = Substitute.For<IChoiceRuntime>();
                     choice.Node.IsValid.Returns(true);
                     _choiceList.Add(choice);
-                    var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                    var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
 
                     node.Play(events);
@@ -81,7 +100,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var choice = Substitute.For<IChoiceRuntime>();
                     choice.Node.IsValid.Returns(true);
                     _choiceList.Add(choice);
-                    var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                    var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
 
                     node.Play(events);
@@ -94,7 +113,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var choice = Substitute.For<IChoiceRuntime>();
                     choice.Node.IsValid.Returns(false);
                     _choiceList.Add(choice);
-                    var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                    var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
 
                     node.Play(events);
@@ -104,7 +123,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
                 [Test]
                 public void It_should_not_trigger_a_choice_event_without_choices () {
-                    var node = new NodeDialogue(_actor, DIALOGUE, _children, _choiceList);
+                    var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
 
                     node.Play(events);
@@ -114,28 +133,80 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             }
         }
 
-        public class IsValid {
+        public class IsValid : NodeDialogueTest {
+            [Test]
             public void It_should_return_true_if_all_conditions_are_true () {
+                var condition = Substitute.For<ICondition>();
+                condition.GetIsValid().Returns(true);
+                _conditions.Add(condition);
+                var node = CreateNodeDialogue();
 
+                Assert.IsTrue(node.IsValid);
             }
 
+            [Test]
             public void It_should_return_false_if_all_conditions_are_false () {
+                var condition = Substitute.For<ICondition>();
+                condition.GetIsValid().Returns(false);
+                _conditions.Add(condition);
+                var node = CreateNodeDialogue();
 
+                Assert.IsFalse(node.IsValid);
             }
         }
 
-        public class ExitActionsProperty {
+        public class EnterActionsProperty : NodeDialogueTest {
+            [Test]
             public void It_should_be_populated_by_the_constructor () {
+                var action = Substitute.For<IAction>();
+                _enterActions.Add(action);
+
+                var node = CreateNodeDialogue();
+
+                Assert.IsTrue(node.EnterActions.Contains(action));
             }
         }
 
-        public class EnterActionsProperty {
+        public class ExitActionsProperty : NodeDialogueTest {
+            [Test]
             public void It_should_be_populated_by_the_constructor () {
+                var action = Substitute.For<IAction>();
+                _exitActions.Add(action);
+
+                var node = CreateNodeDialogue();
+
+                Assert.IsTrue(node.ExitActions.Contains(action));
             }
         }
 
-        public class GetChoiceMethod {
-            // @TODO It should return the choice by index (cached in Play)
+        public class GetChoiceMethod : NodeDialogueTest {
+            [Test]
+            public void It_should_return_valid_choices_emitted_by_Play () {
+                var events = Substitute.For<IDialogueEvents>();
+                var choice = Substitute.For<IChoiceRuntime>();
+                choice.Node.IsValid.Returns(true);
+                _choiceList.Add(choice);
+
+                var node = CreateNodeDialogue();
+                node.Play(events);
+                var result = node.GetChoice(0);
+
+                Assert.AreEqual(choice, result);
+            }
+
+            [Test]
+            public void It_should_not_return_invalid_choices_emitted_by_Play () {
+                var events = Substitute.For<IDialogueEvents>();
+                var choice = Substitute.For<IChoiceRuntime>();
+                choice.Node.IsValid.Returns(false);
+                _choiceList.Add(choice);
+
+                var node = CreateNodeDialogue();
+                node.Play(events);
+                var result = node.GetChoice(0);
+
+                Assert.IsNull(result);
+            }
         }
     }
 }
