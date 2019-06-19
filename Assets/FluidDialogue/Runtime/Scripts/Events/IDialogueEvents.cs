@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CleverCrow.Fluid.Dialogues.Nodes;
+using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialogueEvents {

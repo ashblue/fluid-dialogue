@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
@@ -36,7 +37,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         }
 
         private List<IChoiceRuntime> GetValidChoices () {
-            return _choices.Where(c => c.Node.IsValid).ToList();
+            return _choices.Where(c => c.GetValidChildNode() != null).ToList();
         }
 
         public INodeRuntime Next () {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using NSubstitute;
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {

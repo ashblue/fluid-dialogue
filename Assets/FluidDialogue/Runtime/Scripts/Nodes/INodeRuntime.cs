@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeRuntime {

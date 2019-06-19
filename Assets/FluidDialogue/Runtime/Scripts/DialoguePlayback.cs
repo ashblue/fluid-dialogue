@@ -100,8 +100,8 @@ namespace CleverCrow.Fluid.Dialogues {
         public void SelectChoice (int index) {
             var choice = Pointer.GetChoice(index);
             var current = Pointer;
-            Pointer = choice.Node;
-            Next(current, choice.Node);
+            Pointer = choice.GetValidChildNode();
+            Next(current, Pointer);
         }
     }
 }

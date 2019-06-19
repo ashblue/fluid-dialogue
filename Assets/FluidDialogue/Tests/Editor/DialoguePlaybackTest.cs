@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Builders;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using NSubstitute;
@@ -342,7 +343,7 @@ namespace CleverCrow.Fluid.Dialogues {
             public void It_should_trigger_the_current_pointer_choice_to_speak () {
                 var choiceNode = A.Node.Build();
                 var choice = Substitute.For<IChoiceRuntime>();
-                choice.Node.Returns(choiceNode);
+                choice.GetValidChildNode().Returns(choiceNode);
 
                 var nodeNested = A.Node
                     .WithChoice(choice)
