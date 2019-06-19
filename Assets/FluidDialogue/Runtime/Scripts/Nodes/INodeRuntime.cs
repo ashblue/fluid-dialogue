@@ -8,7 +8,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         bool IsValid { get; }
 
         INodeRuntime Next ();
-        void Play (DialoguePlayback playback);
+        void Play (IDialogueEvents events);
         IChoiceRuntime GetChoice (int index);
     }
 }

@@ -78,7 +78,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 return;
             }
 
-            pointer.Play(this);
+            pointer.Play(Events);
         }
 
         public void Tick () {
