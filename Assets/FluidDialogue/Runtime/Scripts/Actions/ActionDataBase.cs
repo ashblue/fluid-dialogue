@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
-    public abstract class ActionDataBase : ScriptableObject {
+    public abstract class ActionDataBase : ScriptableObject, IGetRuntime<IAction> {
         protected virtual void OnInit () {}
 
         protected virtual void OnStart () {}
@@ -14,7 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         protected virtual void OnReset () {}
 
-        public IAction CreateRuntime () {
+        public IAction GetRuntime () {
             return new ActionRuntime {
                 OnInit = OnInit,
                 OnStart = OnStart,

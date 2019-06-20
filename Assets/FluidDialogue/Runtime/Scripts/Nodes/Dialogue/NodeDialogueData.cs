@@ -21,8 +21,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 children.Select(c => c.GetRuntime()).ToList(),
                 choices.Select(c => c.GetRuntime()).ToList(),
                 conditions,
-                enterActions.Select(a => a.CreateRuntime()).ToList(),
-                exitActions.Select(a => a.CreateRuntime()).ToList()
+                enterActions.Select(a => a.GetRuntime()).ToList(),
+                exitActions.Select(a => a.GetRuntime()).ToList()
             );
         }
     }
