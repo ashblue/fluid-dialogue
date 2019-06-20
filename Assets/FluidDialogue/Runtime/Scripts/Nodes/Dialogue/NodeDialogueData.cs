@@ -9,18 +9,17 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public IActor actor;
         public string dialogue;
         public List<NodeDataBase> children;
-        public List<IChoice> choices;
+        public List<ChoiceData> choices;
         public List<ICondition> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
 
         public override INode GetRuntime () {
-            var childrenRuntime = children.Select(c => c.GetRuntime()).ToList();
             return new NodeDialogue(
                 actor,
                 dialogue,
-                childrenRuntime,
-                choices,
+                children.Select(c => c.GetRuntime()).ToList(),
+                choices.Select(c => c.GetRuntime()).ToList(),
                 conditions,
                 enterActions.Select(a => a.CreateRuntime()).ToList(),
                 exitActions.Select(a => a.CreateRuntime()).ToList()
