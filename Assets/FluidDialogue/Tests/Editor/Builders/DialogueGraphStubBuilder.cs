@@ -4,10 +4,10 @@ using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {
     public class DialogueGraphStubBuilder {
-        private INodeRuntime _next;
+        private INode _next;
 
-        public IGraphRuntime Build () {
-            var graph = Substitute.For<IGraphRuntime>();
+        public IGraph Build () {
+            var graph = Substitute.For<IGraph>();
             var root = A.Node
                 .WithNextResult(_next)
                 .Build();
@@ -16,8 +16,8 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return graph;
         }
 
-        public DialogueGraphStubBuilder WithNextResult (INodeRuntime nodeRuntime) {
-            _next = nodeRuntime;
+        public DialogueGraphStubBuilder WithNextResult (INode node) {
+            _next = node;
             return this;
         }
     }

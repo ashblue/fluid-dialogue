@@ -10,8 +10,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeDialogueTest {
         private const string DIALOGUE = "Lorem Ipsum";
         private IActor _actor;
-        private List<INodeRuntime> _children;
-        private List<IChoiceRuntime> _choiceList;
+        private List<INode> _children;
+        private List<IChoice> _choiceList;
         private List<ICondition> _conditions;
         private List<IAction> _enterActions;
         private List<IAction> _exitActions;
@@ -19,8 +19,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SetUp]
         public void BeforeEach () {
             _actor = Substitute.For<IActor>();
-            _children = new List<INodeRuntime>();
-            _choiceList = new List<IChoiceRuntime>();
+            _children = new List<INode>();
+            _choiceList = new List<IChoice>();
             _conditions = new List<ICondition>();
             _enterActions = new List<IAction>();
             _exitActions = new List<IAction>();
@@ -85,7 +85,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             public class ChoiceEvents : NodeDialogueTest {
                 [Test]
                 public void It_should_trigger_a_choice_event_with_valid_choices () {
-                    var choice = Substitute.For<IChoiceRuntime>();
+                    var choice = Substitute.For<IChoice>();
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
@@ -97,7 +97,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
                 [Test]
                 public void It_should_not_trigger_a_choice_and_speak_event () {
-                    var choice = Substitute.For<IChoiceRuntime>();
+                    var choice = Substitute.For<IChoice>();
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
                     var events = Substitute.For<IDialogueEvents>();
@@ -109,7 +109,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
                 [Test]
                 public void It_should_not_trigger_a_choice_event_with_invalid_choices () {
-                    var choice = Substitute.For<IChoiceRuntime>();
+                    var choice = Substitute.For<IChoice>();
                     choice.GetValidChildNode().Returns(x => null);
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
@@ -182,7 +182,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_return_valid_choices_emitted_by_Play () {
                 var events = Substitute.For<IDialogueEvents>();
-                var choice = Substitute.For<IChoiceRuntime>();
+                var choice = Substitute.For<IChoice>();
                 _choiceList.Add(choice);
 
                 var node = CreateNodeDialogue();
@@ -195,7 +195,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_not_return_invalid_choices_emitted_by_Play () {
                 var events = Substitute.For<IDialogueEvents>();
-                var choice = Substitute.For<IChoiceRuntime>();
+                var choice = Substitute.For<IChoice>();
                 choice.GetValidChildNode().Returns(x => null);
                 _choiceList.Add(choice);
 

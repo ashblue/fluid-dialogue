@@ -5,14 +5,14 @@ using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class NodeDialogue : INodeRuntime {
-        private readonly List<INodeRuntime> _childNodes;
+    public class NodeDialogue : INode {
+        private readonly List<INode> _childNodes;
         private readonly IActor _actor;
         private readonly string _dialogue;
-        private readonly List<IChoiceRuntime> _choices;
+        private readonly List<IChoice> _choices;
         private readonly List<ICondition> _conditions;
 
-        private List<IChoiceRuntime> _emittedChoices;
+        private List<IChoice> _emittedChoices;
 
         public List<IAction> EnterActions { get; }
         public List<IAction> ExitActions { get; }
@@ -21,8 +21,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public NodeDialogue (
             IActor actor,
             string dialogue,
-            List<INodeRuntime> children,
-            List<IChoiceRuntime> choices,
+            List<INode> children,
+            List<IChoice> choices,
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions
@@ -36,11 +36,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             ExitActions = exitActions;
         }
 
-        private List<IChoiceRuntime> GetValidChoices () {
+        private List<IChoice> GetValidChoices () {
             return _choices.Where(c => c.GetValidChildNode() != null).ToList();
         }
 
-        public INodeRuntime Next () {
+        public INode Next () {
             return _childNodes.Find(c => c.IsValid);
         }
 
@@ -54,7 +54,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             events.Speak.Invoke(_actor, _dialogue);
         }
 
-        public IChoiceRuntime GetChoice (int index) {
+        public IChoice GetChoice (int index) {
             if (index >= _emittedChoices.Count) return null;
 
             return _emittedChoices[index];

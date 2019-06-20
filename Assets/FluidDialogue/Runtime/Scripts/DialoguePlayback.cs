@@ -9,13 +9,13 @@ namespace CleverCrow.Fluid.Dialogues {
         private readonly Queue<IAction> _actionQueue = new Queue<IAction>();
 
         public IDialogueEvents Events { get;}
-        public INodeRuntime Pointer { get; private set; }
+        public INode Pointer { get; private set; }
 
         public DialoguePlayback (IDialogueEvents events) {
             Events = events;
         }
 
-        public void Play (IGraphRuntime graph) {
+        public void Play (IGraph graph) {
             Stop();
 
             _playing = true;
@@ -56,7 +56,7 @@ namespace CleverCrow.Fluid.Dialogues {
             Next(current, next);
         }
 
-        private void Next (INodeRuntime current, INodeRuntime next) {
+        private void Next (INode current, INode next) {
             foreach (var action in current.ExitActions) {
                 _actionQueue.Enqueue(action);
             }
@@ -71,7 +71,7 @@ namespace CleverCrow.Fluid.Dialogues {
             UpdatePointer(next);
         }
 
-        private void UpdatePointer (INodeRuntime pointer) {
+        private void UpdatePointer (INode pointer) {
             if (pointer == null) {
                 Events.End.Invoke();
                 _playing = false;

@@ -2,18 +2,14 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Choices {
-    public interface IChoiceRuntime {
-        INodeRuntime GetValidChildNode ();
-    }
+    public class ChoiceRuntime : IChoice {
+        private readonly List<INode> _children;
 
-    public class ChoiceRuntime : IChoiceRuntime {
-        private readonly List<INodeRuntime> _children;
-
-        public ChoiceRuntime (List<INodeRuntime> children) {
+        public ChoiceRuntime (List<INode> children) {
             _children = children;
         }
 
-        public INodeRuntime GetValidChildNode () {
+        public INode GetValidChildNode () {
             return _children.Find(c => c.IsValid);
         }
     }

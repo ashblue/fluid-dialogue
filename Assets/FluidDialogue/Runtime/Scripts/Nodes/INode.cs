@@ -3,13 +3,13 @@ using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public interface INodeRuntime {
+    public interface INode {
         List<IAction> ExitActions { get; }
         List<IAction> EnterActions { get; }
         bool IsValid { get; }
 
-        INodeRuntime Next ();
+        INode Next ();
         void Play (IDialogueEvents events);
-        IChoiceRuntime GetChoice (int index);
+        IChoice GetChoice (int index);
     }
 }

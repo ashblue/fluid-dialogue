@@ -2,10 +2,10 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeData {
-        INodeRuntime GetRuntime ();
+        INode GetRuntime ();
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
-        public abstract INodeRuntime GetRuntime ();
+        public abstract INode GetRuntime ();
     }
 }

@@ -6,6 +6,6 @@ namespace CleverCrow.Fluid.Dialogues {
         IUnityEvent Begin { get; }
         IUnityEvent End { get; }
         IUnityEvent<IActor, string> Speak { get; }
-        IUnityEvent<IActor, string, List<IChoiceRuntime>> Choice { get; }
+        IUnityEvent<IActor, string, List<IChoice>> Choice { get; }
     }
 }

@@ -6,15 +6,15 @@ using NSubstitute;
 
 namespace CleverCrow.Fluid.Dialogues.Builders {
     public class DialogueNodeStubBuilder {
-        private INodeRuntime _next;
+        private INode _next;
         private readonly List<IAction> _exitActions = new List<IAction>();
         private readonly List<IAction> _enterActions = new List<IAction>();
-        private readonly List<IChoiceRuntime> _choices = new List<IChoiceRuntime>();
+        private readonly List<IChoice> _choices = new List<IChoice>();
         private bool _isValid = true;
-        private INodeRuntime _clone;
+        private INode _clone;
 
-        public DialogueNodeStubBuilder WithNextResult (INodeRuntime nodeRuntime) {
-            _next = nodeRuntime;
+        public DialogueNodeStubBuilder WithNextResult (INode node) {
+            _next = node;
             return this;
         }
 
@@ -28,7 +28,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
-        public DialogueNodeStubBuilder WithChoice (IChoiceRuntime choice) {
+        public DialogueNodeStubBuilder WithChoice (IChoice choice) {
             _choices.Add(choice);
             return this;
         }
@@ -38,8 +38,8 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
-        public INodeRuntime Build () {
-            var node = Substitute.For<INodeRuntime>();
+        public INode Build () {
+            var node = Substitute.For<INode>();
             node.Next().Returns(_next);
             node.ExitActions.Returns(_exitActions);
             node.EnterActions.Returns(_enterActions);
