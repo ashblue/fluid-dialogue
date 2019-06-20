@@ -11,8 +11,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<NodeDataBase> children;
         public List<IChoiceRuntime> choices;
         public List<ICondition> conditions;
-        public List<IAction> enterActions;
-        public List<IAction> exitActions;
+        public List<ActionDataBase> enterActions;
+        public List<ActionDataBase> exitActions;
 
         public override INodeRuntime GetRuntime () {
             var childrenRuntime = children.Select(c => c.GetRuntime()).ToList();
@@ -22,8 +22,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 childrenRuntime,
                 choices,
                 conditions,
-                enterActions,
-                exitActions);
+                enterActions.Select(a => a.CreateRuntime()).ToList(),
+                exitActions.Select(a => a.CreateRuntime()).ToList()
+            );
         }
     }
 }
