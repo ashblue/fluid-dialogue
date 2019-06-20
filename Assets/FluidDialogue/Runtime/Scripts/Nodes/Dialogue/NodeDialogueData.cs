@@ -10,7 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public string dialogue;
         public List<NodeDataBase> children;
         public List<ChoiceData> choices;
-        public List<ICondition> conditions;
+        public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
 
@@ -20,7 +20,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 dialogue,
                 children.Select(c => c.GetRuntime()).ToList(),
                 choices.Select(c => c.GetRuntime()).ToList(),
-                conditions,
+                conditions.Select(c => c.GetRuntime()).ToList(),
                 enterActions.Select(a => a.GetRuntime()).ToList(),
                 exitActions.Select(a => a.GetRuntime()).ToList()
             );
