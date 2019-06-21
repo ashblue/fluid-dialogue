@@ -44,14 +44,14 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             return _childNodes.Find(c => c.IsValid);
         }
 
-        public void Play (IDialogueEvents events) {
+        public void Play (IDialoguePlayback playback) {
             _emittedChoices = GetValidChoices();
             if (_emittedChoices.Count > 0) {
-                events.Choice.Invoke(_actor, _dialogue, _emittedChoices);
+                playback.Events.Choice.Invoke(_actor, _dialogue, _emittedChoices);
                 return;
             }
 
-            events.Speak.Invoke(_actor, _dialogue);
+            playback.Events.Speak.Invoke(_actor, _dialogue);
         }
 
         public IChoice GetChoice (int index) {

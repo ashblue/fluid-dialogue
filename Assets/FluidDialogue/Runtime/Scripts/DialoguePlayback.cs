@@ -4,7 +4,13 @@ using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues {
-    public class DialoguePlayback {
+    public interface IDialoguePlayback {
+        IDialogueEvents Events { get; }
+
+        void Next ();
+    }
+
+    public class DialoguePlayback : IDialoguePlayback {
         private bool _playing;
         private readonly Queue<IAction> _actionQueue = new Queue<IAction>();
 
@@ -78,7 +84,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 return;
             }
 
-            pointer.Play(Events);
+            pointer.Play(this);
         }
 
         public void Tick () {

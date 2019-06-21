@@ -4,12 +4,12 @@ using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INode {
-        List<IAction> ExitActions { get; }
         List<IAction> EnterActions { get; }
+        List<IAction> ExitActions { get; }
         bool IsValid { get; }
 
         INode Next ();
-        void Play (IDialogueEvents events);
+        void Play (IDialoguePlayback playback);
         IChoice GetChoice (int index);
     }
 }

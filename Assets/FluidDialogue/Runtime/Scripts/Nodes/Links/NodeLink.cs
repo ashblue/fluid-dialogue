@@ -18,7 +18,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             return IsValid ? _child : null;
         }
 
-        public void Play (IDialogueEvents events) {
+        public void Play (IDialoguePlayback playback) {
+            playback.Next();
         }
 
         public IChoice GetChoice (int index) {

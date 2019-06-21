@@ -74,11 +74,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         .Build();
                     _children.Add(child);
                     var node = CreateNodeDialogue();
-                    var events = Substitute.For<IDialogueEvents>();
+                    var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(events);
+                    node.Play(playback);
 
-                    events.Speak.Received(1).Invoke(_actor, DIALOGUE);
+                    playback.Events.Speak.Received(1).Invoke(_actor, DIALOGUE);
                 }
             }
 
@@ -88,11 +88,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var choice = Substitute.For<IChoice>();
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
-                    var events = Substitute.For<IDialogueEvents>();
+                    var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(events);
+                    node.Play(playback);
 
-                    events.Choice.ReceivedWithAnyArgs(1).Invoke(_actor, DIALOGUE, _choiceList);
+                    playback.Events.Choice.ReceivedWithAnyArgs(1).Invoke(_actor, DIALOGUE, _choiceList);
                 }
 
                 [Test]
@@ -100,11 +100,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var choice = Substitute.For<IChoice>();
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
-                    var events = Substitute.For<IDialogueEvents>();
+                    var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(events);
+                    node.Play(playback);
 
-                    events.Speak.DidNotReceive().Invoke(_actor, DIALOGUE);
+                    playback.Events.Speak.DidNotReceive().Invoke(_actor, DIALOGUE);
                 }
 
                 [Test]
@@ -113,21 +113,21 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     choice.GetValidChildNode().Returns(x => null);
                     _choiceList.Add(choice);
                     var node = CreateNodeDialogue();
-                    var events = Substitute.For<IDialogueEvents>();
+                    var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(events);
+                    node.Play(playback);
 
-                    events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
+                    playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
                 }
 
                 [Test]
                 public void It_should_not_trigger_a_choice_event_without_choices () {
                     var node = CreateNodeDialogue();
-                    var events = Substitute.For<IDialogueEvents>();
+                    var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(events);
+                    node.Play(playback);
 
-                    events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
+                    playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
                 }
             }
         }
@@ -181,12 +181,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public class GetChoiceMethod : NodeDialogueTest {
             [Test]
             public void It_should_return_valid_choices_emitted_by_Play () {
-                var events = Substitute.For<IDialogueEvents>();
+                var playback = Substitute.For<IDialoguePlayback>();
                 var choice = Substitute.For<IChoice>();
                 _choiceList.Add(choice);
 
                 var node = CreateNodeDialogue();
-                node.Play(events);
+                node.Play(playback);
                 var result = node.GetChoice(0);
 
                 Assert.AreEqual(choice, result);
@@ -194,13 +194,13 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
             [Test]
             public void It_should_not_return_invalid_choices_emitted_by_Play () {
-                var events = Substitute.For<IDialogueEvents>();
+                var playback = Substitute.For<IDialoguePlayback>();
                 var choice = Substitute.For<IChoice>();
                 choice.GetValidChildNode().Returns(x => null);
                 _choiceList.Add(choice);
 
                 var node = CreateNodeDialogue();
-                node.Play(events);
+                node.Play(playback);
                 var result = node.GetChoice(0);
 
                 Assert.IsNull(result);

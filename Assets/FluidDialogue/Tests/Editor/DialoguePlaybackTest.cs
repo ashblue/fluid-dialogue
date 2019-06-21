@@ -47,7 +47,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play(_graph);
 
-                    node.Received(1).Play(_playback.Events);
+                    node.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -67,7 +67,7 @@ namespace CleverCrow.Fluid.Dialogues {
                         .Build();
                     _playback.Play(_graph);
 
-                    node.Received(1).Play(_playback.Events);
+                    node.Received(1).Play(_playback);
                 }
             }
 
@@ -106,7 +106,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play(_graph);
 
-                    node.DidNotReceive().Play(_playback.Events);
+                    node.DidNotReceive().Play(_playback);
                 }
 
                 [Test]
@@ -134,7 +134,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    nodeNested.Received(1).Play(_playback.Events);
+                    nodeNested.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -187,7 +187,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    nodeNested.Received(1).Play(_playback.Events);
+                    nodeNested.Received(1).Play(_playback);
                 }
             }
 
@@ -224,7 +224,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback.Play(_graph);
                     _playback.Next();
 
-                    _nodeNested.DidNotReceive().Play(_playback.Events);
+                    _nodeNested.DidNotReceive().Play(_playback);
                 }
 
                 [Test]
@@ -234,7 +234,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _exitAction.Tick().Returns(ActionStatus.Success);
                     _playback.Tick();
 
-                    _nodeNested.Received(1).Play(_playback.Events);
+                    _nodeNested.Received(1).Play(_playback);
                 }
 
                 [Test]
@@ -359,7 +359,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 _playback.Next();
                 _playback.SelectChoice(0);
 
-                choiceNode.Received(1).Play(_playback.Events);
+                choiceNode.Received(1).Play(_playback);
             }
         }
     }

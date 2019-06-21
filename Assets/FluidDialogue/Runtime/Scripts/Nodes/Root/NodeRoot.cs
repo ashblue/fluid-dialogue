@@ -18,7 +18,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             return _children.Find(c => c.IsValid);
         }
 
-        public void Play (IDialogueEvents events) {
+        public void Play (IDialoguePlayback playback) {
             throw new System.NotImplementedException();
         }
 
