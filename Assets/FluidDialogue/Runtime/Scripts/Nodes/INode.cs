@@ -7,6 +7,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         List<IAction> EnterActions { get; }
         List<IAction> ExitActions { get; }
         bool IsValid { get; }
+        List<IChoice> HubChoices { get; }
 
         INode Next ();
         void Play (IDialoguePlayback playback);

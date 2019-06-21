@@ -17,6 +17,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<IAction> EnterActions { get; }
         public List<IAction> ExitActions { get; }
         public bool IsValid => _conditions.Find(c => !c.GetIsValid()) == null;
+        public List<IChoice> HubChoices { get; }
 
         public NodeDialogue (
             IActor actor,
@@ -37,6 +38,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         }
 
         private List<IChoice> GetValidChoices () {
+            var child = Next();
+            if (child?.HubChoices != null && child.HubChoices.Count > 0) {
+                return child.HubChoices;
+            }
+
             return _choices.Where(c => c.GetValidChildNode() != null).ToList();
         }
 

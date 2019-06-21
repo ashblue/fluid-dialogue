@@ -1,22 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class NodeRoot : INode {
-        private List<INode> _children;
-        public List<IAction> ExitActions { get; }
-        public List<IAction> EnterActions { get; }
-        public bool IsValid => true;
-        public List<IChoice> HubChoices { get; }
+    public class NodeChoiceHub : INode {
+        private readonly List<IChoice> _choiceList;
 
-        public NodeRoot (List<INode> children, List<IAction> exitActions) {
-            _children = children;
-            ExitActions = exitActions;
+        public List<IAction> EnterActions { get; }
+        public List<IAction> ExitActions { get; }
+        public bool IsValid { get; }
+        public List<IChoice> HubChoices =>
+            _choiceList.Where(c => c.GetValidChildNode() != null).ToList();
+
+        public NodeChoiceHub (List<IChoice> choiceList) {
+            _choiceList = choiceList;
         }
 
         public INode Next () {
-            return _children.Find(c => c.IsValid);
+            throw new System.NotImplementedException();
         }
 
         public void Play (IDialoguePlayback playback) {

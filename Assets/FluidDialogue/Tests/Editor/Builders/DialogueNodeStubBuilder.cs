@@ -12,6 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
         private readonly List<IChoice> _choices = new List<IChoice>();
         private bool _isValid = true;
         private INode _clone;
+        private readonly List<IChoice> _hubChoices = new List<IChoice>();
 
         public DialogueNodeStubBuilder WithNextResult (INode node) {
             _next = node;
@@ -38,12 +39,18 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
+        public DialogueNodeStubBuilder WithHubChoice (IChoice choice) {
+            _hubChoices.Add(choice);
+            return this;
+        }
+
         public INode Build () {
             var node = Substitute.For<INode>();
             node.Next().Returns(_next);
             node.ExitActions.Returns(_exitActions);
             node.EnterActions.Returns(_enterActions);
             node.IsValid.Returns(_isValid);
+            node.HubChoices.Returns(_hubChoices);
 
             for (var i = 0; i < _choices.Count; i++) {
                 node.GetChoice(i).Returns(_choices[i]);

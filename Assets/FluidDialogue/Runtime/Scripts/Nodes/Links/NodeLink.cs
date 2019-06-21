@@ -9,6 +9,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<IAction> ExitActions { get; }
         public List<IAction> EnterActions { get; }
         public bool IsValid => _child.IsValid;
+        public List<IChoice> HubChoices { get; }
 
         public NodeLink (INode child) {
             _child = child;

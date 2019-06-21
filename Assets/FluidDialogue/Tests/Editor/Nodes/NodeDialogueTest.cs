@@ -82,52 +82,85 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 }
             }
 
-            public class ChoiceEvents : NodeDialogueTest {
-                [Test]
-                public void It_should_trigger_a_choice_event_with_valid_choices () {
-                    var choice = Substitute.For<IChoice>();
-                    _choiceList.Add(choice);
-                    var node = CreateNodeDialogue();
-                    var playback = Substitute.For<IDialoguePlayback>();
+            public class ChoiceEvents {
+                public class InternalChoices : NodeDialogueTest {
+                    [Test]
+                    public void It_should_trigger_a_choice_event_with_valid_choices () {
+                        var choice = Substitute.For<IChoice>();
+                        _choiceList.Add(choice);
+                        var node = CreateNodeDialogue();
+                        var playback = Substitute.For<IDialoguePlayback>();
 
-                    node.Play(playback);
+                        node.Play(playback);
 
-                    playback.Events.Choice.ReceivedWithAnyArgs(1).Invoke(_actor, DIALOGUE, _choiceList);
+                        playback.Events.Choice.ReceivedWithAnyArgs(1).Invoke(_actor, DIALOGUE, _choiceList);
+                    }
+
+                    [Test]
+                    public void It_should_not_trigger_a_choice_and_speak_event () {
+                        var choice = Substitute.For<IChoice>();
+                        _choiceList.Add(choice);
+                        var node = CreateNodeDialogue();
+                        var playback = Substitute.For<IDialoguePlayback>();
+
+                        node.Play(playback);
+
+                        playback.Events.Speak.DidNotReceive().Invoke(_actor, DIALOGUE);
+                    }
+
+                    [Test]
+                    public void It_should_not_trigger_a_choice_event_with_invalid_choices () {
+                        var choice = Substitute.For<IChoice>();
+                        choice.GetValidChildNode().Returns(x => null);
+                        _choiceList.Add(choice);
+                        var node = CreateNodeDialogue();
+                        var playback = Substitute.For<IDialoguePlayback>();
+
+                        node.Play(playback);
+
+                        playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
+                    }
+
+                    [Test]
+                    public void It_should_not_trigger_a_choice_event_without_choices () {
+                        var node = CreateNodeDialogue();
+                        var playback = Substitute.For<IDialoguePlayback>();
+
+                        node.Play(playback);
+
+                        playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
+                    }
                 }
 
-                [Test]
-                public void It_should_not_trigger_a_choice_and_speak_event () {
-                    var choice = Substitute.For<IChoice>();
-                    _choiceList.Add(choice);
-                    var node = CreateNodeDialogue();
-                    var playback = Substitute.For<IDialoguePlayback>();
+                public class ChoiceHubs : NodeDialogueTest {
+                    [Test]
+                    public void It_should_use_choices_from_next_child_if_its_a_choice_hub () {
+                        var playback = Substitute.For<IDialoguePlayback>();
+                        var choice = Substitute.For<IChoice>();
+                        var choiceHub = A.Node
+                            .WithHubChoice(choice)
+                            .Build();
+                        _children.Add(choiceHub);
 
-                    node.Play(playback);
+                        var node = CreateNodeDialogue();
+                        node.Play(playback);
 
-                    playback.Events.Speak.DidNotReceive().Invoke(_actor, DIALOGUE);
-                }
+                        playback.Events.Choice.Received(1).Invoke(_actor, DIALOGUE, choiceHub.HubChoices);
+                    }
 
-                [Test]
-                public void It_should_not_trigger_a_choice_event_with_invalid_choices () {
-                    var choice = Substitute.For<IChoice>();
-                    choice.GetValidChildNode().Returns(x => null);
-                    _choiceList.Add(choice);
-                    var node = CreateNodeDialogue();
-                    var playback = Substitute.For<IDialoguePlayback>();
+                    [Test]
+                    public void It_should_not_error_if_choices_are_null () {
+                        var playback = Substitute.For<IDialoguePlayback>();
+                        var choiceHub = A.Node.Build();
+                        List<IChoice> choices = null;
+                        choiceHub.HubChoices.Returns(choices);
+                        _children.Add(choiceHub);
 
-                    node.Play(playback);
+                        var node = CreateNodeDialogue();
+                        node.Play(playback);
 
-                    playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
-                }
-
-                [Test]
-                public void It_should_not_trigger_a_choice_event_without_choices () {
-                    var node = CreateNodeDialogue();
-                    var playback = Substitute.For<IDialoguePlayback>();
-
-                    node.Play(playback);
-
-                    playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, _choiceList);
+                        Assert.DoesNotThrow(() => node.Play(playback));
+                    }
                 }
             }
         }
