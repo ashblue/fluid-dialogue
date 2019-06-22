@@ -8,27 +8,30 @@ namespace CleverCrow.Fluid.Dialogues {
         IDialogueEvents Events { get; }
 
         void Next ();
+        void Play ();
     }
 
     public class DialoguePlayback : IDialoguePlayback {
         private bool _playing;
         private readonly Queue<IAction> _actionQueue = new Queue<IAction>();
+        private readonly IGraph _graph;
 
         public IDialogueEvents Events { get;}
         public INode Pointer { get; private set; }
 
-        public DialoguePlayback (IDialogueEvents events) {
+        public DialoguePlayback (IGraph graph, IDialogueEvents events) {
+            _graph = graph;
             Events = events;
         }
 
-        public void Play (IGraph graph) {
+        public void Play () {
             Stop();
 
             _playing = true;
-            Pointer = graph.Root;
+            Pointer = _graph.Root;
             Events.Begin.Invoke();
 
-            foreach (var action in graph.Root.EnterActions) {
+            foreach (var action in _graph.Root.EnterActions) {
                 _actionQueue.Enqueue(action);
             }
 
