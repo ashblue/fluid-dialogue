@@ -9,6 +9,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
         void Next ();
         void Play ();
+        void Tick ();
+        void SelectChoice (int index);
+        void Stop ();
     }
 
     public class DialoguePlayback : IDialoguePlayback {

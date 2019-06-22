@@ -6,20 +6,28 @@ using NUnit.Framework;
 namespace CleverCrow.Fluid.Dialogues {
     public class DialogueControllerTest {
         private DialogueController _ctrl;
+        private IDialoguePlayback _playback;
 
         [SetUp]
         public void BeforeEach () {
             _ctrl = new DialogueController();
+            _playback = Substitute.For<IDialoguePlayback>();
         }
 
         public class PlayMethod : DialogueControllerTest {
             [Test]
             public void It_should_run_play_on_the_graph () {
-                var playback = Substitute.For<IDialoguePlayback>();
+                _ctrl.Play(_playback);
 
-                _ctrl.Play(playback);
+                _playback.Received(1).Play();
+            }
 
-                playback.Received(1).Play();
+            [Test]
+            public void It_should_call_Stop_on_already_running_dialogue () {
+                _ctrl.Play(_playback);
+                _ctrl.Play(_playback);
+
+                _playback.Received(1).Stop();
             }
 
             [Test]
@@ -73,10 +81,8 @@ namespace CleverCrow.Fluid.Dialogues {
             public class ErrorHandling : DialogueControllerTest {
                 [Test]
                 public void It_should_throw_an_error_if_nothing_is_playing () {
-                    var playback = Substitute.For<IDialoguePlayback>();
-
                     Assert.Throws<InvalidOperationException>(
-                        () => _ctrl.PlayChild(playback), "Cannot trigger child dialogue, nothing is playing");
+                        () => _ctrl.PlayChild(_playback), "Cannot trigger child dialogue, nothing is playing");
                 }
             }
 
@@ -91,11 +97,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_call_Play_on_the_dialogue () {
-                    var playback = Substitute.For<IDialoguePlayback>();
+                    _ctrl.PlayChild(_playback);
 
-                    _ctrl.PlayChild(playback);
-
-                    playback.Received(1).Play();
+                    _playback.Received(1).Play();
                 }
 
                 [Test]
@@ -137,11 +141,9 @@ namespace CleverCrow.Fluid.Dialogues {
         public class ActiveDialogueProperty : DialogueControllerTest {
             [Test]
             public void It_should_return_the_playing_graph () {
-                var dialogue = Substitute.For<IDialoguePlayback>();
+                _ctrl.Play(_playback);
 
-                _ctrl.Play(dialogue);
-
-                Assert.AreEqual(dialogue, _ctrl.ActiveDialogue);
+                Assert.AreEqual(_playback, _ctrl.ActiveDialogue);
             }
 
             [Test]
@@ -155,10 +157,9 @@ namespace CleverCrow.Fluid.Dialogues {
 
             [Test]
             public void It_should_return_PlayChild_after_play_is_called () {
-                var dialogue = Substitute.For<IDialoguePlayback>();
                 var dialogueChild = Substitute.For<IDialoguePlayback>();
 
-                _ctrl.Play(dialogue);
+                _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);
 
                 Assert.AreEqual(dialogueChild, _ctrl.ActiveDialogue);
@@ -166,22 +167,20 @@ namespace CleverCrow.Fluid.Dialogues {
 
             [Test]
             public void It_should_return_Play_dialogue_if_PlayChild_dialogue_calls_end_event () {
-                var dialogue = Substitute.For<IDialoguePlayback>();
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
 
-                _ctrl.Play(dialogue);
+                _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueEmpty);
 
-                Assert.AreEqual(dialogue, _ctrl.ActiveDialogue);
+                Assert.AreEqual(_playback, _ctrl.ActiveDialogue);
             }
 
             [Test]
             public void It_should_restore_the_parent_child_if_a_nest_child_ends () {
-                var dialogue = Substitute.For<IDialoguePlayback>();
                 var dialogueChild = Substitute.For<IDialoguePlayback>();
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
 
-                _ctrl.Play(dialogue);
+                _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);
                 _ctrl.PlayChild(dialogueEmpty);
 
@@ -189,47 +188,83 @@ namespace CleverCrow.Fluid.Dialogues {
             }
         }
 
-        public class NextMethod {
+        public class NextMethod : DialogueControllerTest {
+            [Test]
             public void It_should_do_nothing_if_no_current_playback () {
-
+                Assert.DoesNotThrow(() => _ctrl.Next());
             }
 
+            [Test]
             public void It_should_call_Next_on_current_playback () {
+                _ctrl.Play(_playback);
+                _ctrl.Next();
 
+                _playback.Received(1).Next();
             }
         }
 
-        public class TickMethod {
+        public class TickMethod : DialogueControllerTest {
+            [Test]
             public void It_should_do_nothing_if_no_current_playback () {
-
+                Assert.DoesNotThrow(() => _ctrl.Tick());
             }
 
+            [Test]
             public void It_should_call_Tick_on_current_playback () {
+                _ctrl.Play(_playback);
+                _ctrl.Tick();
 
+                _playback.Received(1).Tick();
             }
         }
 
-        public class SelectChoice {
+        public class SelectChoice : DialogueControllerTest {
+            [Test]
             public void It_should_do_nothing_if_no_current_playback () {
-
+                Assert.DoesNotThrow(() => _ctrl.SelectChoice(0));
             }
 
+            [Test]
             public void It_should_call_SelectChoice_on_current_playback () {
+                _ctrl.Play(_playback);
+                _ctrl.SelectChoice(0);
 
+                _playback.Received(1).SelectChoice(0);
             }
         }
 
-        public class StopMethod {
+        public class StopMethod : DialogueControllerTest {
+            [Test]
             public void It_should_do_nothing_if_no_current_playback () {
-
+                Assert.DoesNotThrow(() => _ctrl.Stop());
             }
 
-            public void It_should_run_stop_on_all_active_dialogue_playbacks () {
+            [Test]
+            public void It_should_run_stop_on_active_dialogue () {
+                _ctrl.Play(_playback);
+                _ctrl.Stop();
 
+                _playback.Received(1).Stop();
             }
 
+            [Test]
+            public void It_should_run_stop_on_multiple_active_dialogues () {
+                var playbackChild = Substitute.For<IDialoguePlayback>();
+
+                _ctrl.Play(_playback);
+                _ctrl.PlayChild(playbackChild);
+                _ctrl.Stop();
+
+                _playback.Received(1).Stop();
+                playbackChild.Received(1).Stop();
+            }
+
+            [Test]
             public void It_should_clear_ActiveDialogue () {
+                _ctrl.Play(_playback);
+                _ctrl.Stop();
 
+                Assert.IsNull(_ctrl.ActiveDialogue);
             }
         }
     }

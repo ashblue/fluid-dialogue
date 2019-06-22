@@ -11,6 +11,8 @@ namespace CleverCrow.Fluid.Dialogues {
         public IDialoguePlayback ActiveDialogue => _activeDialogue.Count > 0 ? _activeDialogue.Peek() : null;
 
         public void Play (IDialoguePlayback playback) {
+            Stop();
+
             playback.Events.Speak.AddListener(TriggerSpeak);
             playback.Events.Choice.AddListener(TriggerChoice);
             playback.Events.Begin.AddListener(TriggerBegin);
@@ -57,6 +59,26 @@ namespace CleverCrow.Fluid.Dialogues {
 
         private void TriggerChoice (IActor actor, string text, List<IChoice> choices) {
             Events.Choice.Invoke(actor, text, choices);
+        }
+
+        public void Next () {
+            ActiveDialogue?.Next();
+        }
+
+        public void Tick () {
+            ActiveDialogue?.Tick();
+        }
+
+        public void SelectChoice (int index) {
+            ActiveDialogue?.SelectChoice(index);
+        }
+
+        public void Stop () {
+            foreach (var dialogue in _activeDialogue) {
+                dialogue.Stop();
+            }
+
+            _activeDialogue.Clear();
         }
     }
 }
