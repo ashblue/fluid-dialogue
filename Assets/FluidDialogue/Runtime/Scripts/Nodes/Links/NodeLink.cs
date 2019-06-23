@@ -1,30 +1,17 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
-using CleverCrow.Fluid.Dialogues.Choices;
+using CleverCrow.Fluid.Dialogues.Conditions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class NodeLink : INode {
-        private readonly INode _child;
+    public class NodeLink : NodeBase {
+        public override bool IsValid => _children[0]?.IsValid ?? false;
 
-        public List<IAction> ExitActions { get; }
-        public List<IAction> EnterActions { get; }
-        public bool IsValid => _child.IsValid;
-        public List<IChoice> HubChoices { get; }
-
-        public NodeLink (INode child) {
-            _child = child;
-        }
-
-        public INode Next () {
-            return IsValid ? _child : null;
-        }
-
-        public void Play (IDialoguePlayback playback) {
-            playback.Next();
-        }
-
-        public IChoice GetChoice (int index) {
-            return null;
+        public NodeLink (
+            INode child,
+            List<ICondition> conditions,
+            List<IAction> enterActions,
+            List<IAction> exitActions) :
+            base(new List<INode>{child}, conditions, enterActions, exitActions) {
         }
     }
 }

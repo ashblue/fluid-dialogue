@@ -5,19 +5,12 @@ using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class NodeDialogue : INode {
-        private readonly List<INode> _childNodes;
+    public class NodeDialogue : NodeBase {
         private readonly IActor _actor;
         private readonly string _dialogue;
         private readonly List<IChoice> _choices;
-        private readonly List<ICondition> _conditions;
 
         private List<IChoice> _emittedChoices;
-
-        public List<IAction> EnterActions { get; }
-        public List<IAction> ExitActions { get; }
-        public bool IsValid => _conditions.Find(c => !c.GetIsValid()) == null;
-        public List<IChoice> HubChoices { get; }
 
         public NodeDialogue (
             IActor actor,
@@ -26,15 +19,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             List<IChoice> choices,
             List<ICondition> conditions,
             List<IAction> enterActions,
-            List<IAction> exitActions
-        ) {
+            List<IAction> exitActions) :
+            base(children, conditions, enterActions, exitActions) {
             _actor = actor;
             _dialogue = dialogue;
-            _childNodes = children;
             _choices = choices;
-            _conditions = conditions;
-            EnterActions = enterActions;
-            ExitActions = exitActions;
         }
 
         private List<IChoice> GetValidChoices () {
@@ -46,11 +35,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             return _choices.Where(c => c.GetValidChildNode() != null).ToList();
         }
 
-        public INode Next () {
-            return _childNodes.Find(c => c.IsValid);
-        }
-
-        public void Play (IDialoguePlayback playback) {
+        public override void Play (IDialoguePlayback playback) {
             _emittedChoices = GetValidChoices();
             if (_emittedChoices.Count > 0) {
                 playback.Events.Choice.Invoke(_actor, _dialogue, _emittedChoices);
@@ -60,7 +45,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             playback.Events.Speak.Invoke(_actor, _dialogue);
         }
 
-        public IChoice GetChoice (int index) {
+        public override IChoice GetChoice (int index) {
             if (index >= _emittedChoices.Count) return null;
 
             return _emittedChoices[index];

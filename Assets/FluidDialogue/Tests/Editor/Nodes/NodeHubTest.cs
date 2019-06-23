@@ -15,7 +15,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public void BeforeEach () {
             _conditions = new List<ICondition>();
             _children = new List<INode>();
-            _hub = new NodeHub(_children, _conditions, null);
+            _hub = new NodeHub(_children, _conditions, null, null);
         }
 
         public class NextMethod : NodeHubTest {

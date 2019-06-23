@@ -10,7 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SetUp]
         public void BeforeEach () {
             _child = A.Node.Build();
-            _link = new NodeLink(_child);
+            _link = new NodeLink(_child, null, null, null);
         }
 
         public class IsValidProperty : NodeLinkTest {
@@ -19,6 +19,16 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 _child.IsValid.Returns(true);
 
                 Assert.IsTrue(_link.IsValid);
+            }
+
+            [Test]
+            public void It_should_not_crash_if_there_is_no_child () {
+                _link = new NodeLink(null, null, null, null);
+
+                Assert.DoesNotThrow(() => {
+                    var value = _link.IsValid;
+                    Assert.IsFalse(value);
+                });
             }
         }
 
