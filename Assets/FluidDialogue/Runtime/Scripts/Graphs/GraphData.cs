@@ -8,7 +8,7 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
 
     public class GraphData : ScriptableObject, IGraphData {
         [SerializeField]
-        private NodeDataBase _root = null;
+        private NodeRootData _root = null;
 
         public INodeData Root => _root;
     }
