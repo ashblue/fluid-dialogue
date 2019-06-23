@@ -34,13 +34,12 @@ namespace CleverCrow.Fluid.Dialogues {
             Pointer = _graph.Root;
             Events.Begin.Invoke();
 
-            foreach (var action in _graph.Root.EnterActions) {
-                _actionQueue.Enqueue(action);
+            if (!_graph.Root.IsValid) {
+                Events.End.Invoke();
+                return;
             }
 
-            if (UpdateActionQueue() == ActionStatus.Continue) return;
-
-            Next();
+            Next(null, Pointer);
         }
 
         private void ClearAllActions () {
@@ -69,8 +68,10 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         private void Next (INode current, INode next) {
-            foreach (var action in current.ExitActions) {
-                _actionQueue.Enqueue(action);
+            if (current != null) {
+                foreach (var action in current.ExitActions) {
+                    _actionQueue.Enqueue(action);
+                }
             }
 
             if (next != null) {

@@ -48,6 +48,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 var playbackEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
 
                 _ctrl.Play(playbackEmpty);
+                _ctrl.Next();
 
                 Assert.IsTrue(endResult);
             }
@@ -93,6 +94,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void BeforeEachMethod () {
                     _parentPlayback = Substitute.For<IDialoguePlayback>();
                     _ctrl.Play(_parentPlayback);
+                    _ctrl.Next();
                 }
 
                 [Test]
@@ -151,6 +153,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
 
                 _ctrl.Play(dialogueEmpty);
+                _ctrl.Next();
 
                 Assert.AreEqual(null, _ctrl.ActiveDialogue);
             }
@@ -171,18 +174,20 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueEmpty);
+                _ctrl.Next();
 
                 Assert.AreEqual(_playback, _ctrl.ActiveDialogue);
             }
 
             [Test]
-            public void It_should_restore_the_parent_child_if_a_nest_child_ends () {
+            public void It_should_restore_the_parent_child_if_a_nested_child_ends () {
                 var dialogueChild = Substitute.For<IDialoguePlayback>();
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);
                 _ctrl.PlayChild(dialogueEmpty);
+                _ctrl.Next();
 
                 Assert.AreEqual(dialogueChild, _ctrl.ActiveDialogue);
             }

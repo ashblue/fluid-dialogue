@@ -26,13 +26,6 @@ namespace CleverCrow.Fluid.Dialogues {
         public class PlayMethod {
             public class Defaults : DialoguePlaybackTest {
                 [Test]
-                public void It_should_trigger_next_on_the_root_node () {
-                    _playback.Play();
-
-                    _graph.Root.Received(1).Next();
-                }
-
-                [Test]
                 public void It_should_trigger_a_Begin_event () {
                     _playback.Play();
 
@@ -48,17 +41,9 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback = new DialoguePlayback(_graph, _events);
 
                     _playback.Play();
+                    _playback.Next();
 
                     node.Received(1).Play(_playback);
-                }
-
-                [Test]
-                public void If_no_child_on_root_trigger_end_event () {
-                    _graph.Root.Next().Returns((x) => null);
-
-                    _playback.Play();
-
-                    _playback.Events.End.Received(1).Invoke();
                 }
 
                 [Test]
@@ -70,8 +55,27 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback = new DialoguePlayback(_graph, _events);
 
                     _playback.Play();
+                    _playback.Next();
 
                     node.Received(1).Play(_playback);
+                }
+            }
+
+            public class RootNode : DialoguePlaybackTest {
+                [Test]
+                public void It_should_trigger_play_on_the_root_node () {
+                    _playback.Play();
+
+                    _graph.Root.Received(1).Play(_playback);
+                }
+
+                [Test]
+                public void It_should_trigger_end_event_if_root_isValid_is_false () {
+                    _graph.Root.IsValid.Returns(false);
+
+                    _playback.Play();
+
+                    _playback.Events.End.Received(1).Invoke();
                 }
             }
 
@@ -139,6 +143,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play();
                     _playback.Next();
+                    _playback.Next();
 
                     nodeNested.Received(1).Play(_playback);
                 }
@@ -154,6 +159,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback = new DialoguePlayback(_graph, _events);
 
                     _playback.Play();
+                    _playback.Next();
                     _playback.Next();
 
                     _playback.Events.End.Received(1).Invoke();
@@ -172,6 +178,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback = new DialoguePlayback(_graph, _events);
 
                     _playback.Play();
+                    _playback.Next();
                     _playback.Next();
 
                     _playback.Events.End.Received(1).Invoke();
@@ -194,6 +201,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _playback = new DialoguePlayback(_graph, _events);
 
                     _playback.Play();
+                    _playback.Next();
                     _playback.Next();
 
                     nodeNested.Received(1).Play(_playback);
@@ -218,12 +226,14 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(_node)
                         .Build();
+
                     _playback = new DialoguePlayback(_graph, _events);
+                    _playback.Play();
+                    _playback.Next();
                 }
 
                 [Test]
                 public void It_should_trigger_all_exit_actions_on_current () {
-                    _playback.Play();
                     _playback.Next();
 
                     _exitAction.Received(1).Tick();
@@ -231,7 +241,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_not_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false () {
-                    _playback.Play();
                     _playback.Next();
 
                     _nodeNested.DidNotReceive().Play(_playback);
@@ -239,7 +248,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_trigger_Speak_on_the_next_node_if_an_IAction_Update_returns_false_then_true () {
-                    _playback.Play();
                     _playback.Next();
                     _exitAction.Tick().Returns(ActionStatus.Success);
                     _playback.Tick();
@@ -249,7 +257,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_do_nothing_if_actions_are_running () {
-                    _playback.Play();
                     _playback.Next();
                     _playback.Next();
 
@@ -370,6 +377,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 _playback = new DialoguePlayback(_graph, _events);
 
                 _playback.Play();
+                _playback.Next();
                 _playback.Next();
                 _playback.SelectChoice(0);
 
