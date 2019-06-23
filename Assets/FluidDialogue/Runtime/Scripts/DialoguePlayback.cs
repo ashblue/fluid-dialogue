@@ -6,6 +6,7 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialoguePlayback {
         IDialogueEvents Events { get; }
+        IDialogueController ParentCtrl { get; }
 
         void Next ();
         void Play ();
@@ -20,11 +21,13 @@ namespace CleverCrow.Fluid.Dialogues {
         private readonly IGraph _graph;
 
         public IDialogueEvents Events { get;}
+        public IDialogueController ParentCtrl { get; }
         public INode Pointer { get; private set; }
 
-        public DialoguePlayback (IGraph graph, IDialogueEvents events) {
+        public DialoguePlayback (IGraph graph, IDialogueController ctrl, IDialogueEvents events) {
             _graph = graph;
             Events = events;
+            ParentCtrl = ctrl;
         }
 
         public void Play () {

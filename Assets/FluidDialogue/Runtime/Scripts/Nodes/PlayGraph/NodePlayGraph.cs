@@ -1,23 +1,24 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
-using CleverCrow.Fluid.Dialogues.Choices;
+using CleverCrow.Fluid.Dialogues.Conditions;
+using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes.PlayGraph {
-    public class NodePlayGraph : INode {
-        public List<IAction> EnterActions { get; }
-        public List<IAction> ExitActions { get; }
-        public bool IsValid { get; }
-        public List<IChoice> HubChoices { get; }
-        public INode Next () {
-            throw new System.NotImplementedException();
+    public class NodePlayGraph : NodeBase {
+        private readonly IGraphData _graph;
+
+        public NodePlayGraph (
+            IGraphData graph,
+            List<INode> children,
+            List<ICondition> conditions,
+            List<IAction> enterActions,
+            List<IAction> exitActions)
+            : base(children, conditions, enterActions, exitActions) {
+            _graph = graph;
         }
 
-        public void Play (IDialoguePlayback playback) {
-            throw new System.NotImplementedException();
-        }
-
-        public IChoice GetChoice (int index) {
-            throw new System.NotImplementedException();
+        public override void Play (IDialoguePlayback playback) {
+            playback.ParentCtrl.PlayChild(_graph);
         }
     }
 }

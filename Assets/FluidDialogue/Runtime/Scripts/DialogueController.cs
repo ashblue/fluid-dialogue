@@ -4,7 +4,11 @@ using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues {
-    public class DialogueController {
+    public interface IDialogueController {
+        void PlayChild (IGraphData graph);
+    }
+
+    public class DialogueController : IDialogueController {
         private readonly Stack<IDialoguePlayback> _activeDialogue = new Stack<IDialoguePlayback>();
 
         public IDialogueEvents Events { get; } = new DialogueEvents();
@@ -24,7 +28,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
         public void Play (IGraphData graph) {
             var runtime = new GraphRuntime(graph);
-            Play(new DialoguePlayback(runtime, new DialogueEvents()));
+            Play(new DialoguePlayback(runtime, this, new DialogueEvents()));
         }
 
         public void PlayChild (IDialoguePlayback playback) {
@@ -42,6 +46,11 @@ namespace CleverCrow.Fluid.Dialogues {
 
             _activeDialogue.Push(playback);
             playback.Play();
+        }
+
+        public void PlayChild (IGraphData graph) {
+            var runtime = new GraphRuntime(graph);
+            PlayChild(new DialoguePlayback(runtime, this, new DialogueEvents()));
         }
 
         private void TriggerBegin () {

@@ -34,7 +34,7 @@ namespace CleverCrow.Fluid.Dialogues {
             public void It_should_bind_the_begin_event () {
                 var beginResult = false;
                 _ctrl.Events.Begin.AddListener(() => beginResult = true);
-                var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playback);
 
@@ -45,7 +45,7 @@ namespace CleverCrow.Fluid.Dialogues {
             public void It_should_bind_the_end_event () {
                 var endResult = false;
                 _ctrl.Events.End.AddListener(() => endResult = true);
-                var playbackEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var playbackEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playbackEmpty);
                 _ctrl.Next();
@@ -57,7 +57,7 @@ namespace CleverCrow.Fluid.Dialogues {
             public void It_should_bind_dialogue_speak_events () {
                 var speakResult = false;
                 _ctrl.Events.Speak.AddListener((x, y) => speakResult = true);
-                var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playback);
                 playback.Events.Speak.Invoke(null, null);
@@ -69,7 +69,7 @@ namespace CleverCrow.Fluid.Dialogues {
             public void It_should_bind_dialogue_choice_events () {
                 var choiceResult = false;
                 _ctrl.Events.Choice.AddListener((x, y, z) => choiceResult = true);
-                var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playback);
                 playback.Events.Choice.Invoke(null, null, null);
@@ -108,7 +108,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void It_should_bind_the_speak_event () {
                     var speakResult = false;
                     _ctrl.Events.Speak.AddListener((x, y) => speakResult = true);
-                    var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                    var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                     _ctrl.PlayChild(playback);
                     playback.Events.Speak.Invoke(null, null);
@@ -120,7 +120,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void It_should_bind_the_choice_event () {
                     var choiceResult = false;
                     _ctrl.Events.Choice.AddListener((x, y, z) => choiceResult = true);
-                    var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                    var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                     _ctrl.PlayChild(playback);
                     playback.Events.Choice.Invoke(null, null, null);
@@ -130,7 +130,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 [Test]
                 public void It_should_call_Next_on_the_parent_if_End_is_called () {
-                    var playback = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                    var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                     // Automatically calls End since the graph is empty
                     _ctrl.PlayChild(playback);
@@ -150,7 +150,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
             [Test]
             public void It_should_clear_if_playing_graph_calls_end () {
-                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(dialogueEmpty);
                 _ctrl.Next();
@@ -170,7 +170,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
             [Test]
             public void It_should_return_Play_dialogue_if_PlayChild_dialogue_calls_end_event () {
-                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueEmpty);
@@ -182,7 +182,7 @@ namespace CleverCrow.Fluid.Dialogues {
             [Test]
             public void It_should_restore_the_parent_child_if_a_nested_child_ends () {
                 var dialogueChild = Substitute.For<IDialoguePlayback>();
-                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), new DialogueEvents());
+                var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);

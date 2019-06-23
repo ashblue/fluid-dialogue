@@ -20,7 +20,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 .Build();
 
             _events = Substitute.For<IDialogueEvents>();
-            _playback = new DialoguePlayback(_graph, _events);
+            _playback = new DialoguePlayback(_graph, null, _events);
         }
 
         public class PlayMethod {
@@ -38,7 +38,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -52,7 +52,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -111,7 +111,7 @@ namespace CleverCrow.Fluid.Dialogues {
                         .WithNextResult(node)
                         .Build();
                     _graph.Root.EnterActions.Returns(new List<IAction> {_action});
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
 
@@ -139,7 +139,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -156,7 +156,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -175,7 +175,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -198,7 +198,7 @@ namespace CleverCrow.Fluid.Dialogues {
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
 
                     _playback.Play();
                     _playback.Next();
@@ -227,7 +227,7 @@ namespace CleverCrow.Fluid.Dialogues {
                         .WithNextResult(_node)
                         .Build();
 
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
                     _playback.Play();
                     _playback.Next();
                 }
@@ -280,7 +280,7 @@ namespace CleverCrow.Fluid.Dialogues {
                         .WithNextResult(_node)
                         .Build();
 
-                    _playback = new DialoguePlayback(_graph, _events);
+                    _playback = new DialoguePlayback(_graph, null, _events);
                 }
 
                 [Test]
@@ -306,7 +306,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 var graph = A.Graph
                     .WithNextResult(node)
                     .Build();
-                _playback = new DialoguePlayback(graph, _events);
+                _playback = new DialoguePlayback(graph, null, _events);
 
                 _playback.Play();
                 _playback.Next();
@@ -374,7 +374,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 _graph = A.Graph
                     .WithNextResult(node)
                     .Build();
-                _playback = new DialoguePlayback(_graph, _events);
+                _playback = new DialoguePlayback(_graph, null, _events);
 
                 _playback.Play();
                 _playback.Next();
