@@ -48,7 +48,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 var playbackEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playbackEmpty);
-                _ctrl.Next();
 
                 Assert.IsTrue(endResult);
             }
@@ -94,7 +93,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void BeforeEachMethod () {
                     _parentPlayback = Substitute.For<IDialoguePlayback>();
                     _ctrl.Play(_parentPlayback);
-                    _ctrl.Next();
                 }
 
                 [Test]
@@ -153,7 +151,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(null, _ctrl.ActiveDialogue);
             }
@@ -174,7 +171,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(_playback, _ctrl.ActiveDialogue);
             }
@@ -187,7 +183,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);
                 _ctrl.PlayChild(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(dialogueChild, _ctrl.ActiveDialogue);
             }
