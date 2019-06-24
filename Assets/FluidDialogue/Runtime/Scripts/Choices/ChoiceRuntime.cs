@@ -5,7 +5,10 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
     public class ChoiceRuntime : IChoice {
         private readonly List<INode> _children;
 
-        public ChoiceRuntime (List<INode> children) {
+        public string UniqueId { get; }
+
+        public ChoiceRuntime (string uniqueId, List<INode> children) {
+            UniqueId = uniqueId;
             _children = children;
         }
 

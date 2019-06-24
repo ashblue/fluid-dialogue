@@ -7,11 +7,17 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
         private bool _resetReady;
         private bool _active;
 
+        public string UniqueId { get; }
+
         public Action OnInit { private get; set; }
         public Action OnStart { private get; set; }
         public Func<ActionStatus> OnUpdate { private get; set; }
         public Action OnExit { private get; set; }
         public Action OnReset { private get; set; }
+
+        public ActionRuntime (string uniqueId) {
+            UniqueId = uniqueId;
+        }
 
         public ActionStatus Tick () {
             Reset();

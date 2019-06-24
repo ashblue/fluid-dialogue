@@ -1,5 +1,5 @@
 namespace CleverCrow.Fluid.Dialogues.Conditions {
-    public interface ICondition {
+    public interface ICondition : IUniqueId {
         bool GetIsValid ();
     }
 }

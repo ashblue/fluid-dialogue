@@ -13,13 +13,16 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public virtual bool IsValid =>
             _conditions.Find(c => !c.GetIsValid()) == null;
         public List<IChoice> HubChoices { get; }
+        public string UniqueId { get; }
 
         protected NodeBase (
+            string uniqueId,
             List<INode> children,
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions
         ) {
+            UniqueId = uniqueId;
             _children = children;
             _conditions = conditions;
             EnterActions = enterActions;

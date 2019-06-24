@@ -11,6 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public override INode GetRuntime () {
             return new NodePlayGraph(
+                UniqueId,
                 graph,
                 children.Select(c => c.GetRuntime()).ToList(),
                 conditions.Select(c => c.GetRuntime()).ToList(),

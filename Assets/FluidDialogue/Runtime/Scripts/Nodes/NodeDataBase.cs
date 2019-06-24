@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Conditions;
@@ -8,11 +9,20 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
+        [SerializeField]
+        private string _uniqueId;
+
         public List<NodeDataBase> children;
         public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
 
+        public string UniqueId => _uniqueId;
+
         public abstract INode GetRuntime ();
+
+        public void Setup () {
+            _uniqueId = Guid.NewGuid().ToString();
+        }
     }
 }

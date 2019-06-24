@@ -13,6 +13,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         private List<IChoice> _emittedChoices;
 
         public NodeDialogue (
+            string uniqueId,
             IActor actor,
             string dialogue,
             List<INode> children,
@@ -20,7 +21,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions) :
-            base(children, conditions, enterActions, exitActions) {
+            base(uniqueId, children, conditions, enterActions, exitActions) {
             _actor = actor;
             _dialogue = dialogue;
             _choices = choices;

@@ -7,7 +7,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         [SetUp]
         public void BeforeEach () {
-            _action = new ActionRuntime {
+            _action = new ActionRuntime(null) {
                 OnUpdate = () => ActionStatus.Continue
             };
         }

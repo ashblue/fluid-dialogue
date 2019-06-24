@@ -7,11 +7,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public override bool IsValid => _children[0]?.IsValid ?? false;
 
         public NodeLink (
+            string UniqueId,
             INode child,
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions) :
-            base(new List<INode>{child}, conditions, enterActions, exitActions) {
+            base(UniqueId, new List<INode>{child}, conditions, enterActions, exitActions) {
         }
     }
 }

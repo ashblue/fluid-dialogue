@@ -28,6 +28,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         private NodeDialogue CreateNodeDialogue () {
             return new NodeDialogue(
+                null,
                 _actor,
                 DIALOGUE,
                 _children,

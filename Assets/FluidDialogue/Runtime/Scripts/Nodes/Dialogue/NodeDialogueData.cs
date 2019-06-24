@@ -10,6 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public override INode GetRuntime () {
             return new NodeDialogue(
+                UniqueId,
                 actor,
                 dialogue,
                 children.Select(c => c.GetRuntime()).ToList(),
