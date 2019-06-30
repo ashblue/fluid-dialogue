@@ -17,10 +17,10 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
             _uniqueId = Guid.NewGuid().ToString();
         }
 
-        public IChoice GetRuntime () {
+        public IChoice GetRuntime (IDialogueController dialogue) {
             return new ChoiceRuntime(
                 _uniqueId,
-                children.Select(c => c.GetRuntime()).ToList());
+                children.Select(c => c.GetRuntime(dialogue)).ToList());
         }
     }
 }

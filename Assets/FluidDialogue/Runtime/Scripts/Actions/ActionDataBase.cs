@@ -6,7 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
         [SerializeField]
         private string _uniqueId;
 
-        protected virtual void OnInit () {}
+        protected virtual void OnInit (IDialogueController dialogue) {}
 
         protected virtual void OnStart () {}
 
@@ -24,8 +24,8 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             _uniqueId = Guid.NewGuid().ToString();
         }
 
-        public IAction GetRuntime () {
-            return new ActionRuntime(_uniqueId) {
+        public IAction GetRuntime (IDialogueController dialogue) {
+            return new ActionRuntime(dialogue, _uniqueId) {
                 OnInit = OnInit,
                 OnStart = OnStart,
                 OnUpdate = OnUpdate,

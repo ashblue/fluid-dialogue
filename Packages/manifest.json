@@ -4,12 +4,14 @@
       "name": "NPM",
       "url": "https://registry.npmjs.org",
       "scopes": [
-        "clever-crow"
+        "clever-crow",
+        "com.fluid"
       ]
     }
   ],
   "dependencies": {
     "clever-crow.nsubstitute": "2.0.3",
+    "com.fluid.database": "1.0.1",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.3.2",
     "com.unity.collab-proxy": "1.2.16",

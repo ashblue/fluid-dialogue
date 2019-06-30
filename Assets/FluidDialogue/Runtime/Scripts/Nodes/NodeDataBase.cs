@@ -19,7 +19,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public string UniqueId => _uniqueId;
 
-        public abstract INode GetRuntime ();
+        public abstract INode GetRuntime (IDialogueController dialogue);
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

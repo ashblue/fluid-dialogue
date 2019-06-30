@@ -1,33 +1,35 @@
-using System.Threading.Tasks;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
-    public class ActionTest {
+    public class ActionRuntimeTest {
+        private IDialogueController _dialogue;
         private ActionRuntime _action;
 
         [SetUp]
         public void BeforeEach () {
-            _action = new ActionRuntime(null) {
+            _dialogue = Substitute.For<IDialogueController>();
+            _action = new ActionRuntime(_dialogue, null) {
                 OnUpdate = () => ActionStatus.Continue
             };
         }
 
         public class TickMethod {
-            public class OnInitTriggering : ActionTest {
+            public class OnInitTriggering : ActionRuntimeTest {
                 [Test]
-                public void It_should_trigger_OnInit () {
-                    var initCount = 0;
-                    _action.OnInit = () => initCount += 1;
+                public void It_should_trigger_OnInit_with_a_dialogue_controller () {
+                    IDialogueController dialogue = null;
+                    _action.OnInit = (d) => dialogue = d;
 
                     _action.Tick();
 
-                    Assert.AreEqual(1, initCount);
+                    Assert.AreEqual(dialogue, _dialogue);
                 }
 
                 [Test]
                 public void It_should_trigger_OnInit_only_once () {
                     var initCount = 0;
-                    _action.OnInit = () => initCount += 1;
+                    _action.OnInit = (d) => initCount += 1;
 
                     _action.Tick();
                     _action.Tick();
@@ -36,7 +38,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                 }
             }
 
-            public class OnStartTriggering : ActionTest {
+            public class OnStartTriggering : ActionRuntimeTest {
                 private int _startCount;
 
                 [SetUp]
@@ -71,7 +73,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                 }
             }
 
-            public class OnUpdateTriggering : ActionTest {
+            public class OnUpdateTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_OnUpdate () {
                     var updateCount = 0;
@@ -95,7 +97,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                 }
             }
 
-            public class OnExitTriggering : ActionTest {
+            public class OnExitTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_OnExit_if_OnUpdate_returns_success () {
                     var exitCount = 0;
@@ -119,7 +121,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                 }
             }
 
-            public class OnResetTriggering : ActionTest {
+            public class OnResetTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_reset_after_OnUpdate_returns_success () {
                     var resetCount = 0;
@@ -145,7 +147,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                 }
             }
 
-            public class EndMethod : ActionTest {
+            public class EndMethod : ActionRuntimeTest {
                 [Test]
                 public void It_should_not_call_OnExit_if_Tick_returns_success () {
                     var exitCount = 0;

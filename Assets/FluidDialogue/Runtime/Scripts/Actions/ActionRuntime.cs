@@ -2,6 +2,8 @@ using System;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
     public class ActionRuntime : IAction {
+        private readonly IDialogueController _dialogueController;
+
         private bool _initUsed;
         private bool _startUsed;
         private bool _resetReady;
@@ -9,13 +11,14 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         public string UniqueId { get; }
 
-        public Action OnInit { private get; set; }
+        public Action<IDialogueController> OnInit { private get; set; }
         public Action OnStart { private get; set; }
         public Func<ActionStatus> OnUpdate { private get; set; }
         public Action OnExit { private get; set; }
         public Action OnReset { private get; set; }
 
-        public ActionRuntime (string uniqueId) {
+        public ActionRuntime (IDialogueController dialogue, string uniqueId) {
+            _dialogueController = dialogue;
             UniqueId = uniqueId;
         }
 
@@ -40,7 +43,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             if (_initUsed) return;
             _initUsed = true;
 
-            OnInit?.Invoke();
+            OnInit?.Invoke(_dialogueController);
         }
 
         private void Start () {
