@@ -8,14 +8,14 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         [SerializeField]
         public T _value;
 
-        protected abstract KeyValueDefinitionBase<T> Definition { get; }
+        protected abstract KeyValueDefinitionBase<T> Variable { get; }
 
         protected override void OnInit (IDialogueController controller) {
             _setKeyValue = new SetKeyValueInternal<T>(GetDatabase(controller));
         }
 
         protected override ActionStatus OnUpdate () {
-            _setKeyValue.WriteValue(Definition.key, _value);
+            _setKeyValue.WriteValue(Variable.key, _value);
 
             return base.OnUpdate();
         }

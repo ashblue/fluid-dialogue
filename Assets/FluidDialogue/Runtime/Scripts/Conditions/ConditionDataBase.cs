@@ -13,10 +13,12 @@ namespace CleverCrow.Fluid.Dialogues.Conditions {
         }
 
         protected abstract bool OnGetIsValid ();
+        protected virtual void OnInit (IDialogueController dialogue) {}
 
         public ICondition GetRuntime (IDialogueController dialogue) {
-            return new ConditionRuntime (_uniqueId) {
+            return new ConditionRuntime (dialogue, _uniqueId) {
                 OnGetIsValid = OnGetIsValid,
+                OnInit = OnInit,
             };
         }
     }

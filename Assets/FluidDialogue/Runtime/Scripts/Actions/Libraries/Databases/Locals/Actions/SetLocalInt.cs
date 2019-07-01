@@ -4,9 +4,9 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
     public class SetLocalInt : SetLocalVariableBase<int> {
         [SerializeField]
-        public KeyValueDefinitionInt _definition;
+        public KeyValueDefinitionInt _variable;
 
-        protected override KeyValueDefinitionBase<int> Definition => _definition;
+        protected override KeyValueDefinitionBase<int> Variable => _variable;
 
         protected override IKeyValueData<int> GetDatabase (IDialogueController dialogue) {
             return dialogue.LocalDatabase.Ints;

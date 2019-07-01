@@ -2,15 +2,27 @@ using System;
 
 namespace CleverCrow.Fluid.Dialogues.Conditions {
     public class ConditionRuntime : ICondition {
-        public Func<bool> OnGetIsValid { private get; set; }
+        private readonly IDialogueController _dialogueController;
+
+        private bool _initTriggered;
+
         public string UniqueId { get; }
 
-        public ConditionRuntime (string uniqueId) {
+        public Func<bool> OnGetIsValid { private get; set; }
+        public Action<IDialogueController> OnInit { private get; set; }
+
+        public ConditionRuntime (IDialogueController dialogueController, string uniqueId) {
+            _dialogueController = dialogueController;
             UniqueId = uniqueId;
         }
 
         public bool GetIsValid () {
-            return OnGetIsValid.Invoke();
+            if (!_initTriggered) {
+                OnInit?.Invoke(_dialogueController);
+                _initTriggered = true;
+            }
+
+            return OnGetIsValid?.Invoke() ?? true;
         }
     }
 }
