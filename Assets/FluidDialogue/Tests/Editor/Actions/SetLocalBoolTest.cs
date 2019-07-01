@@ -11,7 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
                 const bool VALUE = true;
 
                 var database = Substitute.For<IKeyValueData<bool>>();
-                var setter = new SetDatabaseInternal<bool>(database);
+                var setter = new SetKeyValueInternal<bool>(database);
 
                 setter.WriteValue(KEY, VALUE);
 
