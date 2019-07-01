@@ -14,11 +14,16 @@ namespace CleverCrow.Fluid.Dialogues {
     public class DialogueController : IDialogueController {
         private readonly Stack<IDialoguePlayback> _activeDialogue = new Stack<IDialoguePlayback>();
 
-        public IDatabaseInstance LocalDatabase { get; } = new DatabaseInstance();
+        public IDatabaseInstance LocalDatabase { get; }
         public IDialogueEvents Events { get; } = new DialogueEvents();
         public IDialoguePlayback ActiveDialogue => _activeDialogue.Count > 0 ? _activeDialogue.Peek() : null;
 
+        public DialogueController (IDatabaseInstance localDatabase) {
+            LocalDatabase = localDatabase;
+        }
+
         public void Play (IDialoguePlayback playback) {
+            LocalDatabase.Clear();
             Stop();
 
             playback.Events.Speak.AddListener(TriggerSpeak);

@@ -1,4 +1,5 @@
 using System;
+using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Builders;
 using NSubstitute;
 using NUnit.Framework;
@@ -7,10 +8,12 @@ namespace CleverCrow.Fluid.Dialogues {
     public class DialogueControllerTest {
         private DialogueController _ctrl;
         private IDialoguePlayback _playback;
+        private IDatabaseInstance _database;
 
         [SetUp]
         public void BeforeEach () {
-            _ctrl = new DialogueController();
+            _database = Substitute.For<IDatabaseInstance>();
+            _ctrl = new DialogueController(_database);
             _playback = Substitute.For<IDialoguePlayback>();
         }
 
@@ -74,6 +77,13 @@ namespace CleverCrow.Fluid.Dialogues {
                 playback.Events.Choice.Invoke(null, null, null);
 
                 Assert.IsTrue(choiceResult);
+            }
+
+            [Test]
+            public void It_should_reset_the_local_database () {
+                _ctrl.Play(_playback);
+
+                _database.Received(1).Clear();
             }
         }
 
