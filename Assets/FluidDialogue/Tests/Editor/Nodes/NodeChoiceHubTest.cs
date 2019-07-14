@@ -12,7 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SetUp]
         public void BeforeEach () {
             _choiceList = new List<IChoice>();
-            _choiceHub = new NodeChoiceHub(_choiceList);
+            _choiceHub = new NodeChoiceHub(null, _choiceList);
         }
 
         public class HubChoicesProperty : NodeChoiceHubTest {

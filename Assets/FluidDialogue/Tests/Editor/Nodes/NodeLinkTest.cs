@@ -10,7 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SetUp]
         public void BeforeEach () {
             _child = A.Node.Build();
-            _link = new NodeLink(_child, null, null, null);
+            _link = new NodeLink(null, _child, null, null, null);
         }
 
         public class IsValidProperty : NodeLinkTest {
@@ -23,7 +23,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
             [Test]
             public void It_should_not_crash_if_there_is_no_child () {
-                _link = new NodeLink(null, null, null, null);
+                _link = new NodeLink(null, null, null, null, null);
 
                 Assert.DoesNotThrow(() => {
                     var value = _link.IsValid;

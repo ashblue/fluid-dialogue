@@ -1,20 +1,29 @@
 using System;
 using System.Collections.Generic;
+using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialogueController {
+        IDatabaseInstance LocalDatabase { get; }
+
         void PlayChild (IGraphData graph);
     }
 
     public class DialogueController : IDialogueController {
         private readonly Stack<IDialoguePlayback> _activeDialogue = new Stack<IDialoguePlayback>();
 
+        public IDatabaseInstance LocalDatabase { get; }
         public IDialogueEvents Events { get; } = new DialogueEvents();
         public IDialoguePlayback ActiveDialogue => _activeDialogue.Count > 0 ? _activeDialogue.Peek() : null;
 
+        public DialogueController (IDatabaseInstance localDatabase) {
+            LocalDatabase = localDatabase;
+        }
+
         public void Play (IDialoguePlayback playback) {
+            LocalDatabase.Clear();
             Stop();
 
             playback.Events.Speak.AddListener(TriggerSpeak);
@@ -27,7 +36,7 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         public void Play (IGraphData graph) {
-            var runtime = new GraphRuntime(graph);
+            var runtime = new GraphRuntime(this, graph);
             Play(new DialoguePlayback(runtime, this, new DialogueEvents()));
         }
 
@@ -49,7 +58,7 @@ namespace CleverCrow.Fluid.Dialogues {
         }
 
         public void PlayChild (IGraphData graph) {
-            var runtime = new GraphRuntime(graph);
+            var runtime = new GraphRuntime(this, graph);
             PlayChild(new DialoguePlayback(runtime, this, new DialogueEvents()));
         }
 

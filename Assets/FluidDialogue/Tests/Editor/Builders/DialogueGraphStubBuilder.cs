@@ -10,6 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             var graph = Substitute.For<IGraph>();
             var root = A.Node
                 .WithNextResult(_next)
+                .WithPlayAction((playback) => playback.Next())
                 .Build();
             graph.Root.Returns(root);
 

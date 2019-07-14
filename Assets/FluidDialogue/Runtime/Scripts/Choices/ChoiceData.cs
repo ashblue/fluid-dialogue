@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Nodes;
@@ -7,8 +8,19 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
     public class ChoiceData : ScriptableObject, IGetRuntime<IChoice> {
         public List<NodeDataBase> children;
 
-        public IChoice GetRuntime () {
-            return new ChoiceRuntime(children.Select(c => c.GetRuntime()).ToList());
+        [SerializeField]
+        private string _uniqueId;
+
+        public string UniqueId => _uniqueId;
+
+        public void Setup () {
+            _uniqueId = Guid.NewGuid().ToString();
+        }
+
+        public IChoice GetRuntime (IDialogueController dialogue) {
+            return new ChoiceRuntime(
+                _uniqueId,
+                children.Select(c => c.GetRuntime(dialogue)).ToList());
         }
     }
 }

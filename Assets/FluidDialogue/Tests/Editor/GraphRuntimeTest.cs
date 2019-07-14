@@ -12,10 +12,10 @@ namespace FluidDialogue.Tests.Editor {
                 var graphData = Substitute.For<IGraphData>();
                 graphData.Root.Returns(root);
 
-                var graph = new GraphRuntime(graphData);
+                var graph = new GraphRuntime(null, graphData);
 
-                Assert.IsNotNull(root.GetRuntime());
-                Assert.AreEqual(root.GetRuntime(), graph.Root);
+                Assert.IsNotNull(root.GetRuntime(null));
+                Assert.AreEqual(root.GetRuntime(null), graph.Root);
             }
         }
     }

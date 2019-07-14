@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Choices;
@@ -13,6 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
         private bool _isValid = true;
         private INode _clone;
         private readonly List<IChoice> _hubChoices = new List<IChoice>();
+        private Action<DialoguePlayback> _playAction = null;
 
         public DialogueNodeStubBuilder WithNextResult (INode node) {
             _next = node;
@@ -44,6 +46,11 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             return this;
         }
 
+        public DialogueNodeStubBuilder WithPlayAction (Action<DialoguePlayback> action) {
+            _playAction = action;
+            return this;
+        }
+
         public INode Build () {
             var node = Substitute.For<INode>();
             node.Next().Returns(_next);
@@ -51,6 +58,13 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
             node.EnterActions.Returns(_enterActions);
             node.IsValid.Returns(_isValid);
             node.HubChoices.Returns(_hubChoices);
+
+            node.WhenForAnyArgs(x => x.Play(null))
+                .Do((x) => {
+                    if (_playAction == null) return;
+                    var playback = (DialoguePlayback)x[0];
+                    _playAction(playback);
+                });
 
             for (var i = 0; i < _choices.Count; i++) {
                 node.GetChoice(i).Returns(_choices[i]);

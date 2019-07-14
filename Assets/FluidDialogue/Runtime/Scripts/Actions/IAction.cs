@@ -1,5 +1,5 @@
 namespace CleverCrow.Fluid.Dialogues.Actions {
-    public interface IAction {
+    public interface IAction : IUniqueId {
         ActionStatus Tick ();
         void End ();
     }

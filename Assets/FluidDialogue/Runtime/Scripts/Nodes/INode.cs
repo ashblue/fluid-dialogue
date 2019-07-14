@@ -3,7 +3,7 @@ using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public interface INode {
+    public interface INode : IUniqueId {
         List<IAction> EnterActions { get; }
         List<IAction> ExitActions { get; }
         bool IsValid { get; }

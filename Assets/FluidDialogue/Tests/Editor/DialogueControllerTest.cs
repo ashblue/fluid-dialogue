@@ -1,4 +1,5 @@
 using System;
+using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Builders;
 using NSubstitute;
 using NUnit.Framework;
@@ -7,10 +8,12 @@ namespace CleverCrow.Fluid.Dialogues {
     public class DialogueControllerTest {
         private DialogueController _ctrl;
         private IDialoguePlayback _playback;
+        private IDatabaseInstance _database;
 
         [SetUp]
         public void BeforeEach () {
-            _ctrl = new DialogueController();
+            _database = Substitute.For<IDatabaseInstance>();
+            _ctrl = new DialogueController(_database);
             _playback = Substitute.For<IDialoguePlayback>();
         }
 
@@ -48,7 +51,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 var playbackEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(playbackEmpty);
-                _ctrl.Next();
 
                 Assert.IsTrue(endResult);
             }
@@ -76,6 +78,13 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 Assert.IsTrue(choiceResult);
             }
+
+            [Test]
+            public void It_should_reset_the_local_database () {
+                _ctrl.Play(_playback);
+
+                _database.Received(1).Clear();
+            }
         }
 
         public class PlayChildMethod {
@@ -94,7 +103,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 public void BeforeEachMethod () {
                     _parentPlayback = Substitute.For<IDialoguePlayback>();
                     _ctrl.Play(_parentPlayback);
-                    _ctrl.Next();
                 }
 
                 [Test]
@@ -153,7 +161,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 var dialogueEmpty = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
 
                 _ctrl.Play(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(null, _ctrl.ActiveDialogue);
             }
@@ -174,7 +181,6 @@ namespace CleverCrow.Fluid.Dialogues {
 
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(_playback, _ctrl.ActiveDialogue);
             }
@@ -187,7 +193,6 @@ namespace CleverCrow.Fluid.Dialogues {
                 _ctrl.Play(_playback);
                 _ctrl.PlayChild(dialogueChild);
                 _ctrl.PlayChild(dialogueEmpty);
-                _ctrl.Next();
 
                 Assert.AreEqual(dialogueChild, _ctrl.ActiveDialogue);
             }

@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
     public abstract class ActionDataBase : ScriptableObject, IGetRuntime<IAction> {
-        protected virtual void OnInit () {}
+        [SerializeField]
+        private string _uniqueId;
+
+        protected virtual void OnInit (IDialogueController dialogue) {}
 
         protected virtual void OnStart () {}
 
@@ -14,8 +18,14 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         protected virtual void OnReset () {}
 
-        public IAction GetRuntime () {
-            return new ActionRuntime {
+        public string UniqueId => _uniqueId;
+
+        public void Setup () {
+            _uniqueId = Guid.NewGuid().ToString();
+        }
+
+        public IAction GetRuntime (IDialogueController dialogue) {
+            return new ActionRuntime(dialogue, _uniqueId) {
                 OnInit = OnInit,
                 OnStart = OnStart,
                 OnUpdate = OnUpdate,

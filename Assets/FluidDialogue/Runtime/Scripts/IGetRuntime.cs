@@ -1,5 +1,5 @@
 namespace CleverCrow.Fluid.Dialogues {
-    public interface IGetRuntime<T> {
-        T GetRuntime ();
+    public interface IGetRuntime<T> : ISetup {
+        T GetRuntime (IDialogueController dialogue);
     }
 }
