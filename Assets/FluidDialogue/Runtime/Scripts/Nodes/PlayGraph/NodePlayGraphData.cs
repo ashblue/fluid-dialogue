@@ -7,11 +7,11 @@ using CleverCrow.Fluid.Dialogues.Nodes.PlayGraph;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodePlayGraphData : NodeDataBase {
-        public GraphData graph;
+        public DialogueGraph dialogueGraph;
 
         public override INode GetRuntime () {
             return new NodePlayGraph(
-                graph,
+                dialogueGraph,
                 children.Select(c => c.GetRuntime()).ToList(),
                 conditions.Select(c => c.GetRuntime()).ToList(),
                 enterActions.Select(c => c.GetRuntime()).ToList(),

@@ -6,10 +6,10 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
         INodeData Root { get; }
     }
 
-    public class GraphData : ScriptableObject, IGraphData {
-        [SerializeField]
-        private NodeRootData _root = null;
+    public class DialogueGraph : ScriptableObject, IGraphData {
+        [HideInInspector]
+        public NodeRootData root;
 
-        public INodeData Root => _root;
+        public INodeData Root => root;
     }
 }
