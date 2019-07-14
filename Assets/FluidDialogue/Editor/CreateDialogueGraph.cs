@@ -4,7 +4,7 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
 
-namespace CleverCrow.Fluid.Dialogues {
+namespace CleverCrow.Fluid.Dialogues.Editors {
     public static class CreateDialogueGraph {
         [MenuItem("Assets/Create/Dialogue Graph", priority = 0)]
         public static void CreateAsset () {
