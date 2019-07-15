@@ -11,10 +11,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
     public class DialogueWindow : EditorWindow {
         private DialogueGraph _graph;
         private Dictionary<Type, Type> _nodeDisplays;
-        private List<NodeDisplayBase> _nodes = new List<NodeDisplayBase>();
+        private List<NodeDisplayBase> _nodes;
+
+        private bool IsGraphPopulated => _nodes != null;
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
+            window.titleContent = new GUIContent("Dialogue");
             window.SetGraph(graph);
         }
 
@@ -52,6 +55,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private void OnGUI () {
             if (_graph == null) return;
+            if (!IsGraphPopulated) {
+                SetGraph(_graph);
+            }
 
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
 

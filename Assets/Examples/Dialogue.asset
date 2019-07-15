@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - {fileID: 1745705085592430172}
-  root: {fileID: 1745705085592430172}
---- !u!114 &1745705085592430172
+  - {fileID: 9000719075422270121}
+  root: {fileID: 9000719075422270121}
+--- !u!114 &9000719075422270121
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -27,7 +27,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d8d0566afe4d5fa9596c80df966df6, type: 3}
   m_Name: Root
   m_EditorClassIdentifier: 
-  _uniqueId: e10b357b-17fc-4a52-ac5b-387a2ad8253c
+  _uniqueId: 0816ffdb-f2cb-41db-bc53-571f56bd5b30
   children: []
   conditions: []
   enterActions: []
