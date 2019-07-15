@@ -9,6 +9,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
+        [HideInInspector]
         [SerializeField]
         private string _uniqueId;
 
@@ -16,6 +17,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
+        public Vector2 position;
 
         public string UniqueId => _uniqueId;
 
