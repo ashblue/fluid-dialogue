@@ -17,14 +17,14 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
-        public Vector2 position;
+        public Rect rect;
 
         public string UniqueId => _uniqueId;
-
-        public abstract INode GetRuntime (IDialogueController dialogue);
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();
         }
+
+        public abstract INode GetRuntime (IDialogueController dialogue);
     }
 }

@@ -5,31 +5,32 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeRootData))]
     public class RootNode : NodeDisplayBase {
         private const float PADDING = 20;
-        private const float SIZE = 100;
 
         private NodeBoxStyle _contentStyle;
+        private NodeBoxStyle _contentHighlightStyle;
+
+        private NodeBoxStyle CurrentStyle => IsSelected ?
+            _contentHighlightStyle : _contentStyle;
 
         protected override void OnSetup () {
             _contentStyle = new NodeBoxStyle(Color.gray, Color.gray);
+            _contentHighlightStyle = new NodeBoxStyle(Color.white, Color.gray);
+
+            Data.rect.width = 100;
+            Data.rect.height = 40;
         }
 
         public override void Print () {
-            var boxArea = new Rect(
-                _data.position.x,
-                _data.position.y,
-                SIZE,
-                SIZE);
-
             var contentArea = new Rect(
-                boxArea.x + PADDING / 2f,
-                boxArea.y + PADDING / 2f,
-                boxArea.width - PADDING,
-                boxArea.height - PADDING);
+                Data.rect.x + PADDING / 2f,
+                Data.rect.y + PADDING / 2f,
+                Data.rect.width - PADDING,
+                Data.rect.height - PADDING);
 
-            GUI.Box(boxArea, GUIContent.none, _contentStyle.Style);
+            GUI.Box(Data.rect, GUIContent.none, CurrentStyle.Style);
 
             GUILayout.BeginArea(contentArea);
-            GUILayout.Label(_data.name);
+            GUILayout.Label(Data.name);
             GUILayout.EndArea();
         }
     }

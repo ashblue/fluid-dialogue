@@ -12,8 +12,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private DialogueGraph _graph;
         private Dictionary<Type, Type> _nodeDisplays;
         private List<NodeDisplayBase> _nodes;
+        private MouseEventHandler _mouseEvents;
 
         private bool IsGraphPopulated => _nodes != null;
+        public IEnumerable<NodeDisplayBase> Nodes => _nodes;
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -37,6 +39,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 .ToList();
 
             _graph = graph;
+            _mouseEvents = new MouseEventHandler(this);
         }
 
         private static Dictionary<Type, Type> GetNodeDisplays () {
@@ -61,9 +64,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
 
+            _mouseEvents.BeginPoll();
             foreach (var node in _nodes) {
+                _mouseEvents.DetectClick(node);
                 node.Print();
             }
+            _mouseEvents.EndPoll();
         }
     }
 }

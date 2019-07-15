@@ -2,10 +2,11 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public abstract class NodeDisplayBase {
-        protected NodeDataBase _data;
+        public NodeDataBase Data { get; private set; }
+        public bool IsSelected { get; private set; }
 
         public void Setup (NodeDataBase data) {
-            _data = data;
+            Data = data;
             OnSetup();
         }
 
@@ -13,6 +14,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public virtual void Print () {
+        }
+
+        public void Select () {
+            IsSelected = true;
+        }
+
+        public void Deselect () {
+            IsSelected = false;
         }
     }
 }
