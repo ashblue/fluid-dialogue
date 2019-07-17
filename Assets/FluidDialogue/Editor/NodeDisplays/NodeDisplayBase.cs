@@ -1,9 +1,10 @@
 using CleverCrow.Fluid.Dialogues.Nodes;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public abstract class NodeDisplayBase {
-        public NodeDataBase Data { get; private set; }
-        public bool IsSelected { get; private set; }
+        protected NodeDataBase Data { get; private set; }
+        protected bool IsSelected { get; private set; }
 
         public void Setup (NodeDataBase data) {
             Data = data;
@@ -16,12 +17,24 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public virtual void Print () {
         }
 
-        public void Select () {
+        private void Select () {
             IsSelected = true;
         }
 
-        public void Deselect () {
+        private void Deselect () {
             IsSelected = false;
+        }
+
+        public void ProcessEvent (Event e) {
+            if (e.type != EventType.MouseDown) return;
+
+            if (Data.rect.Contains(e.mousePosition)) {
+                Select();
+                GUI.changed = true;
+            } else if (IsSelected) {
+                Deselect();
+                GUI.changed = true;
+            }
         }
     }
 }

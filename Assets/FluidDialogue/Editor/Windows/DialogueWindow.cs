@@ -71,12 +71,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 ScrollPos,
                 new Rect(0, 0, 10000, 10000));
 
-            _mouseEvents.BeginPoll();
+            _mouseEvents.Poll();
             foreach (var node in _nodes) {
-                _mouseEvents.DetectClick(node);
+                node.ProcessEvent(Event.current);
                 node.Print();
             }
-            _mouseEvents.EndPoll();
 
             GUI.EndScrollView();
         }
