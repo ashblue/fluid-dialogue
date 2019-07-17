@@ -6,8 +6,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private readonly DialogueWindow _window;
 
         private Event _guiEvent;
-        private bool _isClickEvent;
+        private bool _isPrimaryClick;
         private bool _repaint;
+        private bool _isDragging;
 
         public MouseEventHandler (DialogueWindow window) {
             _window = window;
@@ -15,12 +16,18 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         public void BeginPoll () {
             _guiEvent = Event.current;
-            _isClickEvent = _guiEvent.type == EventType.MouseDown;
             _repaint = false;
+
+            _isPrimaryClick = _guiEvent.type == EventType.MouseDown;
+
+            if (_guiEvent.type == EventType.MouseDrag && _guiEvent.button == 1) {
+                _window.ScrollPos -= _guiEvent.delta;
+                _guiEvent.Use();
+            }
         }
 
         public void DetectClick (NodeDisplayBase node) {
-            if (!_isClickEvent) return;
+            if (!_isPrimaryClick) return;
 
             if (node.Data.rect.Contains(_guiEvent.mousePosition)) {
                 node.Select();

@@ -14,6 +14,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private List<NodeDisplayBase> _nodes;
         private MouseEventHandler _mouseEvents;
 
+        public Vector2 ScrollPos { get; set; }
+
         private bool IsGraphPopulated => _nodes != null;
         public IEnumerable<NodeDisplayBase> Nodes => _nodes;
 
@@ -64,12 +66,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
 
+            ScrollPos = GUI.BeginScrollView(
+                new Rect(0, 0, position.width, position.height),
+                ScrollPos,
+                new Rect(0, 0, 10000, 10000));
+
             _mouseEvents.BeginPoll();
             foreach (var node in _nodes) {
                 _mouseEvents.DetectClick(node);
                 node.Print();
             }
             _mouseEvents.EndPoll();
+
+            GUI.EndScrollView();
         }
     }
 }
