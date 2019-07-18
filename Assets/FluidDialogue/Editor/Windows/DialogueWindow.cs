@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
@@ -9,17 +8,15 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
-    public class DialogueWindow : EditorWindow {
+    public partial class DialogueWindow : EditorWindow {
+        private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
         private DialogueGraph _graph;
-        private Dictionary<Type, Type> _nodeDisplays;
         private List<NodeDisplayBase> _nodes;
         private MouseEventHandler _mouseEvents;
 
         public Vector2 ScrollPos { get; set; }
-
         private bool IsGraphPopulated => _nodes != null;
-        public IEnumerable<NodeDisplayBase> Nodes => _nodes;
-        public Dictionary<string, Type> MenuTypes { get; private set; }
+        private bool NodesOutOfSync => _nodes.Count != _graph.Nodes.Count;
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -28,63 +25,35 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void SetGraph (DialogueGraph graph) {
-            if (_nodeDisplays == null) {
-                _nodeDisplays = GetNodeDisplays();
-            }
-
-            if (MenuTypes == null) {
-                MenuTypes = GetMenuTypes();
-            }
-
-            _nodes = graph.Nodes
-                .Select(CreateNodeInstance)
-                .ToList();
+            BuildNodes(graph);
 
             _graph = graph;
             _mouseEvents = new MouseEventHandler(this);
         }
 
+        private void BuildNodes (DialogueGraph graph) {
+            _nodes = graph.Nodes
+                .Select(CreateNodeInstance)
+                .ToList();
+        }
+
         private NodeDisplayBase CreateNodeInstance (NodeDataBase data) {
-            var displayType = _nodeDisplays[data.GetType()];
+            var displayType = NodeAssemblies.DataToDisplay[data.GetType()];
             var instance = Activator.CreateInstance(displayType) as NodeDisplayBase;
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
             instance.Setup(data);
             return instance;
         }
 
-        private static Dictionary<Type, Type> GetNodeDisplays () {
-            var displayTypes = Assembly
-                .GetAssembly(typeof(NodeDisplayBase))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(NodeDisplayBase)));
-
-            return displayTypes.ToDictionary(
-                (k) => {
-                    var attribute = k.GetCustomAttribute<NodeTypeAttribute>();
-                    return attribute.Type;
-                },
-                (v) => v);
-        }
-
-        private Dictionary<string, Type> GetMenuTypes () {
-            var menuTypes = Assembly
-                .GetAssembly(typeof(NodeDataBase))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(NodeDataBase))
-                            && t.GetCustomAttribute<CreateNodeMenuAttribute>() != null);
-
-            return menuTypes.ToDictionary(
-                (k) => {
-                    var attribute = k.GetCustomAttribute<CreateNodeMenuAttribute>();
-                    return attribute.Path;
-                },
-                (v) => v);
-        }
-
         private void OnGUI () {
             if (_graph == null) return;
+
             if (!IsGraphPopulated) {
                 SetGraph(_graph);
+            }
+
+            if (NodesOutOfSync) {
+                BuildNodes(_graph);
             }
 
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
@@ -96,14 +65,31 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             _mouseEvents.Poll();
             foreach (var node in _nodes) {
+                if (node.IsMemoryLeak) {
+                    _graveyard.Add(node);
+                    continue;
+                }
+
                 node.ProcessEvent(Event.current);
                 node.Print();
             }
-
             GUI.EndScrollView();
+
+            UpdateGraveyard();
+        }
+
+        private void UpdateGraveyard () {
+            foreach (var item in _graveyard) {
+                _nodes.Remove(item);
+            }
+
+            _graveyard.Clear();
         }
 
         public void AddData (NodeDataBase data, Vector2 position) {
+            Undo.SetCurrentGroupName("Create node");
+            Undo.RecordObject(_graph, "New node");
+
             data.rect.position = position;
             _graph.AddNode(data);
             AssetDatabase.AddObjectToAsset(data, _graph);
@@ -111,6 +97,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             var instance = CreateNodeInstance(data);
             _nodes.Add(instance);
+
+            Undo.RegisterCreatedObjectUndo(data, "Create node");
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
     }
 }

@@ -28,7 +28,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                     var menu = new GenericMenu();
                     var mousePosition = e.mousePosition;
-                    foreach (var menuLine in _window.MenuTypes) {
+                    foreach (var menuLine in NodeAssemblies.StringToData) {
                         menu.AddItem(new GUIContent(menuLine.Key), false, () => {
                             var data = ScriptableObject.CreateInstance(menuLine.Value);
                             _window.AddData(data as NodeDataBase, mousePosition);
