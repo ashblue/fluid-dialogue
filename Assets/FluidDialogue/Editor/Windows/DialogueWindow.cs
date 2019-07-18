@@ -12,9 +12,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
         private DialogueGraph _graph;
         private List<NodeDisplayBase> _nodes;
-        private MouseEventHandler _mouseEvents;
+        private ViewController _mouseEvents;
 
-        public Vector2 ScrollPos { get; set; }
         private bool IsGraphPopulated => _nodes != null;
         private bool NodesOutOfSync => _nodes.Count != _graph.Nodes.Count;
 
@@ -28,7 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             BuildNodes(graph);
 
             _graph = graph;
-            _mouseEvents = new MouseEventHandler(this);
+            _mouseEvents = new ViewController(this);
         }
 
         private void BuildNodes (DialogueGraph graph) {
@@ -58,10 +57,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
 
-            ScrollPos = GUI.BeginScrollView(
-                new Rect(0, 0, position.width, position.height),
-                ScrollPos,
-                new Rect(0, 0, 10000, 10000));
+            var e = Event.current;
+            _mouseEvents.UpdateScrollView(position);
 
             var nodeSelected = false;
             foreach (var node in _nodes) {
@@ -70,13 +67,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     continue;
                 }
 
-                node.ProcessEvent(Event.current);
+                node.ProcessEvent(e);
                 if (!nodeSelected) nodeSelected = node.IsSelected;
                 node.Print();
             }
 
             if (!nodeSelected) {
-                _mouseEvents.Poll();
+                _mouseEvents.ProcessCanvasEvent(e);
             }
 
             GUI.EndScrollView();

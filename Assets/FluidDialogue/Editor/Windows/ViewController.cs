@@ -3,20 +3,23 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
-    public class MouseEventHandler {
+    public class ViewController {
+        public const float WINDOW_SIZE = 30000;
+
         private readonly DialogueWindow _window;
         private bool _isDragging;
 
-        public MouseEventHandler (DialogueWindow window) {
+        private Vector2 ScrollPos { get; set; }
+
+        public ViewController (DialogueWindow window) {
             _window = window;
+            ResetViewToOrigin();
         }
 
-        public void Poll () {
-            var e = Event.current;
-
+        public void ProcessCanvasEvent (Event e) {
             switch (e.type) {
                 case EventType.MouseDrag when e.button == 1:
-                    _window.ScrollPos -= e.delta;
+                    ScrollPos -= e.delta;
                     _isDragging = true;
                     e.Use();
                     break;
@@ -34,6 +37,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             }
         }
 
+        public void UpdateScrollView (Rect position) {
+            ScrollPos = GUI.BeginScrollView(
+                new Rect(0, 0, position.width, position.height),
+                ScrollPos,
+                new Rect(0, 0, WINDOW_SIZE, WINDOW_SIZE));
+        }
+
         private void ShowContextMenu (Event e) {
             var menu = new GenericMenu();
             var mousePosition = e.mousePosition;
@@ -45,6 +55,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             }
 
             menu.ShowAsContext();
+        }
+
+
+        private void ResetViewToOrigin () {
+            ScrollPos = new Vector2(WINDOW_SIZE / 2, WINDOW_SIZE / 2);
         }
     }
 }
