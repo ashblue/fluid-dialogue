@@ -18,8 +18,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected override void OnPrintBody () {
             serializedObject.Update();
 
-            _data.actor = EditorGUILayout.ObjectField(_data.actor, typeof(ActorDefinition), false) as ActorDefinition;
-            _data.dialogue = GUILayout.TextArea(_data.dialogue, GUILayout.Height(40));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("actor"), GUIContent.none);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
 
             serializedObject.ApplyModifiedProperties();
         }
