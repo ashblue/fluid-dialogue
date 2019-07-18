@@ -1,4 +1,5 @@
 using CleverCrow.Fluid.Dialogues.Nodes;
+using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
@@ -18,6 +19,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private void Select () {
+            Selection.activeObject = Data;
             IsSelected = true;
         }
 
