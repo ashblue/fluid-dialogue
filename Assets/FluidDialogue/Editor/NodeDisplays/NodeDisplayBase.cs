@@ -26,14 +26,21 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void ProcessEvent (Event e) {
-            if (e.type != EventType.MouseDown) return;
-
-            if (Data.rect.Contains(e.mousePosition)) {
-                Select();
-                GUI.changed = true;
-            } else if (IsSelected) {
-                Deselect();
-                GUI.changed = true;
+            switch (e.type) {
+                case EventType.MouseDown when Data.rect.Contains(e.mousePosition):
+                    Select();
+                    GUI.changed = true;
+                    break;
+                case EventType.MouseDown:
+                    if (IsSelected) {
+                        Deselect();
+                        GUI.changed = true;
+                    }
+                    break;
+                case EventType.MouseDrag when IsSelected:
+                    Data.rect.position += e.delta;
+                    e.Use();
+                    break;
             }
         }
     }
