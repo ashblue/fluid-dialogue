@@ -14,6 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private NodeBoxStyle _containerHighlight;
         private HeaderTextStyle _headerTextStyle;
         private float _cachedContentHeight;
+        private bool _isDragging;
 
         protected virtual string NodeTitle => Data.name;
         protected SerializedObject serializedObject { get; private set; }
@@ -115,8 +116,16 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     }
                     break;
                 case EventType.MouseDrag when IsSelected:
+                    if (!_isDragging) {
+                        Undo.RegisterCompleteObjectUndo(Data, "Move node");
+                        _isDragging = true;
+                    }
+
                     Data.rect.position += e.delta;
                     e.Use();
+                    break;
+                case EventType.MouseUp when IsSelected:
+                    _isDragging = false;
                     break;
             }
         }

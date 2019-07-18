@@ -19,10 +19,37 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 314
-    y: 211
-    width: 0
-    height: 0
+    x: 167
+    y: 170
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: asdf asdf asd
+  choices: []
+  nodeTitle: my title
+--- !u!114 &-1452090381945691158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 7cdc7f32-82a3-4887-893a-29a24d10f81b
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 490
+    y: 94
+    width: 200
+    height: 118
   actor: {fileID: 0}
   dialogue: 
   choices: []
@@ -42,6 +69,7 @@ MonoBehaviour:
   _nodes:
   - {fileID: 568593699056017002}
   - {fileID: -6093918641994389332}
+  - {fileID: 7128268746227876376}
   root: {fileID: 568593699056017002}
 --- !u!114 &568593699056017002
 MonoBehaviour:
@@ -62,7 +90,34 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 116
-    y: 108
+    x: 104
+    y: 66
     width: 100
     height: 75
+--- !u!114 &7128268746227876376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 06da0b9e-9190-4110-869f-55e4c8dd93fd
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 552
+    y: 492
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: asdfasdfsad
+  choices: []
+  nodeTitle: 
