@@ -5,13 +5,23 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeDialogueData))]
     public class DialogueNode : NodeDisplayBase {
+        private NodeDialogueData _data;
+
         protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
-        protected override Vector2 NodeSize { get; } = new Vector2(200, 200);
+        protected override float NodeWidth { get; } = 200;
+        protected override string NodeTitle => string.IsNullOrEmpty(_data.nodeTitle) ? _data.name : _data.nodeTitle;
+
+        protected override void OnSetup () {
+            _data = Data as NodeDialogueData;
+        }
 
         protected override void OnPrintBody () {
-            var data = Data as NodeDialogueData;
-            data.actor = EditorGUILayout.ObjectField(data.actor, typeof(ActorDefinition), false) as ActorDefinition;
-            data.dialogue = GUILayout.TextArea(data.dialogue, GUILayout.Height(40));
+            serializedObject.Update();
+
+            _data.actor = EditorGUILayout.ObjectField(_data.actor, typeof(ActorDefinition), false) as ActorDefinition;
+            _data.dialogue = GUILayout.TextArea(_data.dialogue, GUILayout.Height(40));
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

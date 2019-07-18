@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6093918641994389332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 70174ae2-c83f-49a8-82b2-a1a58c8fa9e7
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 314
+    y: 211
+    width: 0
+    height: 0
+  actor: {fileID: 0}
+  dialogue: 
+  choices: []
+  nodeTitle: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,9 +40,10 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - {fileID: 9000719075422270121}
-  root: {fileID: 9000719075422270121}
---- !u!114 &9000719075422270121
+  - {fileID: 568593699056017002}
+  - {fileID: -6093918641994389332}
+  root: {fileID: 568593699056017002}
+--- !u!114 &568593699056017002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -27,9 +55,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d8d0566afe4d5fa9596c80df966df6, type: 3}
   m_Name: Root
   m_EditorClassIdentifier: 
-  _uniqueId: 0816ffdb-f2cb-41db-bc53-571f56bd5b30
+  _uniqueId: a85073fc-5d5a-48b3-910b-a11443d6405a
   children: []
   conditions: []
   enterActions: []
   exitActions: []
-  position: {x: 0, y: 0}
+  rect:
+    serializedVersion: 2
+    x: 116
+    y: 108
+    width: 100
+    height: 75

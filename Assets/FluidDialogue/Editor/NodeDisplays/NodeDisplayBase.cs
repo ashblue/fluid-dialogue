@@ -1,3 +1,4 @@
+using System;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -12,12 +13,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private NodeBoxStyle _headerStyle;
         private NodeBoxStyle _containerHighlight;
         private HeaderTextStyle _headerTextStyle;
+        private float _cachedContentHeight;
 
+        protected virtual string NodeTitle => Data.name;
+        protected SerializedObject serializedObject { get; private set; }
         protected NodeDataBase Data { get; private set; }
         private bool IsSelected { get; set; }
 
         protected virtual Color NodeColor => Color.gray;
-        protected virtual Vector2 NodeSize { get; } = new Vector2(100, 100);
+        protected virtual float NodeWidth { get; } = 100;
 
         public void Setup (NodeDataBase data) {
             Data = data;
@@ -31,8 +35,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             headerColor.a = 1f;
             _headerStyle = new NodeBoxStyle(headerColor, headerColor);
 
-            Data.rect.width = NodeSize.x;
-            Data.rect.height = NodeSize.y;
+            Data.rect.width = NodeWidth;
+            serializedObject = new SerializedObject(data);
 
             OnSetup();
         }
@@ -58,7 +62,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 headerBox.height - PADDING_HEADER);
 
             GUI.Box(headerBox, GUIContent.none, _headerStyle.Style);
-            GUI.Label(headerArea, Data.name, _headerTextStyle.Style);
+            GUI.Label(headerArea, NodeTitle, _headerTextStyle.Style);
         }
 
         private void PrintBody () {
@@ -72,7 +76,16 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             GUI.Box(box, GUIContent.none, _contentStyle.Style);
 
             GUILayout.BeginArea(content);
+
             OnPrintBody();
+            if (Event.current.type == EventType.Repaint ) {
+                var rect = GUILayoutUtility.GetLastRect();
+                if (Math.Abs(rect.height - _cachedContentHeight) > 0.1f) {
+                    Data.rect.height = rect.height + HEADER_HEIGHT + PADDING_CONTENT * 2;
+                    _cachedContentHeight = rect.height;
+                }
+            }
+
             GUILayout.EndArea();
         }
 

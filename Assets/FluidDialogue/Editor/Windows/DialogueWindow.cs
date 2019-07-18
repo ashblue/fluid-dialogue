@@ -106,6 +106,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         public void AddData (NodeDataBase data, Vector2 position) {
             data.rect.position = position;
             _graph.AddNode(data);
+            AssetDatabase.AddObjectToAsset(data, _graph);
+            AssetDatabase.SaveAssets();
 
             var instance = CreateNodeInstance(data);
             _nodes.Add(instance);

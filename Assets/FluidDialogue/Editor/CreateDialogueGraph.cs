@@ -13,8 +13,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             var root = ScriptableObject.CreateInstance<NodeRootData>();
             graph.AddNode(root);
             graph.root = root;
-            AssetDatabase.AddObjectToAsset(root, graph);
 
+            AssetDatabase.AddObjectToAsset(root, graph);
             AssetDatabase.SaveAssets();
         }
 
