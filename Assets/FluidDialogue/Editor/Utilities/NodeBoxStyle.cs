@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public class NodeBoxStyle {
-        private readonly GUIStyle _style;
+        private GUIStyle _style;
         private readonly Color32 _borderColor;
         private readonly Color _backgroundColor;
 
@@ -17,6 +17,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     _style.normal.background = _texture;
                 }
 
+                if (_style == null) {
+                    _style = new GUIStyle(GUI.skin.box) {
+                        border = new RectOffset(1, 1, 1, 1),
+                        normal = {
+                            background = _texture,
+                        },
+                    };
+                }
+
                 return _style;
             }
         }
@@ -26,13 +35,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _backgroundColor = background;
 
             CreateTexture();
-
-            _style = new GUIStyle(GUI.skin.box) {
-                border = new RectOffset(1, 1, 1, 1),
-                normal = {
-                    background = _texture,
-                },
-            };
         }
 
         private void CreateTexture () {

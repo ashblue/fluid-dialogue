@@ -20,6 +20,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public Rect rect;
 
         public string UniqueId => _uniqueId;
+        public virtual string DefaultName { get; } = "Untitled";
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

@@ -3,10 +3,12 @@ using System.Linq;
 using CleverCrow.Fluid.Dialogues.Choices;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
+    [CreateNodeMenu("Dialogue")]
     public class NodeDialogueData : NodeDataBase {
-        public IActor actor;
+        public ActorDefinition actor;
         public string dialogue;
         public List<ChoiceData> choices;
+        public override string DefaultName => "Dialogue";
 
         public override INode GetRuntime (IDialogueController controller) {
             return new NodeDialogue(

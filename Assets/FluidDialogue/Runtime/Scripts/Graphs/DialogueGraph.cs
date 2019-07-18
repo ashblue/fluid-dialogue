@@ -20,7 +20,9 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
 
         public void AddNode (NodeDataBase node) {
             node.Setup();
+            node.name = node.DefaultName;
             _nodes.Add(node);
         }
+
     }
 }

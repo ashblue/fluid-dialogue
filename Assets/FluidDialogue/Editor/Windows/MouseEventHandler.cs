@@ -1,8 +1,11 @@
+using CleverCrow.Fluid.Dialogues.Nodes;
+using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public class MouseEventHandler {
         private readonly DialogueWindow _window;
+        private bool _isDragging;
 
         public MouseEventHandler (DialogueWindow window) {
             _window = window;
@@ -11,9 +14,31 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         public void Poll () {
             var e = Event.current;
 
-            if (e.type == EventType.MouseDrag && e.button == 1) {
-                _window.ScrollPos -= e.delta;
-                e.Use();
+            switch (e.type) {
+                case EventType.MouseDrag when e.button == 1:
+                    _window.ScrollPos -= e.delta;
+                    _isDragging = true;
+                    e.Use();
+                    break;
+                case EventType.MouseUp when e.button == 1: {
+                    var wasDragging = _isDragging;
+                    _isDragging = false;
+
+                    if (wasDragging) return;
+
+                    var menu = new GenericMenu();
+                    var mousePosition = e.mousePosition;
+                    foreach (var menuLine in _window.MenuTypes) {
+                        menu.AddItem(new GUIContent(menuLine.Key), false, () => {
+                            var data = ScriptableObject.CreateInstance(menuLine.Value);
+                            _window.AddData(data as NodeDataBase, mousePosition);
+                        });
+                    }
+                    menu.ShowAsContext();
+
+                    _isDragging = false;
+                    break;
+                }
             }
         }
     }
