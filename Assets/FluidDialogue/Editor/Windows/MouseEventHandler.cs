@@ -26,20 +26,25 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                     if (wasDragging) return;
 
-                    var menu = new GenericMenu();
-                    var mousePosition = e.mousePosition;
-                    foreach (var menuLine in NodeAssemblies.StringToData) {
-                        menu.AddItem(new GUIContent(menuLine.Key), false, () => {
-                            var data = ScriptableObject.CreateInstance(menuLine.Value);
-                            _window.AddData(data as NodeDataBase, mousePosition);
-                        });
-                    }
-                    menu.ShowAsContext();
+                    ShowContextMenu(e);
 
                     _isDragging = false;
                     break;
                 }
             }
+        }
+
+        private void ShowContextMenu (Event e) {
+            var menu = new GenericMenu();
+            var mousePosition = e.mousePosition;
+            foreach (var menuLine in NodeAssemblies.StringToData) {
+                menu.AddItem(new GUIContent(menuLine.Key), false, () => {
+                    var data = ScriptableObject.CreateInstance(menuLine.Value);
+                    _window.CreateData(data as NodeDataBase, mousePosition);
+                });
+            }
+
+            menu.ShowAsContext();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             var displayType = NodeAssemblies.DataToDisplay[data.GetType()];
             var instance = Activator.CreateInstance(displayType) as NodeDisplayBase;
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
-            instance.Setup(data);
+            instance.Setup(this, data);
             return instance;
         }
 
@@ -63,7 +63,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 ScrollPos,
                 new Rect(0, 0, 10000, 10000));
 
-            _mouseEvents.Poll();
+            var nodeSelected = false;
             foreach (var node in _nodes) {
                 if (node.IsMemoryLeak) {
                     _graveyard.Add(node);
@@ -71,10 +71,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 }
 
                 node.ProcessEvent(Event.current);
+                if (!nodeSelected) nodeSelected = node.IsSelected;
                 node.Print();
             }
-            GUI.EndScrollView();
 
+            if (!nodeSelected) {
+                _mouseEvents.Poll();
+            }
+
+            GUI.EndScrollView();
             UpdateGraveyard();
         }
 
@@ -86,7 +91,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _graveyard.Clear();
         }
 
-        public void AddData (NodeDataBase data, Vector2 position) {
+        public void CreateData (NodeDataBase data, Vector2 position) {
             Undo.SetCurrentGroupName("Create node");
             Undo.RecordObject(_graph, "New node");
 
@@ -99,6 +104,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _nodes.Add(instance);
 
             Undo.RegisterCreatedObjectUndo(data, "Create node");
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        public void DeleteNode (NodeDisplayBase node) {
+            Undo.SetCurrentGroupName("Delete node");
+            Undo.RecordObject(_graph, "Delete node");
+
+            _graph.DeleteNode(node.Data);
+            _graveyard.Add(node);
+
+            Undo.DestroyObjectImmediate(node.Data);
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
     }

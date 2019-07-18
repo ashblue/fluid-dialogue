@@ -14,19 +14,22 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private NodeBoxStyle _containerHighlight;
         private HeaderTextStyle _headerTextStyle;
         private float _cachedContentHeight;
+        private bool _dragInit;
         private bool _isDragging;
 
+        protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
         protected SerializedObject serializedObject { get; private set; }
-        protected NodeDataBase Data { get; private set; }
-        private bool IsSelected { get; set; }
+        public NodeDataBase Data { get; private set; }
+        public bool IsSelected { get; private set; }
 
         protected virtual Color NodeColor => Color.gray;
         protected virtual float NodeWidth { get; } = 100;
 
         public bool IsMemoryLeak => Data == null;
 
-        public void Setup (NodeDataBase data) {
+        public void Setup (DialogueWindow window, NodeDataBase data) {
+            Window = window;
             Data = data;
 
             var bodyColor = NodeColor;
@@ -109,7 +112,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             switch (e.type) {
                 case EventType.MouseDown when Data.rect.Contains(e.mousePosition):
                     Select();
+                    _dragInit = false;
+                    _isDragging = true;
                     GUI.changed = true;
+                    break;
+                case EventType.ContextClick when Data.rect.Contains(e.mousePosition):
+                    Select();
+                    ShowContextMenu();
                     break;
                 case EventType.MouseDown:
                     if (IsSelected) {
@@ -117,10 +126,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                         GUI.changed = true;
                     }
                     break;
-                case EventType.MouseDrag when IsSelected:
-                    if (!_isDragging) {
+                case EventType.MouseDrag when _isDragging:
+                    if (!_dragInit) {
                         Undo.RegisterCompleteObjectUndo(Data, "Move node");
-                        _isDragging = true;
+                        _dragInit = true;
                     }
 
                     Data.rect.position += e.delta;
@@ -130,6 +139,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     _isDragging = false;
                     break;
             }
+        }
+
+        protected virtual void ShowContextMenu () {
         }
     }
 }

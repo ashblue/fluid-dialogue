@@ -24,5 +24,8 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
             _nodes.Add(node);
         }
 
+        public void DeleteNode (NodeDataBase node) {
+            _nodes.Remove(node);
+        }
     }
 }

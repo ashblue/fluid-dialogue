@@ -23,5 +23,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             serializedObject.ApplyModifiedProperties();
         }
+
+        protected override void ShowContextMenu () {
+            var menu = new GenericMenu();
+            menu.AddItem(
+                new GUIContent("Delete"), false, () => {
+                    Window.DeleteNode(this);
+                });
+            menu.ShowAsContext();
+        }
     }
 }
