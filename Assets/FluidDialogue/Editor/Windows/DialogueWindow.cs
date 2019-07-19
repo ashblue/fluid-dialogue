@@ -11,11 +11,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow : EditorWindow {
         private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
         private DialogueGraph _graph;
-        private List<NodeDisplayBase> _nodes;
         private ViewController _mouseEvents;
 
-        private bool IsGraphPopulated => _nodes != null;
-        private bool NodesOutOfSync => _nodes.Count != _graph.Nodes.Count;
+        private bool IsGraphPopulated => Nodes != null;
+        private bool NodesOutOfSync => Nodes.Count != _graph.Nodes.Count;
+        public List<NodeDisplayBase> Nodes { get; private set; }
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -31,7 +31,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void BuildNodes (DialogueGraph graph) {
-            _nodes = graph.Nodes
+            Nodes = graph.Nodes
                 .Select(CreateNodeInstance)
                 .ToList();
         }
@@ -61,20 +61,16 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _mouseEvents.UpdateScrollView(position);
 
             var nodeSelected = false;
-            foreach (var node in _nodes) {
+            foreach (var node in Nodes) {
                 if (node.IsMemoryLeak) {
                     _graveyard.Add(node);
                     continue;
                 }
 
-                node.ProcessEvent(e);
-                if (!nodeSelected) nodeSelected = node.IsSelected;
                 node.Print();
             }
 
-            if (!nodeSelected) {
-                _mouseEvents.ProcessCanvasEvent(e);
-            }
+            _mouseEvents.ProcessCanvasEvent(e);
 
             GUI.EndScrollView();
             UpdateGraveyard();
@@ -82,7 +78,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private void UpdateGraveyard () {
             foreach (var item in _graveyard) {
-                _nodes.Remove(item);
+                Nodes.Remove(item);
             }
 
             _graveyard.Clear();
@@ -98,7 +94,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             AssetDatabase.SaveAssets();
 
             var instance = CreateNodeInstance(data);
-            _nodes.Add(instance);
+            Nodes.Add(instance);
 
             Undo.RegisterCreatedObjectUndo(data, "Create node");
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());

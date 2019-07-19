@@ -19,7 +19,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                 if (_style == null) {
                     _style = new GUIStyle(GUI.skin.box) {
-                        border = new RectOffset(1, 1, 1, 1),
+                        border = new RectOffset(3, 3, 2, 2),
                         normal = {
                             background = _texture,
                         },

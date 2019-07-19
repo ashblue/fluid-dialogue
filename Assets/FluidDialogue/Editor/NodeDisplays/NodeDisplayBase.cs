@@ -99,12 +99,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             GUILayout.Label(Data.name);
         }
 
-        private void Select () {
+        public void Select () {
             Selection.activeObject = Data;
             IsSelected = true;
         }
 
-        private void Deselect () {
+        public void Deselect () {
             IsSelected = false;
         }
 
@@ -141,7 +141,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        protected virtual void ShowContextMenu () {
+        public virtual void ShowContextMenu () {
         }
     }
 }
