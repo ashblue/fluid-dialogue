@@ -86,13 +86,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         public void CreateData (NodeDataBase data, Vector2 position) {
             Undo.SetCurrentGroupName("Create node");
+            Undo.RecordObject(_graph, "New node");
+
             NewNode(data, position);
+
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
         private void NewNode (NodeDataBase data, Vector2 position) {
-            Undo.RecordObject(_graph, "New node");
-
             data.rect.position = position;
             _graph.AddNode(data);
             AssetDatabase.AddObjectToAsset(data, _graph);
@@ -129,10 +130,25 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
-        public void DuplicateData (NodeDataBase data) {
-            Undo.SetCurrentGroupName("Create node");
-            var copy = Instantiate(data);
+        public void DuplicateNode (NodeDisplayBase node) {
+            Undo.SetCurrentGroupName("Duplicate node");
+            Undo.RecordObject(_graph, "New node");
+
+            var copy = Instantiate(node.Data);
             NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
+
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        public void DuplicateNode (List<NodeDisplayBase> nodes) {
+            Undo.SetCurrentGroupName("Duplicate all nodes");
+            Undo.RecordObject(_graph, "New node");
+
+            foreach (var node in nodes) {
+                var copy = Instantiate(node.Data);
+                NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
+            }
+
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
     }

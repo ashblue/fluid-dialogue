@@ -86,6 +86,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             if (_selection.Selected.Any(i => i.Protected)) return;
 
             var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Duplicate All"), false, () => {
+                _window.DuplicateNode(_selection.Selected);
+            });
             menu.AddItem(new GUIContent("Delete All"), false, () => {
                 _window.DeleteNode(_selection.Selected);
             });
