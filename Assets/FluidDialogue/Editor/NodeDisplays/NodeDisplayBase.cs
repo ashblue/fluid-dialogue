@@ -27,7 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected virtual float NodeWidth { get; } = 100;
 
         public bool IsMemoryLeak => Data == null;
-        public virtual bool Protected { get; }
+        public virtual bool Protected => false;
 
         public void Setup (DialogueWindow window, NodeDataBase data) {
             Window = window;
@@ -107,39 +107,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         public void Deselect () {
             IsSelected = false;
-        }
-
-        public void ProcessEvent (Event e) {
-            switch (e.type) {
-                case EventType.MouseDown when Data.rect.Contains(e.mousePosition):
-                    Select();
-                    _dragInit = false;
-                    _isDragging = true;
-                    GUI.changed = true;
-                    break;
-                case EventType.ContextClick when Data.rect.Contains(e.mousePosition):
-                    Select();
-                    ShowContextMenu();
-                    break;
-                case EventType.MouseDown:
-                    if (IsSelected) {
-                        Deselect();
-                        GUI.changed = true;
-                    }
-                    break;
-                case EventType.MouseDrag when _isDragging:
-                    if (!_dragInit) {
-                        Undo.RegisterCompleteObjectUndo(Data, "Move node");
-                        _dragInit = true;
-                    }
-
-                    Data.rect.position += e.delta;
-                    e.Use();
-                    break;
-                case EventType.MouseUp when IsSelected:
-                    _isDragging = false;
-                    break;
-            }
         }
 
         public virtual void ShowContextMenu () {

@@ -12,7 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             var root = ScriptableObject.CreateInstance<NodeRootData>();
             root.rect.position =
-                new Vector2(50 + ViewController.WINDOW_SIZE /2, 200 + ViewController.WINDOW_SIZE / 2);
+                new Vector2(50 + ScrollManager.WINDOW_SIZE /2, 200 + ScrollManager.WINDOW_SIZE / 2);
             graph.AddNode(root);
             graph.root = root;
 
