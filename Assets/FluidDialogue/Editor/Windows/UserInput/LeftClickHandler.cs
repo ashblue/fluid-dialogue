@@ -58,8 +58,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void SetSelection () {
+            var cleanedSelectArea = _selection.area.FixNegativeSize();
+
             _selection.RemoveAll();
-            var selected = _window.Nodes.Where(n => _selection.area.Overlaps(n.Data.rect));
+            var selected = _window.Nodes.Where(n => cleanedSelectArea.Overlaps(n.Data.rect));
             _selection.Add(selected);
 
             _selection.area.size = Vector2.zero;
