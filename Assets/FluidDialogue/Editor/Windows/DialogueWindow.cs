@@ -110,5 +110,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.DestroyObjectImmediate(node.Data);
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
+
+        public void DeleteNode (IEnumerable<NodeDisplayBase> nodes) {
+            Undo.SetCurrentGroupName("Delete nodes");
+            Undo.RecordObject(_graph, "Delete node");
+
+            foreach (var node in nodes) {
+                _graph.DeleteNode(node.Data);
+                _graveyard.Add(node);
+
+                Undo.DestroyObjectImmediate(node.Data);
+            }
+
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
     }
 }

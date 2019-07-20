@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
@@ -64,10 +65,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     GUI.changed = true;
                     break;
                 case EventType.MouseUp when _selection.Selected.Count == 1:
-                    Debug.Log("Show single selection context menu");
+                    _clickedNode.ShowContextMenu();
                     break;
                 case EventType.MouseUp:
-                    Debug.Log("Show group selection context menu");
+                    ShowEditGroupMenu(e);
                     break;
             }
         }
@@ -88,7 +89,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                     _selection.RemoveAll();
                     GUI.changed = true;
-                    _delayedContextMenu = () => { ShowContextMenu(e); };
+                    _delayedContextMenu = () => { ShowCreateMenu(e); };
 
                     break;
                 }
@@ -123,7 +124,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                 case EventType.MouseDrag:
                     _isDraggingNode = true;
-                    _selection.Selected.ForEach(n => n.Data.rect.position += e.delta);
+                    Undo.SetCurrentGroupName("Delete nodes");
+                    _selection.Selected.ForEach(n => {
+                        Undo.RegisterCompleteObjectUndo(n.Data, "Move node");
+                        n.Data.rect.position += e.delta;
+                    });
+                    Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
                     e.Use();
                     break;
 
@@ -173,7 +179,18 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 new Rect(0, 0, WINDOW_SIZE, WINDOW_SIZE));
         }
 
-        private void ShowContextMenu (Event e) {
+        private void ShowEditGroupMenu (Event e) {
+            if (_selection.Selected.Any(i => i.Protected)) return;
+
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Delete All"), false, () => {
+                _window.DeleteNode(_selection.Selected);
+            });
+
+            menu.ShowAsContext();
+        }
+
+        private void ShowCreateMenu (Event e) {
             var menu = new GenericMenu();
             var mousePosition = e.mousePosition;
             foreach (var menuLine in NodeAssemblies.StringToData) {
@@ -185,7 +202,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             menu.ShowAsContext();
         }
-
 
         private void ResetViewToOrigin () {
             ScrollPos = new Vector2(WINDOW_SIZE / 2, WINDOW_SIZE / 2);

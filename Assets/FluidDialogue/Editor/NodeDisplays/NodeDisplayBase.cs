@@ -27,6 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected virtual float NodeWidth { get; } = 100;
 
         public bool IsMemoryLeak => Data == null;
+        public virtual bool Protected { get; }
 
         public void Setup (DialogueWindow window, NodeDataBase data) {
             Window = window;
