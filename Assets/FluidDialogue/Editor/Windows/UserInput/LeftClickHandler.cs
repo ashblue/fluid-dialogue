@@ -48,16 +48,23 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     break;
 
                 case EventType.MouseUp when _selectingArea:
-                    _selection.RemoveAll();
-                    var selected = _window.Nodes.Where(n => _selection.area.Overlaps(n.Data.rect));
-                    _selection.Add(selected);
+                    SetSelection();
+                    break;
 
-                    _selection.area.size = Vector2.zero;
-                    _selectingArea = false;
-                    GUI.changed = true;
-
+                case EventType.Ignore:
+                    SetSelection();
                     break;
             }
+        }
+
+        private void SetSelection () {
+            _selection.RemoveAll();
+            var selected = _window.Nodes.Where(n => _selection.area.Overlaps(n.Data.rect));
+            _selection.Add(selected);
+
+            _selection.area.size = Vector2.zero;
+            _selectingArea = false;
+            GUI.changed = true;
         }
 
         private void UpdateClickedNode (Event e) {
