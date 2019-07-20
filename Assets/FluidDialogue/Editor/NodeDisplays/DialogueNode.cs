@@ -27,6 +27,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public override void ShowContextMenu () {
             var menu = new GenericMenu();
             menu.AddItem(
+                new GUIContent("Duplicate"), false, () => {
+                    Window.DuplicateData(_data);
+                });
+            menu.AddItem(
                 new GUIContent("Delete"), false, () => {
                     Window.DeleteNode(this);
                 });

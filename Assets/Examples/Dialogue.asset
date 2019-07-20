@@ -19,8 +19,8 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15071
-    y: 15226
+    x: 15247
+    y: 15156
     width: 100
     height: 75
 --- !u!114 &-2087842703013304008
@@ -42,10 +42,10 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15293
-    y: 15233
-    width: 0
-    height: 0
+    x: 15164
+    y: 15299
+    width: 200
+    height: 118
   actor: {fileID: 0}
   dialogue: 
   choices: []
@@ -65,4 +65,88 @@ MonoBehaviour:
   _nodes:
   - {fileID: -6987829867589511747}
   - {fileID: -2087842703013304008}
+  - {fileID: 8517530914188382545}
+  - {fileID: 8728505454039758606}
+  - {fileID: 9085212891031812788}
   root: {fileID: -6987829867589511747}
+--- !u!114 &8517530914188382545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 2199ca77-6030-4986-95d6-c620fce0e23c
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 15415
+    y: 15041
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: I'm the original
+  choices: []
+  nodeTitle: 
+--- !u!114 &8728505454039758606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: bbf0b262-00f4-48f6-876e-763a50c224a8
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 15386
+    y: 15302
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: sdfasdfasdfasdf asdasd fasd fasd f
+  choices: []
+  nodeTitle: 
+--- !u!114 &9085212891031812788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 0e12a50a-9b45-4abf-89b5-4697bab18ec3
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 15508
+    y: 15160
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: 
+  choices: []
+  nodeTitle: 

@@ -86,6 +86,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         public void CreateData (NodeDataBase data, Vector2 position) {
             Undo.SetCurrentGroupName("Create node");
+            NewNode(data, position);
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        private void NewNode (NodeDataBase data, Vector2 position) {
             Undo.RecordObject(_graph, "New node");
 
             data.rect.position = position;
@@ -97,7 +102,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Nodes.Add(instance);
 
             Undo.RegisterCreatedObjectUndo(data, "Create node");
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
         public void DeleteNode (NodeDisplayBase node) {
@@ -122,6 +126,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 Undo.DestroyObjectImmediate(node.Data);
             }
 
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        public void DuplicateData (NodeDataBase data) {
+            Undo.SetCurrentGroupName("Create node");
+            var copy = Instantiate(data);
+            NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
     }
