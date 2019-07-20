@@ -101,7 +101,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void Select () {
-            Selection.activeObject = Data;
             IsSelected = true;
         }
 

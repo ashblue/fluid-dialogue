@@ -1,3 +1,4 @@
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
 using UnityEditor;
 using UnityEngine;
@@ -48,15 +49,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                 case EventType.MouseUp when _selectingArea:
                     _selection.RemoveAll();
-                    _window.Nodes.ForEach(n => {
-                        if (_selection.area.Overlaps(n.Data.rect)) {
-                            _selection.Add(n);
-                        }
-                    });
+                    var selected = _window.Nodes.Where(n => _selection.area.Overlaps(n.Data.rect));
+                    _selection.Add(selected);
 
-                    GUI.changed = true;
                     _selection.area.size = Vector2.zero;
                     _selectingArea = false;
+                    GUI.changed = true;
+
                     break;
             }
         }

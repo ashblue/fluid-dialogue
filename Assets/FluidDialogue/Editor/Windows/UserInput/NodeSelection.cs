@@ -20,6 +20,16 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         public void Add (NodeDisplayBase node) {
             Selected.Add(node);
             node.Select();
+            Selection.activeObject = node.Data;
+        }
+
+        public void Add (IEnumerable<NodeDisplayBase> selected) {
+            foreach (var node in selected) {
+                Selected.Add(node);
+                node.Select();
+            }
+
+            Selection.objects = selected.Select(n => n.Data).ToArray();
         }
 
         public void Remove (NodeDisplayBase node) {
