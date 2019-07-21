@@ -78,7 +78,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             _exampleCurveActive = false;
         }
 
-        public void AddConnection (Connection target) {
+        public void AddConnection (Connection target, bool skipEvents = false) {
             if (target == null
                 || target._type == _type
                 || _connections.Contains(target)) return;
@@ -89,7 +89,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             _connections.Add(target);
-            EventAddConnection.Invoke(target._data);
+
+            if (!skipEvents) {
+                EventAddConnection.Invoke(target._data);
+            }
         }
     }
 }

@@ -6,7 +6,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeDialogueData))]
     public class DialogueNode : NodeDisplayBase {
         private NodeDialogueData _data;
-        private Connection _in;
 
         protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
         protected override float NodeWidth { get; } = 200;
@@ -14,7 +13,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected override void OnSetup () {
             _data = Data as NodeDialogueData;
-            _in = CreateConnection(ConnectionType.In);
+            Out.EventAddConnection.AddListener((target) => {
+                _data.children.Add(target);
+            });
         }
 
         protected override void OnPrintBody () {
@@ -24,13 +25,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        protected override void OnUpdate () {
-            var inPosition = Data.rect.position;
-            inPosition.x -= Connection.SIZE / 2;
-            inPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
-            _in.SetPosition(inPosition);
         }
 
         public override void ShowContextMenu () {

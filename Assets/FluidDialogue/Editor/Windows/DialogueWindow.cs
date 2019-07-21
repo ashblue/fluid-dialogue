@@ -10,6 +10,8 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow : EditorWindow {
         private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
+        private readonly Dictionary<NodeDataBase, NodeDisplayBase> _dataToNode = new Dictionary<NodeDataBase, NodeDisplayBase>();
+
         private DialogueGraph _graph;
         private InputController _mouseEvents;
 
@@ -31,16 +33,32 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void BuildNodes (DialogueGraph graph) {
+            _dataToNode.Clear();
+
             Nodes = graph.Nodes
                 .Select(CreateNodeInstance)
                 .ToList();
+
+            BuildNodeConnections();
+        }
+
+        private void BuildNodeConnections () {
+            foreach (var node in Nodes) {
+                foreach (var child in node.Data.children) {
+                    var target = _dataToNode[child];
+                    node.Out.AddConnection(target.In, true);
+                }
+            }
         }
 
         private NodeDisplayBase CreateNodeInstance (NodeDataBase data) {
             var displayType = NodeAssemblies.DataToDisplay[data.GetType()];
             var instance = Activator.CreateInstance(displayType) as NodeDisplayBase;
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
+
             instance.Setup(this, data);
+            _dataToNode[data] = instance;
+
             return instance;
         }
 

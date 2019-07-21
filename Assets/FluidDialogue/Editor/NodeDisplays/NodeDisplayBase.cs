@@ -22,9 +22,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
+        protected virtual bool HasOutConnection => true;
+        protected virtual bool HasInConnection => true;
         protected SerializedObject serializedObject { get; private set; }
         public NodeDataBase Data { get; private set; }
-        public bool IsSelected { get; private set; }
+        private bool IsSelected { get; set; }
+
+        public Connection Out { get; private set; }
+        public Connection In { get; private set; }
 
         protected virtual Color NodeColor => Color.gray;
         protected virtual float NodeWidth { get; } = 100;
@@ -48,6 +53,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Data.rect.width = NodeWidth;
             serializedObject = new SerializedObject(data);
 
+            if (HasOutConnection) {
+                Out = CreateConnection(ConnectionType.Out);
+            }
+
+            if (HasInConnection) {
+                In = CreateConnection(ConnectionType.In);
+            }
+
             OnSetup();
         }
 
@@ -55,7 +68,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void Print () {
-            Update();
+            PositionConnections();
             PrintHeader();
             PrintBody();
 
@@ -127,18 +140,27 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             return _connections.Find(c => c.IsClicked(mousePosition));
         }
 
-        protected Connection CreateConnection (ConnectionType type) {
+        private Connection CreateConnection (ConnectionType type) {
             var connection = new Connection(type, Data);
             _connections.Add(connection);
 
             return connection;
         }
 
-        private void Update () {
-            OnUpdate();
-        }
+        private void PositionConnections () {
+            if (Out != null) {
+                var outPosition = Data.rect.position;
+                outPosition.x += Data.rect.width - Connection.SIZE / 2;
+                outPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
+                Out.SetPosition(outPosition);
+            }
 
-        protected virtual void OnUpdate () {
+            if (In != null) {
+                var inPosition = Data.rect.position;
+                inPosition.x -= Connection.SIZE / 2;
+                inPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
+                In.SetPosition(inPosition);
+            }
         }
     }
 }

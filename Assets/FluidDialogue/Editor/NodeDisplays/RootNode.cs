@@ -6,19 +6,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private Connection _out;
 
         public override bool Protected => true;
+        protected override bool HasInConnection => false;
 
         protected override void OnSetup () {
-            _out = CreateConnection(ConnectionType.Out);
-            _out.EventAddConnection.AddListener((data) => {
+            Out.EventAddConnection.AddListener((data) => {
                 Data.children.Add(data);
             });
-        }
-
-        protected override void OnUpdate () {
-            var outPosition = Data.rect.position;
-            outPosition.x += Data.rect.width - Connection.SIZE / 2;
-            outPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
-            _out.SetPosition(outPosition);
         }
     }
 }
