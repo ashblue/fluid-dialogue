@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private const float PADDING_HEADER = 5;
         private const float PADDING_CONTENT = 20;
         private const float HEADER_HEIGHT = 20;
+
+        private readonly List<Connection> _connections = new List<Connection>();
 
         private NodeBoxStyle _contentStyle;
         private NodeBoxStyle _headerStyle;
@@ -52,11 +55,20 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void Print () {
+            Update();
             PrintHeader();
             PrintBody();
 
             if (IsSelected) {
                 GUI.Box(Data.rect, GUIContent.none, _containerHighlight.Style);
+            }
+
+            PrintConnections();
+        }
+
+        private void PrintConnections () {
+            foreach (var connection in _connections) {
+                connection.Print();
             }
         }
 
@@ -109,6 +121,24 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public virtual void ShowContextMenu () {
+        }
+
+        public Connection GetConnection (Vector2 mousePosition) {
+            return _connections.Find(c => c.IsClicked(mousePosition));
+        }
+
+        protected Connection CreateConnection (ConnectionType type) {
+            var connection = new Connection(type);
+            _connections.Add(connection);
+
+            return connection;
+        }
+
+        private void Update () {
+            OnUpdate();
+        }
+
+        protected virtual void OnUpdate () {
         }
     }
 }
