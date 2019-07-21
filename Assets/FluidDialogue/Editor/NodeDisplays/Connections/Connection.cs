@@ -1,18 +1,21 @@
 using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public class Connection {
+        public const float SIZE = 16;
         private static Texture2D _graphic;
 
+        private readonly NodeDataBase _data;
         private readonly List<Connection> _connections = new List<Connection>();
         private readonly ConnectionType _type;
 
         private bool _exampleCurveActive;
         private Vector2 _exampleCurveTarget;
 
-        private Rect _rect = new Rect(Vector2.zero, new Vector2(Size, Size));
+        private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
 
         private static Texture2D Graphic {
             get {
@@ -21,10 +24,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        public static float Size { get; } = 16;
+        public UnityEventPlus<NodeDataBase> EventAddConnection { get; } = new UnityEventPlus<NodeDataBase>();
 
-        public Connection (ConnectionType type) {
+        public Connection (ConnectionType type, NodeDataBase data) {
             _type = type;
+            _data = data;
         }
 
         public void Print () {
@@ -79,7 +83,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 || target._type == _type
                 || _connections.Contains(target)) return;
 
+            if (_type == ConnectionType.In) {
+                target.AddConnection(this);
+                return;
+            }
+
             _connections.Add(target);
+            EventAddConnection.Invoke(target._data);
         }
     }
 }

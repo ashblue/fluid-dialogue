@@ -28,8 +28,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected override void OnUpdate () {
             var inPosition = Data.rect.position;
-            inPosition.x -= Connection.Size / 2;
-            inPosition.y += Data.rect.height / 2 - Connection.Size / 2;
+            inPosition.x -= Connection.SIZE / 2;
+            inPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
             _in.SetPosition(inPosition);
         }
 
