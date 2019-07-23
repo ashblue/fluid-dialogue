@@ -141,7 +141,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private Connection CreateConnection (ConnectionType type) {
-            var connection = new Connection(type, Data);
+            var connection = new Connection(type, Data, Window);
             _connections.Add(connection);
 
             return connection;

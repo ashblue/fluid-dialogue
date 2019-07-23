@@ -11,6 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private readonly NodeDataBase _data;
         private readonly List<Connection> _connections = new List<Connection>();
         private readonly ConnectionType _type;
+        private readonly DialogueWindow _window;
 
         private bool _exampleCurveActive;
         private Vector2 _exampleCurveTarget;
@@ -24,15 +25,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        public UnityEventPlus<NodeDataBase> EventAddConnection { get; } = new UnityEventPlus<NodeDataBase>();
-        public UnityEventPlus EventClearConnections { get; } = new UnityEventPlus();
+        private bool IsMemoryLeak => _data.children.Count != _connections.Count;
 
-        public Connection (ConnectionType type, NodeDataBase data) {
+        public Connection (ConnectionType type, NodeDataBase data, DialogueWindow window) {
+            _window = window;
             _type = type;
             _data = data;
         }
 
         public void Print () {
+            if (IsMemoryLeak) {
+                RebuildConnections();
+            }
+
             var color = GUI.color;
             GUI.color = Color.cyan;
 
@@ -47,6 +52,18 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             GUI.color = color;
+        }
+
+        public void RebuildConnections () {
+            if (_type == ConnectionType.In) {
+                return;
+            }
+
+            _connections.Clear();
+            foreach (var child in _data.children) {
+                var target = _window.DataToNode[child];
+                _connections.Add(target.In);
+            }
         }
 
         private void PaintCurve (Vector2 destination) {
@@ -79,7 +96,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             _exampleCurveActive = false;
         }
 
-        public void AddConnection (Connection target, bool skipEvents = false) {
+        public void AddConnection (Connection target) {
             if (target == null
                 || target._type == _type
                 || _connections.Contains(target)) return;
@@ -91,9 +108,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             _connections.Add(target);
 
-            if (!skipEvents) {
-                EventAddConnection.Invoke(target._data);
-            }
+            Undo.RecordObject(_data, "Add connection");
+            _data.children.Add(target._data);
         }
 
         public void ShowContextMenu () {
@@ -102,8 +118,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Clear Connections"), false, () => {
+                    Undo.RecordObject(_data, "Clear connections");
                     _connections.Clear();
-                    EventClearConnections.Invoke();
+                    _data.children.Clear();
                 });
             menu.ShowAsContext();
         }

@@ -9,13 +9,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected override bool HasInConnection => false;
 
         protected override void OnSetup () {
-            Out.EventAddConnection.AddListener((data) => {
-                Data.children.Add(data);
-            });
-
-            Out.EventClearConnections.AddListener(() => {
-                Data.children.Clear();
-            });
         }
     }
 }

@@ -13,13 +13,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected override void OnSetup () {
             _data = Data as NodeDialogueData;
-            Out.EventAddConnection.AddListener((target) => {
-                Data.children.Add(target);
-            });
-
-            Out.EventClearConnections.AddListener(() => {
-                Data.children.Clear();
-            });
         }
 
         protected override void OnPrintBody () {

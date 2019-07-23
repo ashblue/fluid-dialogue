@@ -10,7 +10,6 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow : EditorWindow {
         private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
-        private readonly Dictionary<NodeDataBase, NodeDisplayBase> _dataToNode = new Dictionary<NodeDataBase, NodeDisplayBase>();
 
         private DialogueGraph _graph;
         private InputController _mouseEvents;
@@ -18,6 +17,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private bool IsGraphPopulated => Nodes != null;
         private bool NodesOutOfSync => Nodes.Count != _graph.Nodes.Count;
         public List<NodeDisplayBase> Nodes { get; private set; }
+        public Dictionary<NodeDataBase, NodeDisplayBase> DataToNode { get; } =
+            new Dictionary<NodeDataBase, NodeDisplayBase>();
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -33,7 +34,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void BuildNodes (DialogueGraph graph) {
-            _dataToNode.Clear();
+            DataToNode.Clear();
 
             Nodes = graph.Nodes
                 .Select(CreateNodeInstance)
@@ -44,10 +45,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private void BuildNodeConnections () {
             foreach (var node in Nodes) {
-                foreach (var child in node.Data.children) {
-                    var target = _dataToNode[child];
-                    node.Out.AddConnection(target.In, true);
-                }
+                node.Out.RebuildConnections();
             }
         }
 
@@ -57,7 +55,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
 
             instance.Setup(this, data);
-            _dataToNode[data] = instance;
+            DataToNode[data] = instance;
 
             return instance;
         }
