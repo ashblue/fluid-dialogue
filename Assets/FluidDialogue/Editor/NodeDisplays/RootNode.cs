@@ -12,6 +12,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Out.EventAddConnection.AddListener((data) => {
                 Data.children.Add(data);
             });
+
+            Out.EventClearConnections.AddListener(() => {
+                Data.children.Clear();
+            });
         }
     }
 }

@@ -25,6 +25,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public UnityEventPlus<NodeDataBase> EventAddConnection { get; } = new UnityEventPlus<NodeDataBase>();
+        public UnityEventPlus EventClearConnections { get; } = new UnityEventPlus();
 
         public Connection (ConnectionType type, NodeDataBase data) {
             _type = type;
@@ -93,6 +94,18 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             if (!skipEvents) {
                 EventAddConnection.Invoke(target._data);
             }
+        }
+
+        public void ShowContextMenu () {
+            if (_type == ConnectionType.In) return;
+
+            var menu = new GenericMenu();
+            menu.AddItem(
+                new GUIContent("Clear Connections"), false, () => {
+                    _connections.Clear();
+                    EventClearConnections.Invoke();
+                });
+            menu.ShowAsContext();
         }
     }
 }
