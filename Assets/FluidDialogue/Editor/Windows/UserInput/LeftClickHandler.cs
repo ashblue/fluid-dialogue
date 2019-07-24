@@ -61,7 +61,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                         if (linkTarget != null) break;
                     }
 
-                    _connection.AddConnection(linkTarget);
+                    _connection.Links.AddLink(linkTarget);
                     _connection.ClearCurveExample();
 
                     break;

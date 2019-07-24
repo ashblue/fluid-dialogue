@@ -7,24 +7,23 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         ConnectionType Type { get; }
         Rect Rect { get; }
         INodeData Data { get; }
+        IConnectionLinks Links { get; }
     }
 
     public partial class Connection : IConnection {
         public const float SIZE = 16;
         private static Texture2D _graphic;
 
-        private readonly INodeData _data;
-        private readonly ConnectionType _type;
-        private readonly IDialogueWindow _window;
-
         private bool _exampleCurveActive;
         private Vector2 _exampleCurveTarget;
 
         private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
 
-        public ConnectionType Type => _type;
+        public ConnectionType Type { get; }
         public Rect Rect => _rect;
-        public INodeData Data => _data;
+        public INodeData Data { get; }
+        public IConnectionLinks Links { get; }
+        public IDialogueWindow Window { get; }
 
         private static Texture2D Graphic {
             get {
@@ -33,17 +32,18 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private bool IsMemoryLeak => _data.Children.Count != _connections.Count;
+        private bool IsMemoryLeak => Data.Children.Count != Links.Connections.Count;
 
         public Connection (ConnectionType type, INodeData data, IDialogueWindow window) {
-            _window = window;
-            _type = type;
-            _data = data;
+            Window = window;
+            Type = type;
+            Data = data;
+            Links = new ConnectionLinks(this);
         }
 
         public void Print () {
             if (IsMemoryLeak) {
-                RebuildConnections();
+                Links.RebuildLinks();
             }
 
             var color = GUI.color;
@@ -51,7 +51,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             GUI.DrawTexture(_rect, Graphic);
 
-            foreach (var connection in _connections) {
+            foreach (var connection in Links.Connections) {
                 PaintCurve(connection.Rect.center);
             }
 
@@ -80,14 +80,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void ShowContextMenu () {
-            if (_type == ConnectionType.In) return;
+            if (Type == ConnectionType.In) return;
 
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Clear Connections"), false, () => {
-                    Undo.RecordObject(_data as Object, "Clear connections");
-                    ClearAllConnections();
-                    _data.Children.Clear();
+                    Undo.RecordObject(Data as Object, "Clear connections");
+                    Links.ClearAllLinks();
+                    Data.Children.Clear();
                 });
             menu.ShowAsContext();
         }

@@ -14,16 +14,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 // Unity hammers the texture on play then stop, rebuild if it vanishes
                 if (_texture == null) {
                     CreateTexture();
-                    _style.normal.background = _texture;
                 }
 
                 if (_style == null) {
                     _style = new GUIStyle(GUI.skin.box) {
                         border = new RectOffset(3, 3, 2, 2),
-                        normal = {
-                            background = _texture,
-                        },
                     };
+                }
+
+                if (_style.normal.background == GUI.skin.box.normal.background
+                    || _style.normal.background == null) {
+                    _style.normal.background = _texture;
                 }
 
                 return _style;

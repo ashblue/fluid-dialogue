@@ -16,7 +16,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                 var cIn = Substitute.For<IConnection>();
 
-                cOut.AddConnection(cIn);
+                cOut.Links.AddLink(cIn);
 
                 cIn.Received(1).AddParent(cOut);
             }

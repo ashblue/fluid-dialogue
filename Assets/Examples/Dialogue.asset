@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uniqueId: 00d6de85-94e7-41ac-9e77-c457399dba53
   children:
-  - {fileID: -604863778789515103}
+  - {fileID: -6033084916370954139}
   conditions: []
   enterActions: []
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15191
-    y: 15056
+    x: 15239
+    y: 15148
     width: 200
     height: 118
   actor: {fileID: 0}
@@ -47,10 +47,10 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15720
-    y: 15376
-    width: 0
-    height: 0
+    x: 15487
+    y: 15289
+    width: 200
+    height: 118
   actor: {fileID: 0}
   dialogue: 
   choices: []
@@ -68,14 +68,15 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   _uniqueId: 75053503-646d-4cd1-aec8-b55a89736d34
-  children: []
+  children:
+  - {fileID: -4841414840390966431}
   conditions: []
   enterActions: []
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15765
-    y: 15062
+    x: 15729
+    y: 15093
     width: 200
     height: 118
   actor: {fileID: 0}
@@ -107,6 +108,33 @@ MonoBehaviour:
     y: 15268
     width: 100
     height: 75
+--- !u!114 &-6033084916370954139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: cf59c87f-ed69-4356-b558-875f59c53c41
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  rect:
+    serializedVersion: 2
+    x: 15482
+    y: 15054
+    width: 200
+    height: 118
+  actor: {fileID: 0}
+  dialogue: 
+  choices: []
+  nodeTitle: 
 --- !u!114 &-4841414840390966431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,8 +148,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   _uniqueId: e47b10da-fdfd-414b-8512-4726c4080c17
-  children:
-  - {fileID: -604863778789515103}
+  children: []
   conditions: []
   enterActions: []
   exitActions: []
@@ -150,6 +177,7 @@ MonoBehaviour:
   _uniqueId: d5534094-339c-4990-b23b-eab8d7704d31
   children:
   - {fileID: -604863778789515103}
+  - {fileID: -7278779432827191184}
   conditions: []
   enterActions: []
   exitActions: []
@@ -183,8 +211,8 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15478
-    y: 15172
+    x: 15485
+    y: 15482
     width: 200
     height: 118
   actor: {fileID: 0}
@@ -211,4 +239,5 @@ MonoBehaviour:
   - {fileID: -6626798443663507103}
   - {fileID: -4841414840390966431}
   - {fileID: -7278779432827191184}
+  - {fileID: -6033084916370954139}
   root: {fileID: -6416663553697232967}
