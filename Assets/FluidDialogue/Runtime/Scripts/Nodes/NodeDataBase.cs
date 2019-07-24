@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeData : IGetRuntime<INode> {
+        List<NodeDataBase> Children { get; }
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
@@ -13,7 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SerializeField]
         private string _uniqueId;
 
-        public List<NodeDataBase> children;
+        public List<NodeDataBase> children = new List<NodeDataBase>();
         public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
@@ -21,6 +22,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public string UniqueId => _uniqueId;
         public virtual string DefaultName { get; } = "Untitled";
+        public List<NodeDataBase> Children => children;
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

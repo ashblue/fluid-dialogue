@@ -8,7 +8,11 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
-    public partial class DialogueWindow : EditorWindow {
+    public interface IDialogueWindow {
+        Dictionary<NodeDataBase, NodeDisplayBase> DataToNode { get; }
+    }
+
+    public partial class DialogueWindow : EditorWindow, IDialogueWindow {
         private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
 
         private DialogueGraph _graph;
@@ -125,10 +129,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.SetCurrentGroupName("Delete node");
             Undo.RecordObject(_graph, "Delete node");
 
-            _graph.DeleteNode(node.Data);
-            _graveyard.Add(node);
+            CleanupNode(node);
 
-            Undo.DestroyObjectImmediate(node.Data);
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
@@ -137,13 +139,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.RecordObject(_graph, "Delete node");
 
             foreach (var node in nodes) {
-                _graph.DeleteNode(node.Data);
-                _graveyard.Add(node);
-
-                Undo.DestroyObjectImmediate(node.Data);
+                CleanupNode(node);
             }
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        private void CleanupNode (NodeDisplayBase node) {
+            node.CleanConnections();
+            _graph.DeleteNode(node.Data);
+            _graveyard.Add(node);
+            Undo.DestroyObjectImmediate(node.Data);
         }
 
         public void DuplicateNode (NodeDisplayBase node) {

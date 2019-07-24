@@ -4,19 +4,35 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
-    public class Connection {
+    public interface IConnection {
+        ConnectionType Type { get; }
+        Rect Rect { get; }
+        INodeData Data { get; }
+
+        void AddConnection (IConnection connection);
+        void AddParent (IConnection parent);
+        void RemoveParent (IConnection parent);
+        void RemoveConnection (IConnection connection);
+    }
+
+    public class Connection : IConnection {
         public const float SIZE = 16;
         private static Texture2D _graphic;
 
-        private readonly NodeDataBase _data;
-        private readonly List<Connection> _connections = new List<Connection>();
+        private readonly INodeData _data;
+        private readonly List<IConnection> _connections = new List<IConnection>();
         private readonly ConnectionType _type;
-        private readonly DialogueWindow _window;
+        private readonly IDialogueWindow _window;
+        private readonly List<IConnection> _parents = new List<IConnection>();
 
         private bool _exampleCurveActive;
         private Vector2 _exampleCurveTarget;
 
         private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
+
+        public ConnectionType Type => _type;
+        public Rect Rect => _rect;
+        public INodeData Data => _data;
 
         private static Texture2D Graphic {
             get {
@@ -25,9 +41,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private bool IsMemoryLeak => _data.children.Count != _connections.Count;
+        private bool IsMemoryLeak => _data.Children.Count != _connections.Count;
+        public IReadOnlyList<IConnection> Parents => _parents;
 
-        public Connection (ConnectionType type, NodeDataBase data, DialogueWindow window) {
+        public Connection (ConnectionType type, INodeData data, IDialogueWindow window) {
             _window = window;
             _type = type;
             _data = data;
@@ -44,7 +61,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             GUI.DrawTexture(_rect, Graphic);
 
             foreach (var connection in _connections) {
-                PaintCurve(connection._rect.center);
+                PaintCurve(connection.Rect.center);
             }
 
             if (_exampleCurveActive) {
@@ -59,10 +76,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 return;
             }
 
-            _connections.Clear();
-            foreach (var child in _data.children) {
+            ClearAllConnections();
+            foreach (var child in _data.Children) {
                 var target = _window.DataToNode[child];
-                _connections.Add(target.In);
+                BindConnection(target.In);
             }
         }
 
@@ -96,9 +113,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             _exampleCurveActive = false;
         }
 
-        public void AddConnection (Connection target) {
+        public void AddConnection (IConnection target) {
             if (target == null
-                || target._type == _type
+                || target.Type == _type
                 || _connections.Contains(target)) return;
 
             if (_type == ConnectionType.In) {
@@ -106,10 +123,31 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 return;
             }
 
-            _connections.Add(target);
+            BindConnection(target);
 
-            Undo.RecordObject(_data, "Add connection");
-            _data.children.Add(target._data);
+            if (_data is Object data) {
+                Undo.RecordObject(data, "Add connection");
+            }
+
+            _data.Children.Add(target.Data as NodeDataBase);
+        }
+
+        private void BindConnection (IConnection target) {
+            _connections.Add(target);
+            target.AddParent(this);
+        }
+
+        public void AddParent (IConnection parent) {
+            _parents.Add(parent);
+        }
+
+        public void RemoveParent (IConnection parent) {
+            _parents.Remove(parent);
+        }
+
+        public void RemoveConnection (IConnection connection) {
+            _connections.Remove(connection);
+            _data.Children.Remove(connection.Data as NodeDataBase);
         }
 
         public void ShowContextMenu () {
@@ -118,11 +156,16 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Clear Connections"), false, () => {
-                    Undo.RecordObject(_data, "Clear connections");
-                    _connections.Clear();
-                    _data.children.Clear();
+                    Undo.RecordObject(_data as Object, "Clear connections");
+                    ClearAllConnections();
+                    _data.Children.Clear();
                 });
             menu.ShowAsContext();
+        }
+
+        private void ClearAllConnections () {
+            _connections.ForEach(c => c?.RemoveParent(this));
+            _connections.Clear();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public abstract class NodeDisplayBase {
@@ -160,6 +161,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 inPosition.x -= Connection.SIZE / 2;
                 inPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
                 In.SetPosition(inPosition);
+            }
+        }
+
+        public void CleanConnections () {
+            foreach (var parent in In.Parents) {
+                Undo.RecordObject((Object)parent.Data, "Removed connection");
+                parent.RemoveConnection(In);
             }
         }
     }
