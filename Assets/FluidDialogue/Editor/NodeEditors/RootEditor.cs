@@ -2,7 +2,7 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeRootData))]
-    public class RootNode : NodeEditorBase {
+    public class RootEditor : NodeEditorBase {
         private Connection _out;
 
         public override bool Protected => true;

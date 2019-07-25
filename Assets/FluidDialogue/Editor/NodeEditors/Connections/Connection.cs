@@ -14,9 +14,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public const float SIZE = 16;
         private static Texture2D _graphic;
 
-        private bool _exampleCurveActive;
-        private Vector2 _exampleCurveTarget;
-
         private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
 
         public ConnectionType Type { get; }
@@ -70,15 +67,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             _rect.position = position;
         }
 
-        public void SetExampleCurve (Vector2 position) {
-            _exampleCurveActive = true;
-            _exampleCurveTarget = position;
-        }
-
-        public void ClearCurveExample () {
-            _exampleCurveActive = false;
-        }
-
         public void ShowContextMenu () {
             if (Type == ConnectionType.In) return;
 
@@ -90,19 +78,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     Data.Children.Clear();
                 });
             menu.ShowAsContext();
-        }
-
-        private void PaintCurve (Vector2 destination) {
-            Handles.DrawBezier(
-                _rect.center,
-                destination,
-                _rect.center - Vector2.left * 50f,
-                destination + Vector2.left * 50f,
-                Color.cyan,
-                null,
-                2f
-            );
-            GUI.changed = true;
         }
     }
 }

@@ -6,26 +6,20 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
-    public abstract class NodeEditorBase {
+    public abstract partial class NodeEditorBase {
         private const float PADDING_HEADER = 5;
         private const float PADDING_CONTENT = 20;
         private const float HEADER_HEIGHT = 20;
-
-        private readonly List<Connection> _connections = new List<Connection>();
 
         private float _cachedContentHeight;
         private NodeStyles _styles;
 
         protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
-        protected virtual bool HasOutConnection => true;
-        protected virtual bool HasInConnection => true;
+
         protected SerializedObject serializedObject { get; private set; }
         public NodeDataBase Data { get; private set; }
         private bool IsSelected { get; set; }
-
-        public Connection Out { get; private set; }
-        public Connection In { get; private set; }
 
         protected virtual Color NodeColor => Color.gray;
         protected virtual float NodeWidth { get; } = 100;
@@ -65,12 +59,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             PrintConnections();
-        }
-
-        private void PrintConnections () {
-            foreach (var connection in _connections) {
-                connection.Print();
-            }
         }
 
         private void PrintHeader () {
@@ -122,40 +110,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public virtual void ShowContextMenu () {
-        }
-
-        public Connection GetConnection (Vector2 mousePosition) {
-            return _connections.Find(c => c.IsClicked(mousePosition));
-        }
-
-        private Connection CreateConnection (ConnectionType type) {
-            var connection = new Connection(type, Data, Window);
-            _connections.Add(connection);
-
-            return connection;
-        }
-
-        private void PositionConnections () {
-            if (Out != null) {
-                var outPosition = Data.rect.position;
-                outPosition.x += Data.rect.width - Connection.SIZE / 2;
-                outPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
-                Out.SetPosition(outPosition);
-            }
-
-            if (In != null) {
-                var inPosition = Data.rect.position;
-                inPosition.x -= Connection.SIZE / 2;
-                inPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
-                In.SetPosition(inPosition);
-            }
-        }
-
-        public void CleanConnections () {
-            foreach (var parent in In.Parents) {
-                Undo.RecordObject((Object)parent.Data, "Removed connection");
-                parent.Links.RemoveLink(In);
-            }
         }
     }
 }
