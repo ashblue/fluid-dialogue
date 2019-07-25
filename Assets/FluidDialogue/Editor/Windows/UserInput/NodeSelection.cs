@@ -11,19 +11,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         public Rect area;
 
-        public List<NodeDisplayBase> Selected { get; } = new List<NodeDisplayBase>();
+        public List<NodeEditorBase> Selected { get; } = new List<NodeEditorBase>();
 
         public NodeSelection (EditorWindow window) {
             _window = window;
         }
 
-        public void Add (NodeDisplayBase node) {
+        public void Add (NodeEditorBase node) {
             Selected.Add(node);
             node.Select();
             Selection.activeObject = node.Data;
         }
 
-        public void Add (IEnumerable<NodeDisplayBase> selected) {
+        public void Add (IEnumerable<NodeEditorBase> selected) {
             foreach (var node in selected) {
                 Selected.Add(node);
                 node.Select();
@@ -32,7 +32,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Selection.objects = selected.Select(n => n.Data).ToArray();
         }
 
-        public void Remove (NodeDisplayBase node) {
+        public void Remove (NodeEditorBase node) {
             Selected.Remove(node);
             node.Deselect();
         }
@@ -50,7 +50,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             }
         }
 
-        public bool Contains (NodeDisplayBase node) {
+        public bool Contains (NodeEditorBase node) {
             return Selected.Contains(node);
         }
     }

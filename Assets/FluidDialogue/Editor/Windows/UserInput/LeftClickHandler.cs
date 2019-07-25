@@ -9,7 +9,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private readonly DialogueWindow _window;
         private readonly NodeSelection _selection;
 
-        private NodeDisplayBase _clickedNode;
+        private NodeEditorBase _clickedNode;
         private bool _selectingArea;
         private bool _isDraggingNode;
         private Connection _connection;

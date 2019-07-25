@@ -36,7 +36,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.RegisterCreatedObjectUndo(data, "Create node");
         }
 
-        public void DeleteNode (NodeDisplayBase node) {
+        public void DeleteNode (NodeEditorBase node) {
             Undo.SetCurrentGroupName("Delete node");
             Undo.RecordObject(_graph, "Delete node");
 
@@ -45,7 +45,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
-        public void DeleteNode (IEnumerable<NodeDisplayBase> nodes) {
+        public void DeleteNode (IEnumerable<NodeEditorBase> nodes) {
             Undo.SetCurrentGroupName("Delete nodes");
             Undo.RecordObject(_graph, "Delete node");
 
@@ -56,14 +56,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
-        private void CleanupNode (NodeDisplayBase node) {
+        private void CleanupNode (NodeEditorBase node) {
             node.CleanConnections();
             _graph.DeleteNode(node.Data);
             _window.GraveyardAdd(node);
             Undo.DestroyObjectImmediate(node.Data);
         }
 
-        public void DuplicateNode (NodeDisplayBase node) {
+        public void DuplicateNode (NodeEditorBase node) {
             Undo.SetCurrentGroupName("Duplicate node");
             Undo.RecordObject(_graph, "New node");
 
@@ -73,7 +73,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
-        public void DuplicateNode (List<NodeDisplayBase> nodes) {
+        public void DuplicateNode (List<NodeEditorBase> nodes) {
             Undo.SetCurrentGroupName("Duplicate all nodes");
             Undo.RecordObject(_graph, "New node");
 

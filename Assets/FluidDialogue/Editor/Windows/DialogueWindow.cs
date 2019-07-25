@@ -9,22 +9,22 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public interface IDialogueWindow {
-        Dictionary<NodeDataBase, NodeDisplayBase> DataToNode { get; }
+        Dictionary<NodeDataBase, NodeEditorBase> DataToNode { get; }
     }
 
     public partial class DialogueWindow : EditorWindow, IDialogueWindow {
-        private readonly List<NodeDisplayBase> _graveyard = new List<NodeDisplayBase>();
+        private readonly List<NodeEditorBase> _graveyard = new List<NodeEditorBase>();
 
         private DialogueGraph _graph;
         private InputController _mouseEvents;
 
         private bool IsGraphPopulated => Nodes != null;
         private bool NodesOutOfSync => Nodes.Count != _graph.Nodes.Count;
-        public List<NodeDisplayBase> Nodes { get; private set; }
+        public List<NodeEditorBase> Nodes { get; private set; }
         public GraphCrud Graph { get; private set; }
 
-        public Dictionary<NodeDataBase, NodeDisplayBase> DataToNode { get; } =
-            new Dictionary<NodeDataBase, NodeDisplayBase>();
+        public Dictionary<NodeDataBase, NodeEditorBase> DataToNode { get; } =
+            new Dictionary<NodeDataBase, NodeEditorBase>();
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -56,9 +56,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             }
         }
 
-        public NodeDisplayBase CreateNodeInstance (NodeDataBase data) {
+        public NodeEditorBase CreateNodeInstance (NodeDataBase data) {
             var displayType = NodeAssemblies.DataToDisplay[data.GetType()];
-            var instance = Activator.CreateInstance(displayType) as NodeDisplayBase;
+            var instance = Activator.CreateInstance(displayType) as NodeEditorBase;
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
 
             instance.Setup(this, data);
@@ -107,7 +107,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _graveyard.Clear();
         }
 
-        public void GraveyardAdd (NodeDisplayBase node) {
+        public void GraveyardAdd (NodeEditorBase node) {
             _graveyard.Add(node);
         }
     }

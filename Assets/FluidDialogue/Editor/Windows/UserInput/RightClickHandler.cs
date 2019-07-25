@@ -11,7 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private readonly ScrollManager _scroll;
         private readonly DelayedMenu _menu;
 
-        private NodeDisplayBase _clickedNode;
+        private NodeEditorBase _clickedNode;
         private bool _isCameraDragging;
         private Connection _connection;
 

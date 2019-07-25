@@ -6,20 +6,15 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
-    public abstract class NodeDisplayBase {
+    public abstract class NodeEditorBase {
         private const float PADDING_HEADER = 5;
         private const float PADDING_CONTENT = 20;
         private const float HEADER_HEIGHT = 20;
 
         private readonly List<Connection> _connections = new List<Connection>();
 
-        private NodeBoxStyle _contentStyle;
-        private NodeBoxStyle _headerStyle;
-        private NodeBoxStyle _containerHighlight;
-        private HeaderTextStyle _headerTextStyle;
         private float _cachedContentHeight;
-        private bool _dragInit;
-        private bool _isDragging;
+        private NodeStyles _styles;
 
         protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
@@ -41,15 +36,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public void Setup (DialogueWindow window, NodeDataBase data) {
             Window = window;
             Data = data;
-
-            var bodyColor = NodeColor;
-            _contentStyle = new NodeBoxStyle(bodyColor, bodyColor);
-            _containerHighlight = new NodeBoxStyle(Color.white, Color.clear);
-            _headerTextStyle = new HeaderTextStyle();
-
-            var headerColor = bodyColor * 1.3f;
-            headerColor.a = 1f;
-            _headerStyle = new NodeBoxStyle(headerColor, headerColor);
+            _styles = new NodeStyles(NodeColor);
 
             Data.rect.width = NodeWidth;
             serializedObject = new SerializedObject(data);
@@ -74,7 +61,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             PrintBody();
 
             if (IsSelected) {
-                GUI.Box(Data.rect, GUIContent.none, _containerHighlight.Style);
+                GUI.Box(Data.rect, GUIContent.none, _styles.ContainerHighlightStyle.Style);
             }
 
             PrintConnections();
@@ -94,8 +81,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 headerBox.width - PADDING_HEADER,
                 headerBox.height - PADDING_HEADER);
 
-            GUI.Box(headerBox, GUIContent.none, _headerStyle.Style);
-            GUI.Label(headerArea, NodeTitle, _headerTextStyle.Style);
+            GUI.Box(headerBox, GUIContent.none, _styles.HeaderStyle.Style);
+            GUI.Label(headerArea, NodeTitle, _styles.HeaderTextStyle.Style);
         }
 
         private void PrintBody () {
@@ -106,7 +93,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 Data.rect.width - PADDING_CONTENT,
                 Data.rect.height - PADDING_CONTENT);
 
-            GUI.Box(box, GUIContent.none, _contentStyle.Style);
+            GUI.Box(box, GUIContent.none, _styles.ContentStyle.Style);
 
             GUILayout.BeginArea(content);
 

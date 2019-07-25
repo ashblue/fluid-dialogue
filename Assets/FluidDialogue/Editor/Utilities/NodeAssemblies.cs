@@ -18,9 +18,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private static Dictionary<Type, Type> GetDataToDisplay () {
             var displayTypes = Assembly
-                .GetAssembly(typeof(NodeDisplayBase))
+                .GetAssembly(typeof(NodeEditorBase))
                 .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(NodeDisplayBase)));
+                .Where(t => t.IsSubclassOf(typeof(NodeEditorBase)));
 
             return displayTypes.ToDictionary(
                 (k) => {

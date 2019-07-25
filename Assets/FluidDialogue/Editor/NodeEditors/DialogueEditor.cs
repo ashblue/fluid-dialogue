@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeDialogueData))]
-    public class DialogueNode : NodeDisplayBase {
+    public class DialogueEditor : NodeEditorBase {
         private NodeDialogueData _data;
 
         protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
