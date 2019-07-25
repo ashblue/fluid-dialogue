@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public interface IConnectionLinks {
-        IReadOnlyList<IConnection> Connections { get; }
+        IReadOnlyList<IConnection> List { get; }
 
         void AddLink (IConnection connection);
         void RemoveLink (IConnection connection);
@@ -15,9 +17,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
     public class ConnectionLinks : IConnectionLinks {
         private readonly Connection _owner;
-        private readonly List<IConnection> _connections = new List<IConnection>();
+        private readonly List<IConnection> _list = new List<IConnection>();
 
-        public IReadOnlyList<IConnection> Connections => _connections;
+        public IReadOnlyList<IConnection> List => _list;
 
         public ConnectionLinks (Connection owner) {
             _owner = owner;
@@ -26,7 +28,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public void AddLink (IConnection target) {
             if (target == null
                 || target.Type == _owner.Type
-                || _connections.Contains(target)) return;
+                || _list.Contains(target)) return;
 
             if (_owner.Type == ConnectionType.In) {
                 target.Links.AddLink(_owner);
@@ -40,10 +42,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             _owner.Data.Children.Add(target.Data as NodeDataBase);
+            _owner.Data.SortChildrenByPosition();
         }
 
         public void RemoveLink (IConnection connection) {
-            _connections.Remove(connection);
+            _list.Remove(connection);
             _owner.Data.Children.Remove(connection.Data as NodeDataBase);
         }
 
@@ -59,14 +62,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private void BindLink (IConnection target) {
-            _connections.Add(target);
-            target.AddParent(_owner);
+        public void ClearAllLinks () {
+            _list.ForEach(c => c?.RemoveParent(_owner));
+            _list.Clear();
         }
 
-        public void ClearAllLinks () {
-            _connections.ForEach(c => c?.RemoveParent(_owner));
-            _connections.Clear();
+        private void BindLink (IConnection target) {
+            _list.Add(target);
+            target.AddParent(_owner);
         }
     }
 }

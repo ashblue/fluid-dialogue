@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Conditions;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeData : IGetRuntime<INode> {
         List<NodeDataBase> Children { get; }
+
+        void SortChildrenByPosition ();
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
@@ -26,6 +29,10 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();
+        }
+
+        public void SortChildrenByPosition () {
+            children = children.OrderBy(i => i.rect.yMin).ToList();
         }
 
         public abstract INode GetRuntime (IDialogueController dialogue);

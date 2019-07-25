@@ -1,5 +1,6 @@
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
 
@@ -112,7 +113,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                 case EventType.MouseDrag:
                     _isDraggingNode = true;
-                    Undo.SetCurrentGroupName("Delete nodes");
+                    Undo.SetCurrentGroupName("Drag nodes");
                     _selection.Selected.ForEach(n => {
                         Undo.RegisterCompleteObjectUndo(n.Data, "Move node");
                         n.Data.rect.position += e.delta;
@@ -128,9 +129,29 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                         GUI.changed = true;
                     }
 
-                    _isDraggingNode = false;
+                    ClearDragging();
+                    break;
+
+                case EventType.Ignore:
+                    ClearDragging();
                     break;
             }
+        }
+
+        private void ClearDragging () {
+            if (!_isDraggingNode) return;
+
+            Undo.SetCurrentGroupName("Drag nodes");
+            foreach (var node in _selection.Selected) {
+                foreach (var link in node.In.Parents) {
+                    Undo.RegisterCompleteObjectUndo(
+                        link.Data as NodeDataBase, "Move node");
+                    link.Data.SortChildrenByPosition();
+                }
+            }
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+
+            _isDraggingNode = false;
         }
     }
 }

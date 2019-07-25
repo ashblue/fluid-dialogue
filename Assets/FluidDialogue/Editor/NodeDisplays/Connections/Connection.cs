@@ -32,7 +32,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private bool IsMemoryLeak => Data.Children.Count != Links.Connections.Count;
+        private bool IsMemoryLeak => Data.Children.Count != Links.List.Count;
 
         public Connection (ConnectionType type, INodeData data, IDialogueWindow window) {
             Window = window;
@@ -51,7 +51,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             GUI.DrawTexture(_rect, Graphic);
 
-            foreach (var connection in Links.Connections) {
+            foreach (var connection in Links.List) {
                 PaintCurve(connection.Rect.center);
             }
 
