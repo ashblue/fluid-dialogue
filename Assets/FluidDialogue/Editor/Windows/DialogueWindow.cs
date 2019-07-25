@@ -21,6 +21,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private bool IsGraphPopulated => Nodes != null;
         private bool NodesOutOfSync => Nodes.Count != _graph.Nodes.Count;
         public List<NodeDisplayBase> Nodes { get; private set; }
+        public GraphCrud Graph { get; private set; }
+
         public Dictionary<NodeDataBase, NodeDisplayBase> DataToNode { get; } =
             new Dictionary<NodeDataBase, NodeDisplayBase>();
 
@@ -31,6 +33,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void SetGraph (DialogueGraph graph) {
+            Graph = new GraphCrud(graph, this);
             BuildNodes(graph);
 
             _graph = graph;
@@ -53,7 +56,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             }
         }
 
-        private NodeDisplayBase CreateNodeInstance (NodeDataBase data) {
+        public NodeDisplayBase CreateNodeInstance (NodeDataBase data) {
             var displayType = NodeAssemblies.DataToDisplay[data.GetType()];
             var instance = Activator.CreateInstance(displayType) as NodeDisplayBase;
             if (instance == null) throw new NullReferenceException($"No type found for ${data}");
@@ -83,7 +86,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             foreach (var node in Nodes) {
                 if (node.IsMemoryLeak) {
-                    _graveyard.Add(node);
+                    GraveyardAdd(node);
                     continue;
                 }
 
@@ -104,74 +107,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _graveyard.Clear();
         }
 
-        public void CreateData (NodeDataBase data, Vector2 position) {
-            Undo.SetCurrentGroupName("Create node");
-            Undo.RecordObject(_graph, "New node");
-
-            NewNode(data, position);
-
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-        }
-
-        private void NewNode (NodeDataBase data, Vector2 position) {
-            data.rect.position = position;
-            _graph.AddNode(data);
-            AssetDatabase.AddObjectToAsset(data, _graph);
-            AssetDatabase.SaveAssets();
-
-            var instance = CreateNodeInstance(data);
-            Nodes.Add(instance);
-
-            Undo.RegisterCreatedObjectUndo(data, "Create node");
-        }
-
-        public void DeleteNode (NodeDisplayBase node) {
-            Undo.SetCurrentGroupName("Delete node");
-            Undo.RecordObject(_graph, "Delete node");
-
-            CleanupNode(node);
-
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-        }
-
-        public void DeleteNode (IEnumerable<NodeDisplayBase> nodes) {
-            Undo.SetCurrentGroupName("Delete nodes");
-            Undo.RecordObject(_graph, "Delete node");
-
-            foreach (var node in nodes) {
-                CleanupNode(node);
-            }
-
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-        }
-
-        private void CleanupNode (NodeDisplayBase node) {
-            node.CleanConnections();
-            _graph.DeleteNode(node.Data);
+        public void GraveyardAdd (NodeDisplayBase node) {
             _graveyard.Add(node);
-            Undo.DestroyObjectImmediate(node.Data);
-        }
-
-        public void DuplicateNode (NodeDisplayBase node) {
-            Undo.SetCurrentGroupName("Duplicate node");
-            Undo.RecordObject(_graph, "New node");
-
-            var copy = Instantiate(node.Data);
-            NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
-
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-        }
-
-        public void DuplicateNode (List<NodeDisplayBase> nodes) {
-            Undo.SetCurrentGroupName("Duplicate all nodes");
-            Undo.RecordObject(_graph, "New node");
-
-            foreach (var node in nodes) {
-                var copy = Instantiate(node.Data);
-                NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
-            }
-
-            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
     }
 }

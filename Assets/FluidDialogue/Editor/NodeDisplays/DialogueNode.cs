@@ -28,11 +28,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Duplicate"), false, () => {
-                    Window.DuplicateNode(this);
+                    Window.Graph.DuplicateNode(this);
                 });
             menu.AddItem(
                 new GUIContent("Delete"), false, () => {
-                    Window.DeleteNode(this);
+                    Window.Graph.DeleteNode(this);
                 });
             menu.ShowAsContext();
         }

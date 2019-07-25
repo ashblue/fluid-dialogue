@@ -20,8 +20,8 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15239
-    y: 15148
+    x: 15237
+    y: 15060
     width: 200
     height: 118
   actor: {fileID: 0}
@@ -75,8 +75,8 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15729
-    y: 15093
+    x: 15744
+    y: 15185
     width: 200
     height: 118
   actor: {fileID: 0}
@@ -97,8 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uniqueId: a8acaa48-73d8-4bbb-bcf3-a2cd7479b77f
   children:
-  - {fileID: -2980240289960788537}
   - {fileID: -8197609878907354110}
+  - {fileID: -2980240289960788537}
   conditions: []
   enterActions: []
   exitActions: []
@@ -127,12 +127,12 @@ MonoBehaviour:
   exitActions: []
   rect:
     serializedVersion: 2
-    x: 15482
-    y: 15054
+    x: 15479
+    y: 15027
     width: 200
     height: 118
   actor: {fileID: 0}
-  dialogue: 
+  dialogue: b
   choices: []
   nodeTitle: 
 --- !u!114 &-4841414840390966431
