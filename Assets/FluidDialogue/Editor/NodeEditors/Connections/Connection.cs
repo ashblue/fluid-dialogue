@@ -30,6 +30,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private bool IsMemoryLeak => Data.Children.Count != Links.List.Count;
+        public bool Hide { get; set; }
 
         public Connection (ConnectionType type, INodeData data, IDialogueWindow window) {
             Window = window;
@@ -39,6 +40,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void Print () {
+            if (Hide) return;
+
             if (IsMemoryLeak) {
                 Links.RebuildLinks();
             }
@@ -60,7 +63,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public bool IsClicked (Vector2 mousePosition) {
-            return _rect.Contains(mousePosition);
+            return !Hide && _rect.Contains(mousePosition);
         }
 
         public void SetPosition (Vector2 position) {

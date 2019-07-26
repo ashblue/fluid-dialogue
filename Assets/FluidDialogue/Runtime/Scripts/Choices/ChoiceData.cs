@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Choices {
     public class ChoiceData : ScriptableObject, IGetRuntime<IChoice> {
+        public string text;
         public List<NodeDataBase> children;
 
         [SerializeField]

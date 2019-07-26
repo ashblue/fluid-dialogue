@@ -13,6 +13,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private float _cachedContentHeight;
         private NodeStyles _styles;
+        protected Rect _contentArea;
 
         protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
@@ -36,7 +37,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             serializedObject = new SerializedObject(data);
 
             if (HasOutConnection) {
-                Out = CreateConnection(ConnectionType.Out);
+                Out.Add(CreateConnection(ConnectionType.Out));
             }
 
             if (HasInConnection) {
@@ -75,7 +76,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void PrintBody () {
             var box = new Rect(Data.rect.x, Data.rect.y + HEADER_HEIGHT, Data.rect.width, Data.rect.height - HEADER_HEIGHT);
-            var content = new Rect(
+            _contentArea = new Rect(
                 Data.rect.x + PADDING_CONTENT / 2f,
                 Data.rect.y + HEADER_HEIGHT + PADDING_CONTENT / 2f,
                 Data.rect.width - PADDING_CONTENT,
@@ -83,14 +84,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             GUI.Box(box, GUIContent.none, _styles.ContentStyle.Style);
 
-            GUILayout.BeginArea(content);
+            GUILayout.BeginArea(_contentArea);
 
+            GUILayout.BeginVertical();
             OnPrintBody();
+            GUILayout.EndVertical();
+
             if (Event.current.type == EventType.Repaint ) {
                 var rect = GUILayoutUtility.GetLastRect();
                 if (Math.Abs(rect.height - _cachedContentHeight) > 0.1f) {
-                    Data.rect.height = rect.height + HEADER_HEIGHT + PADDING_CONTENT * 2;
-                    _cachedContentHeight = rect.height;
+                    Data.rect.height = rect.height + PADDING_CONTENT * 2;
+                    _cachedContentHeight = Data.rect.height;
                 }
             }
 

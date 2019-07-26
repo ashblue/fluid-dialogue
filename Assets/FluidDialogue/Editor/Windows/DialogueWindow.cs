@@ -52,7 +52,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private void BuildNodeConnections () {
             foreach (var node in Nodes) {
-                node.Out.Links.RebuildLinks();
+                foreach (var connection in node.Out) {
+                    connection.Links.RebuildLinks();
+                }
             }
         }
 

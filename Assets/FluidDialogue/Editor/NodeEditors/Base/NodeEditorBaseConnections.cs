@@ -9,14 +9,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected virtual bool HasOutConnection => true;
         protected virtual bool HasInConnection => true;
 
-        public Connection Out { get; private set; }
+        public List<Connection> Out { get; } = new List<Connection>();
         public Connection In { get; private set; }
 
         public Connection GetConnection (Vector2 mousePosition) {
             return _connections.Find(c => c.IsClicked(mousePosition));
         }
 
-        private Connection CreateConnection (ConnectionType type) {
+        protected Connection CreateConnection (ConnectionType type) {
             var connection = new Connection(type, Data, Window);
             _connections.Add(connection);
 
@@ -24,11 +24,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private void PositionConnections () {
-            if (Out != null) {
+            if (Out.Count > 0) {
                 var outPosition = Data.rect.position;
                 outPosition.x += Data.rect.width - Connection.SIZE / 2;
                 outPosition.y += Data.rect.height / 2 - Connection.SIZE / 2;
-                Out.SetPosition(outPosition);
+                Out[0].SetPosition(outPosition);
             }
 
             if (In != null) {

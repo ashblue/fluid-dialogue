@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -11,8 +13,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         protected override float NodeWidth { get; } = 200;
         protected override string NodeTitle => string.IsNullOrEmpty(_data.nodeTitle) ? _data.name : _data.nodeTitle;
 
+        private readonly List<Connection> _choiceConnections = new List<Connection>();
+
         protected override void OnSetup () {
             _data = Data as NodeDialogueData;
+
+            foreach (var choice in _data.choices) {
+                Out[0].Hide = true;
+                var connection = CreateConnection(ConnectionType.Out);
+                Out.Add(connection);
+                _choiceConnections.Add(connection);
+            }
         }
 
         protected override void OnPrintBody () {
@@ -21,7 +32,48 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("actor"), GUIContent.none);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
 
+            PrintChoices();
+            CreateChoice();
+
             serializedObject.ApplyModifiedProperties();
+        }
+
+        private void CreateChoice () {
+            if (GUILayout.Button("Add Choice", EditorStyles.miniButton, GUILayout.Width(80))) {
+                var choice = ScriptableObject.CreateInstance<ChoiceData>();
+                choice.name = "Choice";
+                choice.Setup();
+                _data.choices.Add(choice);
+
+                AssetDatabase.AddObjectToAsset(choice, _data);
+                AssetDatabase.SaveAssets();
+
+                Out[0].Hide = true;
+                var connection = CreateConnection(ConnectionType.Out);
+                Out.Add(connection);
+                _choiceConnections.Add(connection);
+            }
+        }
+
+        private void PrintChoices () {
+            for (var i = 0; i < _data.choices.Count; i++) {
+                GUILayout.BeginHorizontal();
+
+                var choice = _data.choices[i];
+                var connection = _choiceConnections[i];
+
+                if (GUILayout.Button("Edit", EditorStyles.miniButton)) Selection.activeObject = choice;
+                if (GUILayout.Button("-", EditorStyles.miniButton)) Debug.Log("Delete");
+                choice.text = EditorGUILayout.TextField(choice.text);
+
+                GUILayout.EndHorizontal();
+
+                var area = GUILayoutUtility.GetLastRect();
+                var pos = _contentArea.position;
+                pos.x += _contentArea.width;
+                pos.y += area.y;
+                connection.SetPosition(pos);
+            }
         }
 
         public override void ShowContextMenu () {
