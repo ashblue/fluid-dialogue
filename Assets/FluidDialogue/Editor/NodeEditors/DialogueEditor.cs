@@ -130,5 +130,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 });
             menu.ShowAsContext();
         }
+
+        public override NodeDataBase CreateDataCopy () {
+            var copy = Data.GetCopy() as NodeDialogueData;
+            foreach (var choice in copy.choices) {
+                choice.name = "Choice";
+                choice.Setup();
+
+                AssetDatabase.AddObjectToAsset(choice, Window.Graph);
+                AssetDatabase.SaveAssets();
+                Undo.RegisterCreatedObjectUndo(choice, "Duplicate choice");
+            }
+
+            return copy;
+        }
     }
 }

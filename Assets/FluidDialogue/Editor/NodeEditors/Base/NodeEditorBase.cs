@@ -115,5 +115,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         public virtual void ShowContextMenu () {
         }
+
+        public virtual NodeDataBase CreateDataCopy () {
+            return Data.GetCopy();
+        }
     }
 }

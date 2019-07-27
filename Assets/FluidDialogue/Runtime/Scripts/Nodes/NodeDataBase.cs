@@ -54,5 +54,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public virtual void ClearConnectionChildren () {
             children.Clear();
         }
+
+        public virtual NodeDataBase GetCopy () {
+            return Instantiate(this);
+        }
     }
 }

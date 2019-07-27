@@ -34,5 +34,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 choice.ClearConnectionChildren();
             }
         }
+
+        public override NodeDataBase GetCopy () {
+            var copy = base.GetCopy() as NodeDialogueData;
+            copy.choices = choices.Select(Instantiate).ToList();
+
+            return copy;
+        }
     }
 }

@@ -68,7 +68,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.SetCurrentGroupName("Duplicate node");
             Undo.RecordObject(_graph, "New node");
 
-            var copy = Object.Instantiate(node.Data);
+            var copy = node.CreateDataCopy();
             NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
@@ -79,7 +79,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             Undo.RecordObject(_graph, "New node");
 
             foreach (var node in nodes) {
-                var copy = Object.Instantiate(node.Data);
+                var copy = node.CreateDataCopy();
                 NewNode(copy, new Vector2(copy.rect.position.x + 50, copy.rect.position.y + 50));
             }
 
