@@ -19,20 +19,25 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             _data = Data as NodeDialogueData;
 
             foreach (var choice in _data.choices) {
-                Out[0].Hide = true;
-                var connection = CreateConnection(ConnectionType.Out);
-                Out.Add(connection);
-                _choiceConnections.Add(connection);
+                AddConnectionDisplay(choice);
             }
         }
 
-        protected override void OnPrintBody () {
+        private void AddConnectionDisplay (ChoiceData choice) {
+            Out[0].Hide = true;
+            var connection = CreateConnection(ConnectionType.Out, choice);
+            Out.Add(connection);
+            _choiceConnections.Add(connection);
+        }
+
+        protected override void OnPrintBody (Event e) {
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("actor"), GUIContent.none);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
 
-            PrintChoices();
+
+            PrintChoices(e);
             CreateChoice();
 
             serializedObject.ApplyModifiedProperties();
@@ -48,14 +53,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 AssetDatabase.AddObjectToAsset(choice, _data);
                 AssetDatabase.SaveAssets();
 
-                Out[0].Hide = true;
-                var connection = CreateConnection(ConnectionType.Out);
-                Out.Add(connection);
-                _choiceConnections.Add(connection);
+                AddConnectionDisplay(choice);
             }
         }
 
-        private void PrintChoices () {
+        private void PrintChoices (Event e) {
             for (var i = 0; i < _data.choices.Count; i++) {
                 GUILayout.BeginHorizontal();
 
@@ -68,11 +70,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
                 GUILayout.EndHorizontal();
 
-                var area = GUILayoutUtility.GetLastRect();
-                var pos = _contentArea.position;
-                pos.x += _contentArea.width;
-                pos.y += area.y;
-                connection.SetPosition(pos);
+                // Only draw on repaint events to prevent crashing display position
+                if (e.type == EventType.Repaint) {
+                    var area = GUILayoutUtility.GetLastRect();
+                    var pos = _contentArea.position;
+                    pos.x += _contentArea.width;
+                    pos.y += area.y;
+                    connection.SetPosition(pos);
+                }
             }
         }
 

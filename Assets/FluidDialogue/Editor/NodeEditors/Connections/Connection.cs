@@ -6,7 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public partial interface IConnection {
         ConnectionType Type { get; }
         Rect Rect { get; }
-        INodeData Data { get; }
+        NodeDataBase Data { get; }
         IConnectionLinks Links { get; }
     }
 
@@ -15,10 +15,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private static Texture2D _graphic;
 
         private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
+        private readonly IConnectionChildCollection _childCollection;
 
         public ConnectionType Type { get; }
         public Rect Rect => _rect;
-        public INodeData Data { get; }
+        public NodeDataBase Data { get; }
         public IConnectionLinks Links { get; }
         public IDialogueWindow Window { get; }
 
@@ -32,11 +33,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private bool IsMemoryLeak => Data.Children.Count != Links.List.Count;
         public bool Hide { get; set; }
 
-        public Connection (ConnectionType type, INodeData data, IDialogueWindow window) {
+        public Connection (ConnectionType type, NodeDataBase data, IConnectionChildCollection childCollection, IDialogueWindow window) {
             Window = window;
             Type = type;
             Data = data;
-            Links = new ConnectionLinks(this);
+            _childCollection = childCollection;
+            Links = new ConnectionLinks(this, childCollection);
         }
 
         public void Print () {
@@ -76,9 +78,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Clear Connections"), false, () => {
-                    Undo.RecordObject(Data as Object, "Clear connections");
+                    Undo.RecordObject(Data, "Clear connections");
                     Links.ClearAllLinks();
-                    Data.Children.Clear();
+                    _childCollection.ClearConnectionChildren();
                 });
             menu.ShowAsContext();
         }

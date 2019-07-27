@@ -5,7 +5,7 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Choices {
-    public class ChoiceData : ScriptableObject, IGetRuntime<IChoice> {
+    public class ChoiceData : ScriptableObject, IGetRuntime<IChoice>, IConnectionChildCollection {
         public string text;
         public List<NodeDataBase> children;
 
@@ -13,6 +13,8 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
         private string _uniqueId;
 
         public string UniqueId => _uniqueId;
+
+        public IReadOnlyList<NodeDataBase> Children => children;
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();
@@ -22,6 +24,22 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
             return new ChoiceRuntime(
                 _uniqueId,
                 children.Select(c => c.GetRuntime(dialogue)).ToList());
+        }
+
+        public void AddConnectionChild (NodeDataBase child) {
+            children.Add(child);
+        }
+
+        public void RemoveConnectionChild (NodeDataBase child) {
+            children.Remove(child);
+        }
+
+        public void SortConnectionsByPosition () {
+            children = children.OrderBy(i => i.rect.yMin).ToList();
+        }
+
+        public void ClearConnectionChildren () {
+            children.Clear();
         }
     }
 }

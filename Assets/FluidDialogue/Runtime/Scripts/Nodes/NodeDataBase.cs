@@ -6,10 +6,16 @@ using CleverCrow.Fluid.Dialogues.Conditions;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public interface INodeData : IGetRuntime<INode> {
-        List<NodeDataBase> Children { get; }
+    public interface INodeData : IGetRuntime<INode>, IConnectionChildCollection {
+    }
 
-        void SortChildrenByPosition ();
+    public interface IConnectionChildCollection {
+        IReadOnlyList<NodeDataBase> Children { get; }
+
+        void AddConnectionChild (NodeDataBase child);
+        void RemoveConnectionChild (NodeDataBase child);
+        void SortConnectionsByPosition ();
+        void ClearConnectionChildren ();
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
@@ -25,16 +31,28 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public string UniqueId => _uniqueId;
         public virtual string DefaultName { get; } = "Untitled";
-        public List<NodeDataBase> Children => children;
+        public IReadOnlyList<NodeDataBase> Children => children;
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();
         }
 
-        public void SortChildrenByPosition () {
+        public void AddConnectionChild (NodeDataBase child) {
+            children.Add(child);
+        }
+
+        public void RemoveConnectionChild (NodeDataBase child) {
+            children.Remove(child);
+        }
+
+        public void SortConnectionsByPosition () {
             children = children.OrderBy(i => i.rect.yMin).ToList();
         }
 
         public abstract INode GetRuntime (IDialogueController dialogue);
+
+        public void ClearConnectionChildren () {
+            children.Clear();
+        }
     }
 }

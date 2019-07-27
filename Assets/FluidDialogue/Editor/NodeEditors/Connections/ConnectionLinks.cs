@@ -16,11 +16,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public class ConnectionLinks : IConnectionLinks {
         private readonly Connection _owner;
         private readonly List<IConnection> _list = new List<IConnection>();
+        private readonly IConnectionChildCollection _childCollection;
 
         public IReadOnlyList<IConnection> List => _list;
 
-        public ConnectionLinks (Connection owner) {
+        public ConnectionLinks (Connection owner, IConnectionChildCollection childCollection) {
             _owner = owner;
+            _childCollection = childCollection;
         }
 
         public void AddLink (IConnection target) {
@@ -35,17 +37,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             BindLink(target);
 
-            if (_owner.Data is Object data) {
+            if (_childCollection is Object data) {
                 Undo.RecordObject(data, "Add connection");
             }
 
-            _owner.Data.Children.Add(target.Data as NodeDataBase);
-            _owner.Data.SortChildrenByPosition();
+            _childCollection.AddConnectionChild(target.Data);
+            _childCollection.SortConnectionsByPosition();
         }
 
         public void RemoveLink (IConnection connection) {
             _list.Remove(connection);
-            _owner.Data.Children.Remove(connection.Data as NodeDataBase);
+            _childCollection.RemoveConnectionChild(connection.Data);
         }
 
         public void RebuildLinks () {
@@ -54,7 +56,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             ClearAllLinks();
-            foreach (var child in _owner.Data.Children) {
+            foreach (var child in _childCollection.Children) {
                 var target = _owner.Window.DataToNode[child];
                 BindLink(target.In);
             }

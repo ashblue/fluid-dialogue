@@ -11,7 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [TextArea]
         public string dialogue;
 
-        public List<ChoiceData> choices;
+        public List<ChoiceData> choices = new List<ChoiceData>();
         public string nodeTitle;
         public override string DefaultName => "Dialogue";
 

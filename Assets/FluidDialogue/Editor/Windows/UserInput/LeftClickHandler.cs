@@ -146,7 +146,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 foreach (var link in node.In.Parents) {
                     Undo.RegisterCompleteObjectUndo(
                         link.Data as NodeDataBase, "Move node");
-                    link.Data.SortChildrenByPosition();
+                    link.Data.SortConnectionsByPosition();
                 }
             }
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());

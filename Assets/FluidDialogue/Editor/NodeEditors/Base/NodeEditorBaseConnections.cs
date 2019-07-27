@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,8 +17,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             return _connections.Find(c => c.IsClicked(mousePosition));
         }
 
-        protected Connection CreateConnection (ConnectionType type) {
-            var connection = new Connection(type, Data, Window);
+        // @TODO Automatically adds the connection to In or Out (returns nothing)
+        // @TODO In and out connections are read only
+        protected Connection CreateConnection (ConnectionType type, IConnectionChildCollection childCollection) {
+            var connection = new Connection(type, Data, childCollection, Window);
             _connections.Add(connection);
 
             return connection;

@@ -37,11 +37,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             serializedObject = new SerializedObject(data);
 
             if (HasOutConnection) {
-                Out.Add(CreateConnection(ConnectionType.Out));
+                Out.Add(CreateConnection(ConnectionType.Out, data));
             }
 
             if (HasInConnection) {
-                In = CreateConnection(ConnectionType.In);
+                In = CreateConnection(ConnectionType.In, data);
             }
 
             OnSetup();
@@ -87,10 +87,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             GUILayout.BeginArea(_contentArea);
 
             GUILayout.BeginVertical();
-            OnPrintBody();
+            OnPrintBody(Event.current);
             GUILayout.EndVertical();
 
-            if (Event.current.type == EventType.Repaint ) {
+            if (Event.current.type == EventType.Repaint) {
                 var rect = GUILayoutUtility.GetLastRect();
                 if (Math.Abs(rect.height - _cachedContentHeight) > 0.1f) {
                     Data.rect.height = rect.height + PADDING_CONTENT * 2;
@@ -101,7 +101,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             GUILayout.EndArea();
         }
 
-        protected virtual void OnPrintBody () {
+        protected virtual void OnPrintBody (Event e) {
             GUILayout.Label(Data.name);
         }
 
