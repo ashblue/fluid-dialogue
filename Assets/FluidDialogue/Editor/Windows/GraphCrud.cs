@@ -62,6 +62,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _graph.DeleteNode(node.Data);
             _window.GraveyardAdd(node);
             Undo.DestroyObjectImmediate(node.Data);
+            node.DeleteCleanup();
         }
 
         public void DuplicateNode (NodeEditorBase node) {

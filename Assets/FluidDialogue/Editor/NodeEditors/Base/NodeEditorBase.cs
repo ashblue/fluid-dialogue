@@ -119,5 +119,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public virtual NodeDataBase CreateDataCopy () {
             return Data.GetCopy();
         }
+
+        public void DeleteCleanup () {
+            OnDeleteCleanup();
+        }
+
+        protected virtual void OnDeleteCleanup () {
+        }
     }
 }

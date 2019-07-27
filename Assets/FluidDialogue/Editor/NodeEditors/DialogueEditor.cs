@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
@@ -43,6 +44,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void CreateChoice () {
             if (GUILayout.Button("Add Choice", EditorStyles.miniButton, GUILayout.Width(80))) {
+                Undo.SetCurrentGroupName("Add choice");
+                Undo.RecordObject(Data, "Add choice");
+
                 var choice = ScriptableObject.CreateInstance<ChoiceData>();
                 choice.name = "Choice";
                 choice.Setup();
@@ -52,6 +56,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 AssetDatabase.SaveAssets();
 
                 AddConnectionDisplay(choice);
+
+                Undo.RegisterCreatedObjectUndo(choice, "Add choice");
+                Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
             }
         }
 
@@ -107,7 +114,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var connection = _choiceConnections[choiceIndex];
 
             Undo.SetCurrentGroupName($"Delete {choice.name}");
-            Undo.RecordObject(Window.Graph, $"Delete {choice.name}");
+            Undo.RecordObject(_data, $"Delete {choice.name}");
 
             connection.Links.ClearAllLinks();
             _data.choices.Remove(choice);
@@ -143,6 +150,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             return copy;
+        }
+
+        protected override void OnDeleteCleanup () {
+            foreach (var choice in _data.choices.ToList()) {
+                Undo.DestroyObjectImmediate(choice);
+            }
         }
     }
 }
