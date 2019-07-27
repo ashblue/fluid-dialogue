@@ -27,5 +27,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 exitActions.Select(a => a.GetRuntime(controller)).ToList()
             );
         }
+
+        public override void ClearConnectionChildren () {
+            base.ClearConnectionChildren();
+            foreach (var choice in choices) {
+                choice.ClearConnectionChildren();
+            }
+        }
     }
 }

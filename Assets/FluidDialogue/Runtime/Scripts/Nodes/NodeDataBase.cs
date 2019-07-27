@@ -51,7 +51,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public abstract INode GetRuntime (IDialogueController dialogue);
 
-        public void ClearConnectionChildren () {
+        public virtual void ClearConnectionChildren () {
             children.Clear();
         }
     }

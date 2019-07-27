@@ -25,6 +25,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void NewNode (NodeDataBase data, Vector2 position) {
+            data.ClearConnectionChildren();
             data.rect.position = position;
             _graph.AddNode(data);
             AssetDatabase.AddObjectToAsset(data, _graph);
