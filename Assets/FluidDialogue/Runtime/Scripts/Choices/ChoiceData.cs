@@ -7,7 +7,7 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Choices {
     public class ChoiceData : ScriptableObject, IGetRuntime<IChoice>, IConnectionChildCollection {
         public string text;
-        public List<NodeDataBase> children;
+        public List<NodeDataBase> children = new List<NodeDataBase>();
 
         [SerializeField]
         private string _uniqueId;

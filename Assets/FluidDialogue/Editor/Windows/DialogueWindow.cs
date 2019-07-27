@@ -15,16 +15,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow : EditorWindow, IDialogueWindow {
         private readonly List<NodeEditorBase> _graveyard = new List<NodeEditorBase>();
 
-        private DialogueGraph _graph;
         private InputController _mouseEvents;
 
         private bool IsGraphPopulated => Nodes != null;
-        private bool NodesOutOfSync => Nodes.Count != _graph.Nodes.Count;
+        private bool NodesOutOfSync => Nodes.Count != Graph.Nodes.Count;
         public List<NodeEditorBase> Nodes { get; private set; }
-        public GraphCrud Graph { get; private set; }
+        public GraphCrud GraphCrud { get; private set; }
 
         public Dictionary<NodeDataBase, NodeEditorBase> DataToNode { get; } =
             new Dictionary<NodeDataBase, NodeEditorBase>();
+
+        public DialogueGraph Graph { get; private set; }
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -33,10 +34,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void SetGraph (DialogueGraph graph) {
-            Graph = new GraphCrud(graph, this);
+            GraphCrud = new GraphCrud(graph, this);
             BuildNodes(graph);
 
-            _graph = graph;
+            Graph = graph;
             _mouseEvents = new InputController(this);
         }
 
@@ -70,17 +71,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void OnGUI () {
-            if (_graph == null) return;
+            if (Graph == null) return;
 
             if (!IsGraphPopulated) {
-                SetGraph(_graph);
+                SetGraph(Graph);
             }
 
             if (NodesOutOfSync) {
-                BuildNodes(_graph);
+                BuildNodes(Graph);
             }
 
-            GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {_graph.name}", EditorStyles.boldLabel);
+            GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {Graph.name}", EditorStyles.boldLabel);
 
             var e = Event.current;
             _mouseEvents.Scroll.UpdateScrollView(position);

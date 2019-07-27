@@ -109,10 +109,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             var menu = new GenericMenu();
             menu.AddItem(new GUIContent("Duplicate All"), false, () => {
-                _window.Graph.DuplicateNode(_selection.Selected);
+                _window.GraphCrud.DuplicateNode(_selection.Selected);
             });
             menu.AddItem(new GUIContent("Delete All"), false, () => {
-                _window.Graph.DeleteNode(_selection.Selected);
+                _window.GraphCrud.DeleteNode(_selection.Selected);
             });
 
             menu.ShowAsContext();
@@ -124,7 +124,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             foreach (var menuLine in NodeAssemblies.StringToData) {
                 menu.AddItem(new GUIContent(menuLine.Key), false, () => {
                     var data = ScriptableObject.CreateInstance(menuLine.Value);
-                    _window.Graph.CreateData(data as NodeDataBase, mousePosition);
+                    _window.GraphCrud.CreateData(data as NodeDataBase, mousePosition);
                 });
             }
 

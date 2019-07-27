@@ -37,11 +37,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             serializedObject = new SerializedObject(data);
 
             if (HasOutConnection) {
-                Out.Add(CreateConnection(ConnectionType.Out, data));
+                CreateConnection(ConnectionType.Out, data);
             }
 
             if (HasInConnection) {
-                In = CreateConnection(ConnectionType.In, data);
+                CreateConnection(ConnectionType.In, data);
             }
 
             OnSetup();

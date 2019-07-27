@@ -30,8 +30,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private bool IsMemoryLeak => Data.Children.Count != Links.List.Count;
-        public bool Hide { get; set; }
+        private bool IsMemoryLeak => _childCollection.Children.Count != Links.List.Count;
+        public bool Hide { private get; set; }
 
         public Connection (ConnectionType type, NodeDataBase data, IConnectionChildCollection childCollection, IDialogueWindow window) {
             Window = window;

@@ -58,7 +58,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             ClearAllLinks();
             foreach (var child in _childCollection.Children) {
                 var target = _owner.Window.DataToNode[child];
-                BindLink(target.In);
+                BindLink(target.In[0]);
             }
         }
 

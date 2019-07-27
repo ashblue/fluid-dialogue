@@ -7,27 +7,26 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     [NodeType(typeof(NodeDialogueData))]
     public class DialogueEditor : NodeEditorBase {
+        private readonly List<Connection> _choiceConnections = new List<Connection>();
+        private readonly List<ChoiceData> _graveyard = new List<ChoiceData>();
+
         private NodeDialogueData _data;
 
         protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
         protected override float NodeWidth { get; } = 200;
         protected override string NodeTitle => string.IsNullOrEmpty(_data.nodeTitle) ? _data.name : _data.nodeTitle;
 
-        private readonly List<Connection> _choiceConnections = new List<Connection>();
+        private bool IsChoiceMemoryLeak => _data.choices.Count != _choiceConnections.Count;
 
         protected override void OnSetup () {
             _data = Data as NodeDialogueData;
-
-            foreach (var choice in _data.choices) {
-                AddConnectionDisplay(choice);
-            }
+            RebuildChoices();
         }
 
         private void AddConnectionDisplay (ChoiceData choice) {
             Out[0].Hide = true;
-            var connection = CreateConnection(ConnectionType.Out, choice);
-            Out.Add(connection);
-            _choiceConnections.Add(connection);
+            CreateConnection(ConnectionType.Out, choice);
+            _choiceConnections.Add(Out[Out.Count - 1]);
         }
 
         protected override void OnPrintBody (Event e) {
@@ -35,7 +34,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("actor"), GUIContent.none);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
-
 
             PrintChoices(e);
             CreateChoice();
@@ -58,6 +56,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private void PrintChoices (Event e) {
+            if (IsChoiceMemoryLeak) {
+                Debug.Log("memory leak");
+                RebuildChoices();
+            }
+
             for (var i = 0; i < _data.choices.Count; i++) {
                 GUILayout.BeginHorizontal();
 
@@ -65,7 +68,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 var connection = _choiceConnections[i];
 
                 if (GUILayout.Button("Edit", EditorStyles.miniButton)) Selection.activeObject = choice;
-                if (GUILayout.Button("-", EditorStyles.miniButton)) Debug.Log("Delete");
+                if (GUILayout.Button("-", EditorStyles.miniButton)) _graveyard.Add(choice);
                 choice.text = EditorGUILayout.TextField(choice.text);
 
                 GUILayout.EndHorizontal();
@@ -79,17 +82,49 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     connection.SetPosition(pos);
                 }
             }
+
+            if (_graveyard.Count > 0) {
+                foreach (var choice in _graveyard) {
+                    DeleteChoice(choice);
+                }
+
+                _graveyard.Clear();
+            }
+        }
+
+        private void RebuildChoices () {
+            _choiceConnections.ForEach(RemoveConnection);
+            _choiceConnections.Clear();
+            foreach (var choice in _data.choices) {
+                AddConnectionDisplay(choice);
+            }
+        }
+
+        private void DeleteChoice (ChoiceData choice) {
+            var choiceIndex = _data.choices.IndexOf(choice);
+            var connection = _choiceConnections[choiceIndex];
+
+            Undo.SetCurrentGroupName($"Delete {choice.name}");
+            Undo.RecordObject(Window.Graph, $"Delete {choice.name}");
+
+            connection.Links.ClearAllLinks();
+            _data.choices.Remove(choice);
+            RemoveConnection(connection);
+            _choiceConnections.Remove(connection);
+
+            Undo.DestroyObjectImmediate(choice);
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
         public override void ShowContextMenu () {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Duplicate"), false, () => {
-                    Window.Graph.DuplicateNode(this);
+                    Window.GraphCrud.DuplicateNode(this);
                 });
             menu.AddItem(
                 new GUIContent("Delete"), false, () => {
-                    Window.Graph.DeleteNode(this);
+                    Window.GraphCrud.DeleteNode(this);
                 });
             menu.ShowAsContext();
         }

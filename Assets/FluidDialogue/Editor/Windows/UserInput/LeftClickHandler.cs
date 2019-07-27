@@ -143,9 +143,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             Undo.SetCurrentGroupName("Drag nodes");
             foreach (var node in _selection.Selected) {
-                foreach (var link in node.In.Parents) {
+                foreach (var link in node.In[0].Parents) {
                     Undo.RegisterCompleteObjectUndo(
-                        link.Data as NodeDataBase, "Move node");
+                        link.Data, "Move node");
                     link.Data.SortConnectionsByPosition();
                 }
             }
