@@ -36,13 +36,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Data.rect.width = NodeWidth;
             serializedObject = new SerializedObject(data);
 
-            if (HasOutConnection) {
-                CreateConnection(ConnectionType.Out, data);
-            }
+            CreateConnection(ConnectionType.Out, data);
+            Out[0].Hide = !HasOutConnection;
 
-            if (HasInConnection) {
-                CreateConnection(ConnectionType.In, data);
-            }
+            CreateConnection(ConnectionType.In, data);
+            In[0].Hide = !HasInConnection;
 
             OnSetup();
         }
