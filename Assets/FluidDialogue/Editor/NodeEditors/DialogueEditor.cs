@@ -57,7 +57,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void PrintChoices (Event e) {
             if (IsChoiceMemoryLeak) {
-                Debug.Log("memory leak");
                 RebuildChoices();
             }
 
@@ -88,11 +87,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     DeleteChoice(choice);
                 }
 
+                Out[0].Hide = _choiceConnections.Count != 0;
                 _graveyard.Clear();
             }
         }
 
+
         private void RebuildChoices () {
+            Out[0].Hide = false;
             _choiceConnections.ForEach(RemoveConnection);
             _choiceConnections.Clear();
             foreach (var choice in _data.choices) {
