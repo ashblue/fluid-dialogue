@@ -78,7 +78,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             var menu = new GenericMenu();
             menu.AddItem(
                 new GUIContent("Clear Connections"), false, () => {
-                    Undo.RecordObject(Data, "Clear connections");
+                    Undo.RecordObject(_childCollection as Object, "Clear connections");
                     Links.ClearAllLinks();
                     _childCollection.ClearConnectionChildren();
                 });
