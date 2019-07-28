@@ -23,6 +23,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SerializeField]
         private string _uniqueId;
 
+        public string nodeTitle;
         public List<NodeDataBase> children = new List<NodeDataBase>();
         public List<ConditionDataBase> conditions;
         public List<ActionDataBase> enterActions;
@@ -35,6 +36,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();
+            name = DefaultName;
         }
 
         public void AddConnectionChild (NodeDataBase child) {

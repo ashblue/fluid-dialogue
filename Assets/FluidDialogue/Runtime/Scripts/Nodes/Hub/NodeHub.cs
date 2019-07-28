@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Conditions;
 
-namespace CleverCrow.Fluid.Dialogues.Nodes.Hub {
+namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeHub : NodeBase {
         public NodeHub (
             string uniqueId,

@@ -12,7 +12,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public string dialogue;
 
         public List<ChoiceData> choices = new List<ChoiceData>();
-        public string nodeTitle;
         public override string DefaultName => "Dialogue";
 
         public override INode GetRuntime (IDialogueController controller) {

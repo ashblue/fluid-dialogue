@@ -1,7 +1,10 @@
 using System.Linq;
 
-namespace CleverCrow.Fluid.Dialogues.Nodes.Hub {
+namespace CleverCrow.Fluid.Dialogues.Nodes {
+    [CreateNodeMenu("Hub")]
     public class NodeHubData : NodeDataBase {
+        public override string DefaultName => "Hub";
+
         public override INode GetRuntime (IDialogueController dialogue) {
             return new NodeHub(
                 UniqueId,

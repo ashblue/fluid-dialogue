@@ -15,7 +15,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private NodeStyles _styles;
 
         protected DialogueWindow Window { get; private set; }
-        protected virtual string NodeTitle => Data.name;
+        private string NodeTitle => string.IsNullOrEmpty(Data.nodeTitle) ? Data.name : Data.nodeTitle;
 
         protected SerializedObject serializedObject { get; private set; }
         public NodeDataBase Data { get; private set; }
@@ -111,7 +111,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             IsSelected = false;
         }
 
-        public virtual void ShowContextMenu () {
+        public void ShowContextMenu () {
+            if (Protected) return;
+
+            var menu = new GenericMenu();
+            menu.AddItem(
+                new GUIContent("Duplicate"), false, () => {
+                    Window.GraphCrud.DuplicateNode(this);
+                });
+            menu.AddItem(
+                new GUIContent("Delete"), false, () => {
+                    Window.GraphCrud.DeleteNode(this);
+                });
+            menu.ShowAsContext();
         }
 
         public virtual NodeDataBase CreateDataCopy () {

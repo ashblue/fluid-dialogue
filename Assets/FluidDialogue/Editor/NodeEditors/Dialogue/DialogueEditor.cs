@@ -10,7 +10,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
         protected override float NodeWidth { get; } = 200;
-        protected override string NodeTitle => string.IsNullOrEmpty(_data.nodeTitle) ? _data.name : _data.nodeTitle;
 
         protected override void OnSetup () {
             _data = Data as NodeDialogueData;
@@ -33,19 +32,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             if (GUILayout.Button("Add Choice", EditorStyles.miniButton, GUILayout.Width(80))) {
                 _choices.Add();
             }
-        }
-
-        public override void ShowContextMenu () {
-            var menu = new GenericMenu();
-            menu.AddItem(
-                new GUIContent("Duplicate"), false, () => {
-                    Window.GraphCrud.DuplicateNode(this);
-                });
-            menu.AddItem(
-                new GUIContent("Delete"), false, () => {
-                    Window.GraphCrud.DeleteNode(this);
-                });
-            menu.ShowAsContext();
         }
 
         public override NodeDataBase CreateDataCopy () {
