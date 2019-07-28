@@ -35,6 +35,13 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             }
         }
 
+        public override void SortConnectionsByPosition () {
+            base.SortConnectionsByPosition();
+            foreach (var choice in choices) {
+                choice.SortConnectionsByPosition();
+            }
+        }
+
         public override NodeDataBase GetCopy () {
             var copy = base.GetCopy() as NodeDialogueData;
             copy.choices = choices.Select(Instantiate).ToList();

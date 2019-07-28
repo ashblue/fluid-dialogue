@@ -45,7 +45,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             children.Remove(child);
         }
 
-        public void SortConnectionsByPosition () {
+        public virtual void SortConnectionsByPosition () {
             children = children.OrderBy(i => i.rect.yMin).ToList();
         }
 
