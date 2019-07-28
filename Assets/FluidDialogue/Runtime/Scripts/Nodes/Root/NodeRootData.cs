@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeRootData : NodeDataBase {
-        public override string DefaultName => "Root";
+        protected override string DefaultName => "Root";
 
         public override INode GetRuntime (IDialogueController dialogue) {
             return new NodeRoot(

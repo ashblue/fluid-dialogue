@@ -88,6 +88,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public void UndoRecordAllObjects () {
+            // Sometimes goes null when bulk deleting nodes
+            if (Data == null) return;
+
             Undo.RecordObject(Data, "Changed connection");
             if (!(_childCollection is NodeDataBase)) {
                 Undo.RecordObject(_childCollection as Object, "Changed connection");

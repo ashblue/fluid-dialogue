@@ -9,7 +9,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public class ChoiceCollection {
         private readonly DialogueWindow _window;
         private readonly NodeEditorBase _node;
-        private readonly NodeDialogueData _data;
+        private readonly NodeDataChoiceBase _data;
 
         private readonly List<ChoiceData> _graveyard = new List<ChoiceData>();
         private readonly List<Connection> _connections = new List<Connection>();
@@ -17,10 +17,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private bool IsChoiceMemoryLeak => _data.choices.Count != _connections.Count;
 
-        public ChoiceCollection (NodeEditorBase node, DialogueWindow window) {
+        public ChoiceCollection (NodeEditorBase node, NodeDataChoiceBase data, DialogueWindow window) {
             _window = window;
             _node = node;
-            _data = node.Data as NodeDialogueData;
+            _data = data;
 
             RebuildChoices();
         }
@@ -56,7 +56,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public NodeDataBase GetParentDataCopy () {
-            var copy = _data.GetCopy() as NodeDialogueData;
+            var copy = _data.GetCopy() as NodeDataChoiceBase;
             foreach (var choice in copy.choices) {
                 choice.name = "Choice";
                 choice.Setup();

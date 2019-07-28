@@ -31,7 +31,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public Rect rect;
 
         public string UniqueId => _uniqueId;
-        public virtual string DefaultName { get; } = "Untitled";
+        protected virtual string DefaultName { get; } = "Untitled";
         public IReadOnlyList<NodeDataBase> Children => children;
 
         public void Setup () {

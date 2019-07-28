@@ -1,18 +1,15 @@
-using System.Collections.Generic;
 using System.Linq;
-using CleverCrow.Fluid.Dialogues.Choices;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     [CreateNodeMenu("Dialogue")]
-    public class NodeDialogueData : NodeDataBase {
+    public class NodeDialogueData : NodeDataChoiceBase {
         public ActorDefinition actor;
 
         [TextArea]
         public string dialogue;
 
-        public List<ChoiceData> choices = new List<ChoiceData>();
-        public override string DefaultName => "Dialogue";
+        protected override string DefaultName => "Dialogue";
 
         public override INode GetRuntime (IDialogueController controller) {
             return new NodeDialogue(
@@ -25,27 +22,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 enterActions.Select(a => a.GetRuntime(controller)).ToList(),
                 exitActions.Select(a => a.GetRuntime(controller)).ToList()
             );
-        }
-
-        public override void ClearConnectionChildren () {
-            base.ClearConnectionChildren();
-            foreach (var choice in choices) {
-                choice.ClearConnectionChildren();
-            }
-        }
-
-        public override void SortConnectionsByPosition () {
-            base.SortConnectionsByPosition();
-            foreach (var choice in choices) {
-                choice.SortConnectionsByPosition();
-            }
-        }
-
-        public override NodeDataBase GetCopy () {
-            var copy = base.GetCopy() as NodeDialogueData;
-            copy.choices = choices.Select(Instantiate).ToList();
-
-            return copy;
         }
     }
 }

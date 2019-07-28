@@ -1,9 +1,9 @@
 using System.Linq;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    [CreateNodeMenu("Hub")]
+    [CreateNodeMenu("Hub/Default")]
     public class NodeHubData : NodeDataBase {
-        public override string DefaultName => "Hub";
+        protected override string DefaultName => "Hub";
 
         public override INode GetRuntime (IDialogueController dialogue) {
             return new NodeHub(

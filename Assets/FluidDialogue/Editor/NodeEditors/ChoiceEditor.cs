@@ -3,22 +3,19 @@ using UnityEditor;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
-    [NodeType(typeof(NodeDialogueData))]
-    public class DialogueEditor : NodeEditorBase {
+    [NodeType(typeof(NodeChoiceHubData))]
+    public class ChoiceEditor : NodeEditorBase {
         private ChoiceCollection _choices;
 
-        protected override Color NodeColor { get; } = new Color(0.28f, 0.75f, 0.34f);
+        protected override Color NodeColor { get; } = new Color(0.33f, 0.75f, 0.73f);
         protected override float NodeWidth { get; } = 200;
 
         protected override void OnSetup () {
-            _choices = new ChoiceCollection(this, Data as NodeDataChoiceBase, Window);
+            _choices = new ChoiceCollection(this, Data as NodeChoiceHubData, Window);
         }
 
         protected override void OnPrintBody (Event e) {
             serializedObject.Update();
-
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("actor"), GUIContent.none);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("dialogue"), GUIContent.none);
 
             _choices.Print(e);
             CreateChoice();
