@@ -13,7 +13,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private float _cachedContentHeight;
         private NodeStyles _styles;
-        protected Rect _contentArea;
 
         protected DialogueWindow Window { get; private set; }
         protected virtual string NodeTitle => Data.name;
@@ -27,6 +26,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         public bool IsMemoryLeak => Data == null;
         public virtual bool Protected => false;
+        public Rect ContentArea { get; private set; }
 
         public void Setup (DialogueWindow window, NodeDataBase data) {
             Window = window;
@@ -74,7 +74,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void PrintBody () {
             var box = new Rect(Data.rect.x, Data.rect.y + HEADER_HEIGHT, Data.rect.width, Data.rect.height - HEADER_HEIGHT);
-            _contentArea = new Rect(
+            ContentArea = new Rect(
                 Data.rect.x + PADDING_CONTENT / 2f,
                 Data.rect.y + HEADER_HEIGHT + PADDING_CONTENT / 2f,
                 Data.rect.width - PADDING_CONTENT,
@@ -82,7 +82,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             GUI.Box(box, GUIContent.none, _styles.ContentStyle.Style);
 
-            GUILayout.BeginArea(_contentArea);
+            GUILayout.BeginArea(ContentArea);
 
             GUILayout.BeginVertical();
             OnPrintBody(Event.current);
