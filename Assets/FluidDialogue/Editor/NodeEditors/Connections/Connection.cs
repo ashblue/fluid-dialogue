@@ -8,6 +8,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         Rect Rect { get; }
         NodeDataBase Data { get; }
         IConnectionLinks Links { get; }
+        void UndoRecordAllObjects ();
     }
 
     public partial class Connection : IConnection {
@@ -21,6 +22,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public Rect Rect => _rect;
         public NodeDataBase Data { get; }
         public IConnectionLinks Links { get; }
+
         public IDialogueWindow Window { get; }
 
         private static Texture2D Graphic {
@@ -83,6 +85,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     _childCollection.ClearConnectionChildren();
                 });
             menu.ShowAsContext();
+        }
+
+        public void UndoRecordAllObjects () {
+            Undo.RecordObject(Data, "Changed connection");
+            if (!(_childCollection is NodeDataBase)) {
+                Undo.RecordObject(_childCollection as Object, "Changed connection");
+            }
         }
     }
 }

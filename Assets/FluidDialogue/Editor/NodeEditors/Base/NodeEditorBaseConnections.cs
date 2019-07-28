@@ -69,7 +69,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public void CleanConnections () {
             foreach (var connection in In) {
                 foreach (var parent in connection.Parents) {
-                    Undo.RecordObject(parent.Data, "Removed connection");
+                    parent.UndoRecordAllObjects();
                     parent.Links.RemoveLink(connection);
                 }
             }
