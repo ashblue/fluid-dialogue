@@ -51,7 +51,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             var color = GUI.color;
-            GUI.color = Color.cyan;
+            GUI.color = GetGraphicColor();
 
             GUI.DrawTexture(_rect, Graphic);
 
@@ -94,6 +94,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Undo.RecordObject(Data, "Changed connection");
             if (!(_childCollection is NodeDataBase)) {
                 Undo.RecordObject(_childCollection as Object, "Changed connection");
+            }
+        }
+
+        private Color GetGraphicColor () {
+            switch (Type) {
+                case ConnectionType.In:
+                    var color = Color.gray;
+                    color.a = 1f;
+                    return color;
+                case ConnectionType.Out:
+                    return Color.cyan;
+                default:
+                    throw new System.ArgumentOutOfRangeException();
             }
         }
     }
