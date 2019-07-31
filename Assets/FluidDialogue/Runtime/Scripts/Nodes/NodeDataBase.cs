@@ -23,12 +23,14 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SerializeField]
         private string _uniqueId;
 
+        public Rect rect;
         public string nodeTitle;
         public List<NodeDataBase> children = new List<NodeDataBase>();
+
         public List<ConditionDataBase> conditions;
+        [HideInInspector]
         public List<ActionDataBase> enterActions;
         public List<ActionDataBase> exitActions;
-        public Rect rect;
 
         public string UniqueId => _uniqueId;
         protected virtual string DefaultName { get; } = "Untitled";
