@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
@@ -17,22 +19,84 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         }
 
         protected override void OnInit () {
-            _list.onAddDropdownCallback = (rect, list) => {
-                var menu = new GenericMenu();
+            _list.drawElementCallback = DrawScriptableObject;
+            _list.elementHeightCallback = GetHeight;
 
-                foreach (var type in ActionTypes) {
-                    var path = type.FullName;
-                    var details = type.GetCustomAttribute<CreateActionMenuAttribute>();
-                    if (details != null) path = details.Path;
+            _list.onAddDropdownCallback = ShowActionMenu;
+        }
 
-                    menu.AddItem(
-                        new GUIContent(path),
-                        false,
-                        () => Debug.Log("Create"));
-                }
+        private void DrawScriptableObject (Rect rect, int index, bool active, bool focused) {
+            var totalHeight = 0f;
 
-                menu.ShowAsContext();
-            };
+            var element = _serializedProp.GetArrayElementAtIndex(index);
+            var serializedObject = new SerializedObject(element.objectReferenceValue);
+            var propIterator = serializedObject.GetIterator();
+
+            EditorGUI.BeginChangeCheck();
+            while (propIterator.NextVisible(true)) {
+                var position = new Rect(rect);
+                position.y += totalHeight;
+                EditorGUI.PropertyField(position, propIterator, true);
+
+                var height = EditorGUI.GetPropertyHeight(propIterator);
+                totalHeight += height;
+            }
+            if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
+        }
+
+        private float GetHeight (int index) {
+            var totalHeight = 0f;
+
+            var element = _serializedProp.GetArrayElementAtIndex(index);
+            var iterator = new SerializedObject(element.objectReferenceValue).GetIterator();
+
+            while (iterator.NextVisible(true)) {
+                var height = EditorGUI.GetPropertyHeight(iterator);
+                totalHeight += height;
+            }
+
+            return totalHeight;
+        }
+
+        private void ShowActionMenu (Rect buttonRect, ReorderableList list) {
+            var menu = new GenericMenu();
+
+            foreach (var type in ActionTypes) {
+                var path = type.FullName;
+                var details = type.GetCustomAttribute<CreateActionMenuAttribute>();
+                if (details != null) path = details.Path;
+
+                menu.AddItem(
+                    new GUIContent(path),
+                    false,
+                    () => CreateAction(type));
+            }
+
+            menu.ShowAsContext();
+        }
+
+        private void CreateAction (Type actionType) {
+            var node = _editor.target as NodeDataBase;
+            Debug.Assert(node != null, "Failed to cast action parent object");
+
+            var graphPath = AssetDatabase.GetAssetPath(node);
+            var graph = AssetDatabase.LoadAssetAtPath<ScriptableObject>(graphPath);
+
+            var action = ScriptableObject.CreateInstance(actionType) as ActionDataBase;
+            Debug.Assert(action != null, $"Failed to create new action {actionType}");
+            action.Setup();
+
+            Undo.SetCurrentGroupName("Create node");
+
+            Undo.RecordObject(graph, "Add Action");
+            Undo.RecordObject(node, "Add Action");
+
+            node.enterActions.Add(action);
+            AssetDatabase.AddObjectToAsset(action, graph);
+            AssetDatabase.SaveAssets();
+            Undo.RegisterCreatedObjectUndo(action, "Add Action");
+
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
         }
 
         private static List<Type> GetActionTypes () {
