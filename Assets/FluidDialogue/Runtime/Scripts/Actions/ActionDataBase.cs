@@ -4,6 +4,9 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Actions {
     public abstract class ActionDataBase : ScriptableObject, IGetRuntime<IAction> {
         [SerializeField]
+        private string _title;
+
+        [SerializeField]
         private string _uniqueId;
 
         protected virtual void OnInit (IDialogueController dialogue) {}
@@ -21,6 +24,11 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
         public string UniqueId => _uniqueId;
 
         public void Setup () {
+            if (string.IsNullOrEmpty(_title)) {
+                _title = GetType().Name;
+            }
+
+            name = GetType().Name;
             _uniqueId = Guid.NewGuid().ToString();
         }
 

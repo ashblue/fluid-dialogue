@@ -12,6 +12,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
     public class ActionsSortableList : SortableListBase {
         private static List<Type> _actionTypes;
 
+        private readonly HashSet<string> _variableBlacklist = new HashSet<string> {
+            "m_Script",
+            "_uniqueId",
+        };
+
         private static List<Type> ActionTypes =>
             _actionTypes ?? (_actionTypes = GetActionTypes());
 
@@ -34,6 +39,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
 
             EditorGUI.BeginChangeCheck();
             while (propIterator.NextVisible(true)) {
+                if (_variableBlacklist.Contains(propIterator.name)) continue;
+
                 var position = new Rect(rect);
                 position.y += totalHeight;
                 EditorGUI.PropertyField(position, propIterator, true);
@@ -45,13 +52,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         }
 
         private float GetHeight (int index) {
-            var totalHeight = 0f;
+            var totalHeight = EditorGUIUtility.singleLineHeight;
 
             var element = _serializedProp.GetArrayElementAtIndex(index);
-            var iterator = new SerializedObject(element.objectReferenceValue).GetIterator();
+            var propIterator = new SerializedObject(element.objectReferenceValue).GetIterator();
 
-            while (iterator.NextVisible(true)) {
-                var height = EditorGUI.GetPropertyHeight(iterator);
+            while (propIterator.NextVisible(true)) {
+                if (_variableBlacklist.Contains(propIterator.name)) continue;
+
+                var height = EditorGUI.GetPropertyHeight(propIterator);
                 totalHeight += height;
             }
 

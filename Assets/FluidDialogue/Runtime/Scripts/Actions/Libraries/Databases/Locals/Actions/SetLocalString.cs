@@ -2,6 +2,7 @@
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
+    [CreateActionMenu("Database/Locals/Set String")]
     public class SetLocalString : SetLocalVariableBase<string> {
         [SerializeField]
         public KeyValueDefinitionString _variable;
