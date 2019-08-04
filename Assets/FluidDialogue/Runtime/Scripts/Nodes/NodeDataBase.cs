@@ -68,7 +68,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         }
 
         public virtual NodeDataBase GetCopy () {
-            return Instantiate(this);
+            var copy = Instantiate(this);
+            copy.conditions = conditions.Select(Instantiate).ToList();
+            copy.enterActions = enterActions.Select(Instantiate).ToList();
+            copy.exitActions = exitActions.Select(Instantiate).ToList();
+
+            return copy;
         }
     }
 }

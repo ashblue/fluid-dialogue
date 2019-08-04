@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
@@ -126,8 +127,31 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             menu.ShowAsContext();
         }
 
-        public virtual NodeDataBase CreateDataCopy () {
-            return Data.GetCopy();
+        public NodeDataBase CreateDataCopy () {
+            var copy = Data.GetCopy();
+
+            var saveNeeded = new List<Object>();
+            foreach (var action in copy.enterActions.Concat(copy.exitActions)) {
+                action.Setup();
+                saveNeeded.Add(action);
+            }
+
+            foreach (var condition in copy.conditions) {
+                condition.Setup();
+                saveNeeded.Add(condition);
+            }
+
+            foreach (var obj in saveNeeded) {
+                AssetDatabase.AddObjectToAsset(obj, Window.Graph);
+                AssetDatabase.SaveAssets();
+                Undo.RegisterCreatedObjectUndo(obj, "Duplicate object");
+            }
+
+            return OnCreateDataCopy(copy);
+        }
+
+        protected virtual NodeDataBase OnCreateDataCopy (NodeDataBase copy) {
+            return copy;
         }
 
         public void DeleteCleanup () {

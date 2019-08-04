@@ -17,6 +17,7 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
         public IReadOnlyList<NodeDataBase> Children => children;
 
         public void Setup () {
+            name = "Choice";
             _uniqueId = Guid.NewGuid().ToString();
         }
 

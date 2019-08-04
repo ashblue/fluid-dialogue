@@ -55,10 +55,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        public NodeDataBase GetParentDataCopy () {
-            var copy = _data.GetCopy() as NodeDataChoiceBase;
+        public NodeDataBase GetParentDataCopy (NodeDataChoiceBase copy) {
             foreach (var choice in copy.choices) {
-                choice.name = "Choice";
                 choice.Setup();
 
                 AssetDatabase.AddObjectToAsset(choice, _window.Graph);

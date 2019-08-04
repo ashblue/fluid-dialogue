@@ -29,8 +29,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        public override NodeDataBase CreateDataCopy () {
-            return _choices.GetParentDataCopy();
+        protected override NodeDataBase OnCreateDataCopy (NodeDataBase copy) {
+            return _choices.GetParentDataCopy(copy as NodeDataChoiceBase);
         }
 
         protected override void OnDeleteCleanup () {
