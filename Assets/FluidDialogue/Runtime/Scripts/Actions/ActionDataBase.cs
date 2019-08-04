@@ -33,12 +33,13 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
         }
 
         public IAction GetRuntime (IDialogueController dialogue) {
+            var copy = Instantiate(this);
             return new ActionRuntime(dialogue, _uniqueId) {
-                OnInit = OnInit,
-                OnStart = OnStart,
-                OnUpdate = OnUpdate,
-                OnExit = OnExit,
-                OnReset = OnReset,
+                OnInit = copy.OnInit,
+                OnStart = copy.OnStart,
+                OnUpdate = copy.OnUpdate,
+                OnExit = copy.OnExit,
+                OnReset = copy.OnReset,
             };
         }
     }

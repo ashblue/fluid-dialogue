@@ -16,9 +16,10 @@ namespace CleverCrow.Fluid.Dialogues.Conditions {
         protected virtual void OnInit (IDialogueController dialogue) {}
 
         public ICondition GetRuntime (IDialogueController dialogue) {
+            var copy = Instantiate(this);
             return new ConditionRuntime (dialogue, _uniqueId) {
-                OnGetIsValid = OnGetIsValid,
-                OnInit = OnInit,
+                OnGetIsValid = copy.OnGetIsValid,
+                OnInit = copy.OnInit,
             };
         }
     }
