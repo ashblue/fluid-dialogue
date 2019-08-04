@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
@@ -58,10 +59,21 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void CleanupNode (NodeEditorBase node) {
+            Undo.RecordObject(node.Data, "Delete node");
+
             node.CleanConnections();
             _graph.DeleteNode(node.Data);
             _window.GraveyardAdd(node);
             Undo.DestroyObjectImmediate(node.Data);
+
+            var childObjects = node.Data.enterActions
+                .Concat<ScriptableObject>(node.Data.exitActions)
+                .Concat(node.Data.conditions);
+
+            foreach (var scriptableObject in childObjects) {
+                Undo.DestroyObjectImmediate(scriptableObject);
+            }
+
             node.DeleteCleanup();
         }
 

@@ -19,6 +19,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             var totalHeight = 0f;
 
             var element = _serializedProp.GetArrayElementAtIndex(index);
+            if (element.objectReferenceValue == null) {
+                Debug.LogWarning($"Null element detected in sortable list {element.name}");
+                return;
+            }
+
             var serializedObject = new SerializedObject(element.objectReferenceValue);
             var propIterator = serializedObject.GetIterator();
 
@@ -40,6 +45,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             var totalHeight = EditorGUIUtility.singleLineHeight;
 
             var element = _serializedProp.GetArrayElementAtIndex(index);
+            if (element.objectReferenceValue == null) {
+                Debug.LogWarning($"Null element detected in sortable list {element.name}");
+                return 0;
+            }
+
             var propIterator = new SerializedObject(element.objectReferenceValue).GetIterator();
 
             while (propIterator.NextVisible(true)) {
