@@ -4,7 +4,8 @@ using CleverCrow.Fluid.Dialogues.Conditions;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
-    public class ConditionLocalBool : ConditionDataBase {
+    [CreateMenu("Database/Locals/Is Bool")]
+    public class IsLocalBool : ConditionDataBase {
         private ConditionLocalBoolInternal _condition;
 
         [SerializeField]

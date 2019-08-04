@@ -4,6 +4,7 @@ using CleverCrow.Fluid.Dialogues.Conditions;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
+    [CreateMenu("Database/Locals/Is Float")]
     public class ConditionLocalFloat : ConditionDataBase {
         private ConditionLocalFloatInternal _condition;
 

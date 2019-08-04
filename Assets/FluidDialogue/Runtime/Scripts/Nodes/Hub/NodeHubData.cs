@@ -1,7 +1,7 @@
 using System.Linq;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    [CreateNodeMenu("Hub/Default")]
+    [CreateMenu("Hub/Default")]
     public class NodeHubData : NodeDataBase {
         protected override string DefaultName => "Hub";
 

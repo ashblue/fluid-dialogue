@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    [CreateNodeMenu("Dialogue", 1)]
+    [CreateMenu("Dialogue", 1)]
     public class NodeDialogueData : NodeDataChoiceBase {
         public ActorDefinition actor;
 

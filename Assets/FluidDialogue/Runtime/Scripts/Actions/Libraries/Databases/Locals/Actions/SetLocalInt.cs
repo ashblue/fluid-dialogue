@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
-    [CreateActionMenu("Database/Locals/Set Int")]
+    [CreateMenu("Database/Locals/Set Int")]
     public class SetLocalInt : SetLocalVariableBase<int> {
         [SerializeField]
         public KeyValueDefinitionInt _variable;

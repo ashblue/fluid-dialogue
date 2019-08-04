@@ -35,12 +35,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 .GetAssembly(typeof(NodeDataBase))
                 .GetTypes()
                 .Where(t => t.IsSubclassOf(typeof(NodeDataBase))
-                            && t.GetCustomAttribute<CreateNodeMenuAttribute>() != null)
-                .OrderByDescending(t => t.GetCustomAttribute<CreateNodeMenuAttribute>().Priority);
+                            && t.GetCustomAttribute<CreateMenuAttribute>() != null)
+                .OrderByDescending(t => t.GetCustomAttribute<CreateMenuAttribute>().Priority);
 
             return menuTypes.ToDictionary(
                 (k) => {
-                    var attribute = k.GetCustomAttribute<CreateNodeMenuAttribute>();
+                    var attribute = k.GetCustomAttribute<CreateMenuAttribute>();
                     return attribute.Path;
                 },
                 (v) => v);
