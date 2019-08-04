@@ -22,11 +22,11 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
             NotEqual
         }
 
-        protected override void OnInit (IDialogueController dialogue) {
+        public override void OnInit (IDialogueController dialogue) {
             _condition = new ConditionLocalBoolInternal(dialogue.LocalDatabase.Bools);
         }
 
-        protected override bool OnGetIsValid () {
+        public override bool OnGetIsValid () {
             switch (_comparison) {
                 case Comparison.Equal:
                     return _condition.AreValuesEqual(_variable, _value);

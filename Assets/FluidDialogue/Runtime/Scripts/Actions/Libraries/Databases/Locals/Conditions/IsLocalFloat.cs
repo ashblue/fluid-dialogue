@@ -17,11 +17,11 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         [SerializeField]
         private float _value = 0;
 
-        protected override void OnInit (IDialogueController dialogue) {
+        public override void OnInit (IDialogueController dialogue) {
             _condition = new ConditionLocalFloatInternal(dialogue.LocalDatabase.Floats);
         }
 
-        protected override bool OnGetIsValid () {
+        public override bool OnGetIsValid () {
             return _condition.IsComparisonValid(_variable, _value, _comparison);
         }
     }
