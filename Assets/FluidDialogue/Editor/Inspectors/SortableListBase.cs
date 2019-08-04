@@ -32,11 +32,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             _list.drawHeaderCallback = rect => {
                 EditorGUI.LabelField(rect, _serializedProp.displayName);
             };
-
-            OnInit();
-        }
-
-        protected virtual void OnInit () {
         }
 
         public void Update () {

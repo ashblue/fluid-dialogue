@@ -9,27 +9,20 @@ using UnityEditorInternal;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
-    public class ActionsSortableList : SortableListBase {
+    public class ActionCrud {
         private static List<Type> _actionTypes;
-        private ScriptableObjectListPrinter _soPrinter;
+        private readonly NodeDataBase _node;
+        private readonly List<ActionDataBase> _actions;
 
         private static List<Type> ActionTypes =>
             _actionTypes ?? (_actionTypes = GetActionTypes());
 
-        public ActionsSortableList (Editor editor, string property) : base(editor, property) {
+        public ActionCrud (NodeDataBase node, List<ActionDataBase> actions) {
+            _node = node;
+            _actions = actions;
         }
 
-        protected override void OnInit () {
-            _soPrinter = new ScriptableObjectListPrinter(_serializedProp);
-
-            _list.drawElementCallback = _soPrinter.DrawScriptableObject;
-            _list.elementHeightCallback = _soPrinter.GetHeight;
-
-            _list.onAddDropdownCallback = ShowActionMenu;
-            _list.onRemoveCallback = DeleteAction;
-        }
-
-        private void ShowActionMenu (Rect buttonRect, ReorderableList list) {
+        public void ShowActionMenu (Rect buttonRect, ReorderableList list) {
             var menu = new GenericMenu();
 
             foreach (var type in ActionTypes) {
@@ -47,8 +40,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         }
 
         private void CreateAction (Type actionType) {
-            var node = _editor.target as NodeDataBase;
-            var graphPath = AssetDatabase.GetAssetPath(node);
+            var graphPath = AssetDatabase.GetAssetPath(_node);
             var graph = AssetDatabase.LoadAssetAtPath<ScriptableObject>(graphPath);
 
             var action = ScriptableObject.CreateInstance(actionType) as ActionDataBase;
@@ -58,9 +50,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             Undo.SetCurrentGroupName("Add action");
 
             Undo.RecordObject(graph, "Add action");
-            Undo.RecordObject(node, "Add action");
+            Undo.RecordObject(_node, "Add action");
 
-            node.enterActions.Add(action);
+            _actions.Add(action);
             AssetDatabase.AddObjectToAsset(action, graph);
             Undo.RegisterCreatedObjectUndo(action, "Add action");
 
@@ -68,18 +60,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             AssetDatabase.SaveAssets();
         }
 
-        private void DeleteAction (ReorderableList list) {
-            var node = _editor.target as NodeDataBase;
-            var graphPath = AssetDatabase.GetAssetPath(node);
+        public void DeleteAction (ReorderableList list) {
+            var graphPath = AssetDatabase.GetAssetPath(_node);
             var graph = AssetDatabase.LoadAssetAtPath<ScriptableObject>(graphPath);
-            var action = node.enterActions[list.index];
+            var action = _actions[list.index];
 
             Undo.SetCurrentGroupName("Delete Action");
 
             Undo.RecordObject(graph, "Delete action");
-            Undo.RecordObject(node, "Delete action");
+            Undo.RecordObject(_node, "Delete action");
 
-            node.enterActions.Remove(action);
+            _actions.Remove(action);
             Undo.DestroyObjectImmediate(action);
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
