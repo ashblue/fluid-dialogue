@@ -11,11 +11,7 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
     public class ActionsSortableList : SortableListBase {
         private static List<Type> _actionTypes;
-
-        private readonly HashSet<string> _variableBlacklist = new HashSet<string> {
-            "m_Script",
-            "_uniqueId",
-        };
+        private ScriptableObjectListPrinter _soPrinter;
 
         private static List<Type> ActionTypes =>
             _actionTypes ?? (_actionTypes = GetActionTypes());
@@ -24,47 +20,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         }
 
         protected override void OnInit () {
-            _list.drawElementCallback = DrawScriptableObject;
-            _list.elementHeightCallback = GetHeight;
+            _soPrinter = new ScriptableObjectListPrinter(_serializedProp);
+
+            _list.drawElementCallback = _soPrinter.DrawScriptableObject;
+            _list.elementHeightCallback = _soPrinter.GetHeight;
 
             _list.onAddDropdownCallback = ShowActionMenu;
-        }
-
-        private void DrawScriptableObject (Rect rect, int index, bool active, bool focused) {
-            var totalHeight = 0f;
-
-            var element = _serializedProp.GetArrayElementAtIndex(index);
-            var serializedObject = new SerializedObject(element.objectReferenceValue);
-            var propIterator = serializedObject.GetIterator();
-
-            EditorGUI.BeginChangeCheck();
-            while (propIterator.NextVisible(true)) {
-                if (_variableBlacklist.Contains(propIterator.name)) continue;
-
-                var position = new Rect(rect);
-                position.y += totalHeight;
-                EditorGUI.PropertyField(position, propIterator, true);
-
-                var height = EditorGUI.GetPropertyHeight(propIterator);
-                totalHeight += height;
-            }
-            if (EditorGUI.EndChangeCheck()) serializedObject.ApplyModifiedProperties();
-        }
-
-        private float GetHeight (int index) {
-            var totalHeight = EditorGUIUtility.singleLineHeight;
-
-            var element = _serializedProp.GetArrayElementAtIndex(index);
-            var propIterator = new SerializedObject(element.objectReferenceValue).GetIterator();
-
-            while (propIterator.NextVisible(true)) {
-                if (_variableBlacklist.Contains(propIterator.name)) continue;
-
-                var height = EditorGUI.GetPropertyHeight(propIterator);
-                totalHeight += height;
-            }
-
-            return totalHeight;
         }
 
         private void ShowActionMenu (Rect buttonRect, ReorderableList list) {
