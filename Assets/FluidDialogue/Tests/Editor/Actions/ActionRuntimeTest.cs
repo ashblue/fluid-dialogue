@@ -3,55 +3,43 @@ using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
     public class ActionRuntimeTest {
+        private IActionData _data;
         private IDialogueController _dialogue;
         private ActionRuntime _action;
 
         [SetUp]
         public void BeforeEach () {
+            _data = Substitute.For<IActionData>();
+            _data.OnUpdate().Returns(ActionStatus.Continue);
+
             _dialogue = Substitute.For<IDialogueController>();
-            _action = new ActionRuntime(_dialogue, null) {
-                OnUpdate = () => ActionStatus.Continue
-            };
+            _action = new ActionRuntime(_dialogue, null, _data);
         }
 
         public class TickMethod {
             public class OnInitTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_OnInit_with_a_dialogue_controller () {
-                    IDialogueController dialogue = null;
-                    _action.OnInit = (d) => dialogue = d;
-
                     _action.Tick();
 
-                    Assert.AreEqual(dialogue, _dialogue);
+                    _data.Received(1).OnInit(_dialogue);
                 }
 
                 [Test]
                 public void It_should_trigger_OnInit_only_once () {
-                    var initCount = 0;
-                    _action.OnInit = (d) => initCount += 1;
-
                     _action.Tick();
                     _action.Tick();
 
-                    Assert.AreEqual(1, initCount);
+                    _data.Received(1).OnInit(_dialogue);
                 }
             }
 
             public class OnStartTriggering : ActionRuntimeTest {
-                private int _startCount;
-
-                [SetUp]
-                public void BeforeEachMethod () {
-                    _startCount = 0;
-                    _action.OnStart = () => _startCount += 1;
-                }
-
                 [Test]
                 public void It_should_trigger_OnStart () {
                     _action.Tick();
 
-                    Assert.AreEqual(1, _startCount);
+                    _data.Received(1).OnStart();
                 }
 
                 [Test]
@@ -59,37 +47,31 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
                     _action.Tick();
                     _action.Tick();
 
-                    Assert.AreEqual(1, _startCount);
+                    _data.Received(1).OnStart();
                 }
 
                 [Test]
                 public void It_should_trigger_OnStart_after_OnUpdate_returns_success () {
                     _action.Tick();
-                    _action.OnUpdate = () => ActionStatus.Success;
+                    _data.OnUpdate().Returns(ActionStatus.Success);
                     _action.Tick();
                     _action.Tick();
 
-                    Assert.AreEqual(2, _startCount);
+                    _data.Received(2).OnStart();
                 }
             }
 
             public class OnUpdateTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_OnUpdate () {
-                    var updateCount = 0;
-                    _action.OnUpdate = () => {
-                        updateCount += 1;
-                        return ActionStatus.Success;
-                    };
-
                     _action.Tick();
 
-                    Assert.AreEqual(1, updateCount);
+                    _data.Received(1).OnUpdate();
                 }
 
                 [Test]
                 public void It_should_return_the_update_status () {
-                    _action.OnUpdate = () => ActionStatus.Continue;
+                    _data.OnUpdate().Returns(ActionStatus.Continue);
 
                     var status = _action.Tick();
 
@@ -100,86 +82,71 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             public class OnExitTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_OnExit_if_OnUpdate_returns_success () {
-                    var exitCount = 0;
-                    _action.OnUpdate = () => ActionStatus.Success;
-                    _action.OnExit = () => exitCount += 1;
+                    _data.OnUpdate().Returns(ActionStatus.Success);
 
                     _action.Tick();
 
-                    Assert.AreEqual(1, exitCount);
+                    _data.Received(1).OnExit();
                 }
 
                 [Test]
                 public void It_should_not_trigger_OnExit_if_OnUpdate_returns_continue () {
-                    var exitCount = 0;
-                    _action.OnUpdate = () => ActionStatus.Continue;
-                    _action.OnExit = () => exitCount += 1;
+                    _data.OnUpdate().Returns(ActionStatus.Continue);
 
                     _action.Tick();
 
-                    Assert.AreEqual(0, exitCount);
+                    _data.Received(0).OnExit();
                 }
             }
 
             public class OnResetTriggering : ActionRuntimeTest {
                 [Test]
                 public void It_should_trigger_reset_after_OnUpdate_returns_success () {
-                    var resetCount = 0;
-                    _action.OnReset = () => resetCount += 1;
-                    _action.OnUpdate = () => ActionStatus.Success;
+                    _data.OnUpdate().Returns(ActionStatus.Success);
 
                     _action.Tick();
                     _action.Tick();
 
-                    Assert.AreEqual(1, resetCount);
+                    _data.Received(1).OnReset();
                 }
 
                 [Test]
                 public void It_should_not_trigger_reset_after_OnUpdate_returns_continue () {
-                    var resetCount = 0;
-                    _action.OnReset = () => resetCount += 1;
-                    _action.OnUpdate = () => ActionStatus.Continue;
+                    _data.OnUpdate().Returns(ActionStatus.Continue);
 
                     _action.Tick();
                     _action.Tick();
 
-                    Assert.AreEqual(0, resetCount);
+                    _data.Received(0).OnReset();
                 }
             }
 
             public class EndMethod : ActionRuntimeTest {
                 [Test]
                 public void It_should_not_call_OnExit_if_Tick_returns_success () {
-                    var exitCount = 0;
-                    _action.OnUpdate = () => ActionStatus.Success;
+                    _data.OnUpdate().Returns(ActionStatus.Success);
 
                     _action.Tick();
-                    _action.OnExit = () => exitCount += 1;
                     _action.End();
 
-                    Assert.AreEqual(0, exitCount);
+                    _data.Received(1).OnExit();
                 }
 
                 [Test]
                 public void It_should_call_OnExit_if_Tick_returned_continue () {
-                    var exitCount = 0;
-                    _action.OnUpdate = () => ActionStatus.Continue;
+                    _data.OnUpdate().Returns(ActionStatus.Continue);
 
                     _action.Tick();
-                    _action.OnExit = () => exitCount += 1;
                     _action.End();
 
-                    Assert.AreEqual(1, exitCount);
+                    _data.Received(1).OnExit();
                 }
 
                 [Test]
                 public void It_should_not_call_OnExit_if_Tick_has_not_been_called () {
-                    var exitCount = 0;
-                    _action.OnExit = () => exitCount += 1;
-
                     _action.End();
 
-                    Assert.AreEqual(0, exitCount);
+                    _data.Received(0).OnExit();
                 }
             }
         }

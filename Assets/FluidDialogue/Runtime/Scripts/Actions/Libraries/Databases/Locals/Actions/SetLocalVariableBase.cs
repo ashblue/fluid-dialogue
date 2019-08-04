@@ -10,11 +10,11 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
 
         protected abstract KeyValueDefinitionBase<T> Variable { get; }
 
-        protected override void OnInit (IDialogueController controller) {
+        public override void OnInit (IDialogueController controller) {
             _setKeyValue = new SetKeyValueInternal<T>(GetDatabase(controller));
         }
 
-        protected override ActionStatus OnUpdate () {
+        public override ActionStatus OnUpdate () {
             _setKeyValue.WriteValue(Variable.key, _value);
 
             return base.OnUpdate();
