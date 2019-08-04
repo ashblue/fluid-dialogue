@@ -26,6 +26,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             _list.elementHeightCallback = _soPrinter.GetHeight;
 
             _list.onAddDropdownCallback = ShowActionMenu;
+            _list.onRemoveCallback = DeleteAction;
         }
 
         private void ShowActionMenu (Rect buttonRect, ReorderableList list) {
@@ -47,8 +48,6 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
 
         private void CreateAction (Type actionType) {
             var node = _editor.target as NodeDataBase;
-            Debug.Assert(node != null, "Failed to cast action parent object");
-
             var graphPath = AssetDatabase.GetAssetPath(node);
             var graph = AssetDatabase.LoadAssetAtPath<ScriptableObject>(graphPath);
 
@@ -56,17 +55,35 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             Debug.Assert(action != null, $"Failed to create new action {actionType}");
             action.Setup();
 
-            Undo.SetCurrentGroupName("Create node");
+            Undo.SetCurrentGroupName("Add action");
 
-            Undo.RecordObject(graph, "Add Action");
-            Undo.RecordObject(node, "Add Action");
+            Undo.RecordObject(graph, "Add action");
+            Undo.RecordObject(node, "Add action");
 
             node.enterActions.Add(action);
             AssetDatabase.AddObjectToAsset(action, graph);
-            AssetDatabase.SaveAssets();
-            Undo.RegisterCreatedObjectUndo(action, "Add Action");
+            Undo.RegisterCreatedObjectUndo(action, "Add action");
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+            AssetDatabase.SaveAssets();
+        }
+
+        private void DeleteAction (ReorderableList list) {
+            var node = _editor.target as NodeDataBase;
+            var graphPath = AssetDatabase.GetAssetPath(node);
+            var graph = AssetDatabase.LoadAssetAtPath<ScriptableObject>(graphPath);
+            var action = node.enterActions[list.index];
+
+            Undo.SetCurrentGroupName("Delete Action");
+
+            Undo.RecordObject(graph, "Delete action");
+            Undo.RecordObject(node, "Delete action");
+
+            node.enterActions.Remove(action);
+            Undo.DestroyObjectImmediate(action);
+
+            Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+            AssetDatabase.SaveAssets();
         }
 
         private static List<Type> GetActionTypes () {
