@@ -113,6 +113,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private void ShowEditMenu (ChoiceData choice, int index) {
+            GUI.FocusControl(null);
             var menu = new GenericMenu();
 
             menu.AddItem(new GUIContent("View"), false, () => {

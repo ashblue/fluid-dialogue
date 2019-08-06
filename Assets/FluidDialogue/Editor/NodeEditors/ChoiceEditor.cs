@@ -25,6 +25,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void CreateChoice () {
             if (GUILayout.Button("Add Choice", EditorStyles.miniButton, GUILayout.Width(80))) {
+                GUI.FocusControl(null);
                 _choices.Add();
             }
         }

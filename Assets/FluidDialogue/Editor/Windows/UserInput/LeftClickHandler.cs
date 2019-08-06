@@ -72,6 +72,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private void DrawSelectionArea (Event e) {
             switch (e.type) {
                 case EventType.MouseDown:
+                    GUI.FocusControl(null);
                     _selectingArea = true;
                     _selection.area.position = e.mousePosition;
                     _selection.area.size = Vector2.zero;
