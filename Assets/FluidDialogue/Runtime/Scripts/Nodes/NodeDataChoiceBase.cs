@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Choices;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public abstract class NodeDataChoiceBase : NodeDataBase {
+        [HideInInspector]
         public List<ChoiceData> choices = new List<ChoiceData>();
 
         public override void ClearConnectionChildren () {
