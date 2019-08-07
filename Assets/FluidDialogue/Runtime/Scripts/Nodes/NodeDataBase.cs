@@ -43,6 +43,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public string UniqueId => _uniqueId;
         protected virtual string DefaultName { get; } = "Untitled";
         public IReadOnlyList<NodeDataBase> Children => children;
+        public virtual bool HideInspectorActions => false;
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

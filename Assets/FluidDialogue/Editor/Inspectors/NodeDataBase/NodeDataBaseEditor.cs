@@ -11,16 +11,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         private void OnEnable () {
             var node = target as NodeDataBase;
             _conditions = new ConditionSortableList(this, "conditions", node, node.conditions);
-            _enterActions = new ActionsSortableList(this, "enterActions", node, node.enterActions);
-            _exitActions = new ActionsSortableList(this, "exitActions", node, node.exitActions);
+
+            if (!node.HideInspectorActions) {
+                _enterActions = new ActionsSortableList(this, "enterActions", node, node.enterActions);
+                _exitActions = new ActionsSortableList(this, "exitActions", node, node.exitActions);
+            }
         }
 
         public override void OnInspectorGUI () {
             base.OnInspectorGUI();
 
             _conditions.Update();
-            _enterActions.Update();
-            _exitActions.Update();
+            _enterActions?.Update();
+            _exitActions?.Update();
         }
     }
 }
