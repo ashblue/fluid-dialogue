@@ -29,7 +29,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         private List<IChoice> GetValidChoices () {
             var child = Next();
-            if (child?.HubChoices != null && child.HubChoices.Count > 0) {
+            if (_choices.Count == 0 && child?.HubChoices != null && child.HubChoices.Count > 0) {
                 return child.HubChoices;
             }
 

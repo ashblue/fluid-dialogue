@@ -150,6 +150,38 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     }
 
                     [Test]
+                    public void It_should_not_use_a_choice_hub_if_choices_are_present () {
+                        var playback = Substitute.For<IDialoguePlayback>();
+                        var choice = Substitute.For<IChoice>();
+                        var choiceHub = A.Node
+                            .WithHubChoice(choice)
+                            .Build();
+                        _children.Add(choiceHub);
+
+                        _choiceList.Add(Substitute.For<IChoice>());
+                        var node = CreateNodeDialogue();
+                        node.Play(playback);
+
+                        playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, choiceHub.HubChoices);
+                    }
+
+                    [Test]
+                    public void It_should_not_use_a_choice_hub_if_its_invalid () {
+                        var playback = Substitute.For<IDialoguePlayback>();
+                        var choice = Substitute.For<IChoice>();
+                        var choiceHub = A.Node
+                            .WithHubChoice(choice)
+                            .WithIsValid(false)
+                            .Build();
+                        _children.Add(choiceHub);
+
+                        var node = CreateNodeDialogue();
+                        node.Play(playback);
+
+                        playback.Events.Choice.DidNotReceive().Invoke(_actor, DIALOGUE, choiceHub.HubChoices);
+                    }
+
+                    [Test]
                     public void It_should_not_error_if_choices_are_null () {
                         var playback = Substitute.For<IDialoguePlayback>();
                         var choiceHub = A.Node.Build();
@@ -178,7 +210,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             }
 
             [Test]
-            public void It_should_return_false_if_all_conditions_are_false () {
+            public void It_should_return_false_if_any_conditions_are_false () {
                 var condition = Substitute.For<ICondition>();
                 condition.GetIsValid().Returns(false);
                 _conditions.Add(condition);
