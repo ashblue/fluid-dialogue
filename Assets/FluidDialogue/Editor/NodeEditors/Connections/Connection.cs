@@ -1,6 +1,8 @@
+using System;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public partial interface IConnection {
@@ -9,6 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         NodeDataBase Data { get; }
         IConnectionLinks Links { get; }
         void UndoRecordAllObjects ();
+        bool IsValidLinkTarget (IConnection target);
     }
 
     public partial class Connection : IConnection {
@@ -18,6 +21,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private Rect _rect = new Rect(Vector2.zero, new Vector2(SIZE, SIZE));
         private readonly IConnectionChildCollection _childCollection;
 
+        public Func<IConnection, bool> IsValidLinkTargetCallback { private get; set; } = (i) => true;
         public ConnectionType Type { get; }
         public Rect Rect => _rect;
         public NodeDataBase Data { get; }
@@ -108,6 +112,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 default:
                     throw new System.ArgumentOutOfRangeException();
             }
+        }
+        public bool IsValidLinkTarget (IConnection target) {
+            return IsValidLinkTargetCallback.Invoke(target);
         }
     }
 }

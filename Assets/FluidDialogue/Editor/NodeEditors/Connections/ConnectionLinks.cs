@@ -28,6 +28,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public void AddLink (IConnection target) {
             if (target == null
                 || target.Type == _owner.Type
+                || !_owner.IsValidLinkTarget(target)
+                || !target.IsValidLinkTarget(_owner)
                 || _list.Contains(target)) return;
 
             if (_owner.Type == ConnectionType.In) {
