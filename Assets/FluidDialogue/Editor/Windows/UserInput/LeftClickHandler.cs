@@ -13,6 +13,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private bool _selectingArea;
         private bool _isDraggingNode;
         private Connection _connection;
+        private bool _toggleSelectionMode;
 
         public LeftClickHandler (DialogueWindow window, NodeSelection selection) {
             _window = window;
@@ -37,6 +38,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 }
             }
 
+            HandleCtrlClick(e);
+            if (_toggleSelectionMode) {
+                _clickedNode = null;
+                return;
+            }
+
             if (_connection != null) {
                 UpdateClickedConnection(e);
             } else if (_clickedNode == null) {
@@ -47,6 +54,27 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             if (e.type == EventType.MouseUp) {
                 _clickedNode = null;
+            }
+        }
+
+        private void HandleCtrlClick (Event e) {
+            if (e.keyCode == KeyCode.LeftControl && e.type == EventType.KeyDown) {
+                _toggleSelectionMode = true;
+            }
+
+            if (e.keyCode == KeyCode.LeftControl && e.type == EventType.KeyUp) {
+                _toggleSelectionMode = false;
+            }
+
+            if (!_toggleSelectionMode) return;
+
+            if (e.type == EventType.MouseDown) {
+                if (_selection.Contains(_clickedNode)) {
+                    _selection.Remove(_clickedNode);
+                } else {
+                    _selection.Add(_clickedNode);
+                }
+                GUI.changed = true;
             }
         }
 
