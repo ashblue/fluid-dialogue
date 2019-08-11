@@ -99,7 +99,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                     _selection.RemoveAll();
                     GUI.changed = true;
-                    _menu.Display = () => { ShowCreateMenu(e); };
+                    _menu.Display = () => { ShowCanvasContextMenu(e); };
 
                     break;
                 }
@@ -120,7 +120,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             menu.ShowAsContext();
         }
 
-        private void ShowCreateMenu (Event e) {
+        private void ShowCanvasContextMenu (Event e) {
             var menu = new GenericMenu();
             var mousePosition = e.mousePosition;
             foreach (var menuLine in NodeAssemblies.StringToData) {
@@ -129,6 +129,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     _window.GraphCrud.CreateData(data as NodeDataBase, mousePosition);
                 });
             }
+
+            menu.AddSeparator("");
+            menu.AddItem(new GUIContent("Show Root"), false, () => {
+                _scroll.SetViewToRect(_window.Graph.root.rect);
+            });
 
             menu.ShowAsContext();
         }

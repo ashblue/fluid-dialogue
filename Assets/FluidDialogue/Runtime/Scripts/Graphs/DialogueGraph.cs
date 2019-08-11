@@ -15,6 +15,9 @@ namespace CleverCrow.Fluid.Dialogues.Graphs {
         [HideInInspector]
         public NodeRootData root;
 
+        [HideInInspector]
+        public Vector2 scrollPosition;
+
         public INodeData Root => root;
         public IReadOnlyList<NodeDataBase> Nodes => _nodes;
 

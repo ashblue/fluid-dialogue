@@ -7,14 +7,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private readonly RightClickHandler _rightClick;
         private readonly DelayedMenu _delayedMenu = new DelayedMenu();
 
-        public ScrollManager Scroll { get; } = new ScrollManager();
+        public ScrollManager Scroll { get; }
 
         public InputController (DialogueWindow window) {
+            Scroll = new ScrollManager(window, window.Graph);
+            if (Vector2.Distance(window.Graph.scrollPosition, Vector2.one) < 1) {
+                Scroll.SetViewToRect(window.Graph.root.rect);
+            }
+
             _selection = new NodeSelection(window);
             _leftClick = new LeftClickHandler(window, _selection);
             _rightClick = new RightClickHandler(window, _selection, Scroll, _delayedMenu);
-
-            Scroll.ResetViewToOrigin();
         }
 
         public void ProcessCanvasEvent (Event e) {
