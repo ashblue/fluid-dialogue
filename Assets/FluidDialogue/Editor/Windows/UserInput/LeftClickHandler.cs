@@ -24,10 +24,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             if (e.button != 0) return;
 
             if (e.type == EventType.MouseDown) {
+                _connection = null;
+                _clickedNode = null;
+
                 foreach (var node in _window.Nodes) {
                     var connection = node.GetConnection(e.mousePosition);
                     if (connection != null) {
-                        _connection = node.GetConnection(e.mousePosition);
+                        _connection = connection;
                         _clickedNode = node;
                         continue;
                     }
@@ -93,6 +96,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
                     _connection.Links.AddLink(linkTarget);
                     _connection.ClearCurveExample();
+                    DialogueWindow.SaveGraph();
 
                     break;
             }
@@ -160,10 +164,12 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                     }
 
                     ClearDragging();
+                    DialogueWindow.SaveGraph();
                     break;
 
                 case EventType.Ignore:
                     ClearDragging();
+                    DialogueWindow.SaveGraph();
                     break;
             }
         }

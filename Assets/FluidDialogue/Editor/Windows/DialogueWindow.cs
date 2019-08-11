@@ -25,7 +25,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         public Dictionary<NodeDataBase, NodeEditorBase> DataToNode { get; } =
             new Dictionary<NodeDataBase, NodeEditorBase>();
 
-        public DialogueGraph Graph { get; private set; }
+        private static DialogueGraph GraphData { get; set; }
+        public DialogueGraph Graph => GraphData;
 
         public static void ShowGraph (DialogueGraph graph) {
             var window = GetWindow<DialogueWindow>(false);
@@ -33,11 +34,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             window.SetGraph(graph);
         }
 
+        public static void SaveGraph () {
+            if (GraphData == null) return;
+            EditorUtility.SetDirty(GraphData);
+            AssetDatabase.SaveAssets();
+        }
+
         private void SetGraph (DialogueGraph graph) {
             GraphCrud = new GraphCrud(graph, this);
             BuildNodes(graph);
 
-            Graph = graph;
+            GraphData = graph;
             _mouseEvents = new InputController(this);
         }
 
@@ -103,11 +110,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void UpdateGraveyard () {
+            if (_graveyard.Count == 0) return;
+
             foreach (var item in _graveyard) {
                 Nodes.Remove(item);
             }
 
             _graveyard.Clear();
+            AssetDatabase.SaveAssets();
         }
 
         public void GraveyardAdd (NodeEditorBase node) {

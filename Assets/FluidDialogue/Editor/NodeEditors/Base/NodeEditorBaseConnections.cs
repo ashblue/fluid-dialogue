@@ -20,8 +20,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             return _connections.Find(c => c.IsClicked(mousePosition));
         }
 
-        public void CreateConnection (ConnectionType type, IConnectionChildCollection childCollection) {
-            var connection = new Connection(type, Data, childCollection, Window);
+        public void CreateConnection (ConnectionType type, IConnectionChildCollection childCollection, bool isFirst) {
+            var connection = new Connection(type, Data, childCollection, Window, isFirst);
 
             _connections.Add(connection);
             switch (type) {

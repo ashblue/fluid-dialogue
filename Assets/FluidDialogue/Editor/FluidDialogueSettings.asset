@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121992c1b53540e89de5d3c98729688d, type: 3}
   m_Name: FluidDialogueSettings
   m_EditorClassIdentifier: 
-  _hideNestedNodeData: 1
+  _hideNestedNodeData: 0

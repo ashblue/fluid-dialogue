@@ -37,10 +37,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Data.rect.width = NodeWidth;
             serializedObject = new SerializedObject(data);
 
-            CreateConnection(ConnectionType.Out, data);
+            CreateConnection(ConnectionType.Out, data, true);
             Out[0].Hide = !HasOutConnection;
 
-            CreateConnection(ConnectionType.In, data);
+            CreateConnection(ConnectionType.In, data, true);
             In[0].Hide = !HasInConnection;
 
             OnSetup();
@@ -142,6 +142,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
 
             foreach (var obj in saveNeeded) {
+                if (FluidDialogueSettings.Current.HideNestedNodeData) {
+                    obj.hideFlags = HideFlags.HideInHierarchy;
+                }
+
                 AssetDatabase.AddObjectToAsset(obj, Window.Graph);
                 AssetDatabase.SaveAssets();
                 Undo.RegisterCreatedObjectUndo(obj, "Duplicate object");

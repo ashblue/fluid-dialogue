@@ -78,6 +78,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             foreach (var choice in copy.choices) {
                 choice.Setup();
 
+                if (FluidDialogueSettings.Current.HideNestedNodeData) {
+                    choice.hideFlags = HideFlags.HideInHierarchy;
+                }
+
                 AssetDatabase.AddObjectToAsset(choice, _window.Graph);
                 AssetDatabase.SaveAssets();
                 Undo.RegisterCreatedObjectUndo(choice, "Duplicate choice");
@@ -125,11 +129,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             });
 
             menu.AddItem(new GUIContent("Move Up"), false, () => {
-                _callbacks.Push(() => { MoveChoice(choice, index, -1); });
+                _callbacks.Push(() => {
+                    MoveChoice(choice, index, -1);
+                    DialogueWindow.SaveGraph();
+                });
             });
 
             menu.AddItem(new GUIContent("Move Down"), false, () => {
-                _callbacks.Push(() => { MoveChoice(choice, index, 1); });
+                _callbacks.Push(() => {
+                    MoveChoice(choice, index, 1);
+                    DialogueWindow.SaveGraph();
+                });
             });
 
             menu.AddSeparator("");
@@ -150,7 +160,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         private void AddConnectionDisplay (ChoiceData choice) {
             _node.Out[0].Hide = true;
-            _node.CreateConnection(ConnectionType.Out, choice);
+            _node.CreateConnection(ConnectionType.Out, choice, false);
             _connections.Add(_node.Out[_node.Out.Count - 1]);
             _serializedObjects.Add(new SerializedObject(choice));
         }
@@ -198,6 +208,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             _node.Out[0].Hide = _connections.Count != 0;
             _graveyard.Clear();
+            AssetDatabase.SaveAssets();
         }
     }
 }

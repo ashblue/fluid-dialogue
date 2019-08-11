@@ -12,7 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected override void OnSetup () {
             _choices = new ChoiceCollection(this, Data as NodeChoiceHubData, Window);
-            In[0].IsValidLinkTargetCallback = (i) => i.Data is NodeDialogueData;
+            In[0].IsValidLinkTargetCallback = (i) => i.IsFirst && i.Data is NodeDialogueData;
         }
 
         protected override void OnPrintBody (Event e) {

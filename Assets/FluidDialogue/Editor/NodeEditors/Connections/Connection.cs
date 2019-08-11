@@ -10,6 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         Rect Rect { get; }
         NodeDataBase Data { get; }
         IConnectionLinks Links { get; }
+        bool IsFirst { get; }
         void UndoRecordAllObjects ();
         bool IsValidLinkTarget (IConnection target);
     }
@@ -26,6 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public Rect Rect => _rect;
         public NodeDataBase Data { get; }
         public IConnectionLinks Links { get; }
+        public bool IsFirst { get; }
 
         public IDialogueWindow Window { get; }
 
@@ -39,7 +41,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         private bool IsMemoryLeak => _childCollection.Children.Count != Links.List.Count;
         public bool Hide { private get; set; }
 
-        public Connection (ConnectionType type, NodeDataBase data, IConnectionChildCollection childCollection, IDialogueWindow window) {
+        public Connection (ConnectionType type, NodeDataBase data, IConnectionChildCollection childCollection, IDialogueWindow window, bool isFirst) {
+            IsFirst = isFirst;
             Window = window;
             Type = type;
             Data = data;
@@ -87,6 +90,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                     Undo.RecordObject(_childCollection as Object, "Clear connections");
                     Links.ClearAllLinks();
                     _childCollection.ClearConnectionChildren();
+                    DialogueWindow.SaveGraph();
                 });
             menu.ShowAsContext();
         }
