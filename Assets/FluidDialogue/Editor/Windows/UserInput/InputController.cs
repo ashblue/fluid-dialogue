@@ -11,9 +11,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         public InputController (DialogueWindow window) {
             Scroll = new ScrollManager(window, window.Graph);
-            if (Vector2.Distance(window.Graph.scrollPosition, Vector2.one) < 1) {
+            if (Vector2.Distance(window.Graph.scrollPosition, Vector2.one) < 2) {
                 Scroll.SetViewToRect(window.Graph.root.rect);
             }
+
 
             _selection = new NodeSelection(window);
             _leftClick = new LeftClickHandler(window, _selection);

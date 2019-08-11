@@ -40,6 +40,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             choice.Setup();
             _data.choices.Add(choice);
 
+            if (FluidDialogueSettings.Current.HideNestedNodeData) {
+                choice.hideFlags = HideFlags.HideInHierarchy;
+            }
+
             AssetDatabase.AddObjectToAsset(choice, _data);
             AssetDatabase.SaveAssets();
 

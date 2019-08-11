@@ -39,6 +39,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             Debug.Assert(listItem != null, $"Failed to create new type {type}");
             listItem.Setup();
 
+            if (FluidDialogueSettings.Current.HideNestedNodeData) {
+                listItem.hideFlags = HideFlags.HideInHierarchy;
+            }
+
             Undo.SetCurrentGroupName("Add type");
 
             Undo.RecordObject(graph, "Add type");
