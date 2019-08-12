@@ -46,6 +46,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             GraphData = graph;
             _mouseEvents = new InputController(this);
+            SaveGraphToEditor(graph);
         }
 
         private void BuildNodes (DialogueGraph graph) {

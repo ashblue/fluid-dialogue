@@ -3,6 +3,7 @@ using UnityEditor;
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow {
         private void Awake () {
+            RestoreSavedGraph();
             BindUndoRedoCallback();
         }
 
