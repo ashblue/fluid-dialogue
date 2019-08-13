@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public static class CreateDialogueGraph {
-        [MenuItem("Assets/Create/Dialogue Graph", priority = 0)]
+        [MenuItem("Assets/Create/Fluid/Dialogue/Graph", priority = 0)]
         public static void CreateAsset () {
             var graph = CreateGraph();
 

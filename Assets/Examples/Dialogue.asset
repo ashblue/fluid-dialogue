@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8197609878907354110
+--- !u!114 &-8631762188638130726
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,50 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  _uniqueId: 00d6de85-94e7-41ac-9e77-c457399dba53
-  children:
-  - {fileID: -6033084916370954139}
-  conditions: []
-  enterActions: []
-  exitActions: []
+  _uniqueId: 556358e3-c592-4afa-93d1-ba7d4899ebc2
   rect:
     serializedVersion: 2
-    x: 15237
-    y: 15060
+    x: 16028
+    y: 15118
     width: 200
-    height: 118
-  actor: {fileID: 0}
-  dialogue: 
-  choices: []
+    height: 133
   nodeTitle: 
---- !u!114 &-7278779432827191184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: 
-  _uniqueId: 7afafd5e-9012-4811-af1a-b717f89b7c65
   children: []
   conditions: []
   enterActions: []
   exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 15487
-    y: 15289
-    width: 200
-    height: 118
+  choices: []
   actor: {fileID: 0}
   dialogue: 
-  choices: []
-  nodeTitle: 
---- !u!114 &-6626798443663507103
+--- !u!114 &-6831690041406864038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,48 +39,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  _uniqueId: 75053503-646d-4cd1-aec8-b55a89736d34
-  children:
-  - {fileID: -4841414840390966431}
-  conditions: []
-  enterActions: []
-  exitActions: []
+  _uniqueId: 155143ea-ea26-4e19-aae9-54b32edc9dc0
   rect:
     serializedVersion: 2
-    x: 15744
-    y: 15185
+    x: 15474
+    y: 15295
     width: 200
-    height: 118
-  actor: {fileID: 0}
-  dialogue: 
-  choices: []
+    height: 133
   nodeTitle: 
---- !u!114 &-6416663553697232967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8d0566afe4d5fa9596c80df966df6, type: 3}
-  m_Name: Root
-  m_EditorClassIdentifier: 
-  _uniqueId: a8acaa48-73d8-4bbb-bcf3-a2cd7479b77f
   children:
-  - {fileID: -8197609878907354110}
-  - {fileID: -2980240289960788537}
+  - {fileID: 4430567943820526679}
   conditions: []
   enterActions: []
   exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 15075
-    y: 15268
-    width: 100
-    height: 75
---- !u!114 &-6033084916370954139
+  choices: []
+  actor: {fileID: 0}
+  dialogue: asdfasdf
+--- !u!114 &-4758502817566379490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,22 +67,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  _uniqueId: cf59c87f-ed69-4356-b558-875f59c53c41
+  _uniqueId: c7374449-3aaa-4cb7-b62e-30be41e264f5
+  rect:
+    serializedVersion: 2
+    x: 15215
+    y: 15138
+    width: 200
+    height: 187
+  nodeTitle: 
   children: []
   conditions: []
   enterActions: []
   exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 15479
-    y: 15027
-    width: 200
-    height: 118
+  choices:
+  - {fileID: -4157207527921548599}
+  - {fileID: -2490746559844813427}
+  - {fileID: -2312492113110284880}
   actor: {fileID: 0}
-  dialogue: b
-  choices: []
-  nodeTitle: 
---- !u!114 &-4841414840390966431
+  dialogue: testy text
+--- !u!114 &-4157207527921548599
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,54 +94,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
-  m_Name: Dialogue
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
   m_EditorClassIdentifier: 
-  _uniqueId: e47b10da-fdfd-414b-8512-4726c4080c17
-  children: []
-  conditions: []
-  enterActions: []
-  exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 16003
-    y: 15208
-    width: 200
-    height: 118
-  actor: {fileID: 0}
-  dialogue: 
-  choices: []
-  nodeTitle: 
---- !u!114 &-2980240289960788537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: 
-  _uniqueId: d5534094-339c-4990-b23b-eab8d7704d31
+  text: ball
   children:
-  - {fileID: -604863778789515103}
-  - {fileID: -7278779432827191184}
-  conditions: []
-  enterActions: []
-  exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 15196
-    y: 15362
-    width: 200
-    height: 118
-  actor: {fileID: 0}
-  dialogue: 
-  choices: []
-  nodeTitle: 
---- !u!114 &-604863778789515103
+  - {fileID: 6280785202497230593}
+  _uniqueId: 24666be1-6585-43e3-8b16-7ab9b31bac58
+--- !u!114 &-2578329729842593320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,25 +110,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
-  m_Name: Dialogue
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
   m_EditorClassIdentifier: 
-  _uniqueId: ae525912-d3c6-4c16-9ddf-8fd1eab7c270
+  text: a
   children:
-  - {fileID: -6626798443663507103}
-  conditions: []
-  enterActions: []
-  exitActions: []
-  rect:
-    serializedVersion: 2
-    x: 15485
-    y: 15482
-    width: 200
-    height: 118
-  actor: {fileID: 0}
-  dialogue: 
-  choices: []
-  nodeTitle: 
+  - {fileID: -8631762188638130726}
+  _uniqueId: 40411729-4f34-400a-b9c4-d37db1b5e881
+--- !u!114 &-2490746559844813427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: cat
+  children:
+  - {fileID: -6831690041406864038}
+  _uniqueId: 7941e18b-a20b-450c-8f75-a7d28e5f7b3b
+--- !u!114 &-2312492113110284880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: apple
+  children:
+  - {fileID: 4376872048338170061}
+  _uniqueId: 622dd5d5-11f3-4659-88dc-90cd21ef5b87
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,12 +162,169 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   _nodes:
-  - {fileID: -6416663553697232967}
-  - {fileID: -8197609878907354110}
-  - {fileID: -2980240289960788537}
-  - {fileID: -604863778789515103}
-  - {fileID: -6626798443663507103}
-  - {fileID: -4841414840390966431}
-  - {fileID: -7278779432827191184}
-  - {fileID: -6033084916370954139}
-  root: {fileID: -6416663553697232967}
+  - {fileID: 649473658693853684}
+  - {fileID: -4758502817566379490}
+  - {fileID: 4376872048338170061}
+  - {fileID: 6280785202497230593}
+  - {fileID: -6831690041406864038}
+  - {fileID: 4430567943820526679}
+  - {fileID: -8631762188638130726}
+  root: {fileID: 649473658693853684}
+  scrollPosition: {x: 15073, y: 14927.5}
+--- !u!114 &649473658693853684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8d0566afe4d5fa9596c80df966df6, type: 3}
+  m_Name: Root
+  m_EditorClassIdentifier: 
+  _uniqueId: a77d2240-aecf-4b5c-891e-97ff3989497f
+  rect:
+    serializedVersion: 2
+    x: 15050
+    y: 15200
+    width: 100
+    height: 55
+  nodeTitle: 
+  children:
+  - {fileID: -4758502817566379490}
+  conditions: []
+  enterActions: []
+  exitActions: []
+--- !u!114 &1047399593081613245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: 
+  children: []
+  _uniqueId: ce587118-56f6-4229-a992-9074e48a491a
+--- !u!114 &2663241325424844857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: nea
+  children:
+  - {fileID: -8631762188638130726}
+  _uniqueId: 4720c0d6-d75f-4527-8d6f-9d46908ff997
+--- !u!114 &4376872048338170061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: f434af1e-1cff-4f86-a216-dfd33ff36df1
+  rect:
+    serializedVersion: 2
+    x: 15481
+    y: 14992
+    width: 200
+    height: 133
+  nodeTitle: Custom Title
+  children:
+  - {fileID: 4430567943820526679}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 0}
+  dialogue: asdfa sdadfas asdf asdfasd
+--- !u!114 &4430567943820526679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee683620015454489ed039e9cb805da, type: 3}
+  m_Name: Choice Hub
+  m_EditorClassIdentifier: 
+  _uniqueId: a083856c-f3db-4fd1-9ee5-3b919ccfc6f7
+  rect:
+    serializedVersion: 2
+    x: 15751
+    y: 15093
+    width: 200
+    height: 127
+  nodeTitle: 
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices:
+  - {fileID: 7275354180559690921}
+  - {fileID: 2663241325424844857}
+  - {fileID: 1047399593081613245}
+  - {fileID: -2578329729842593320}
+--- !u!114 &6280785202497230593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: d218b4df-4f59-44fb-8361-4df1f777a601
+  rect:
+    serializedVersion: 2
+    x: 15478
+    y: 15141
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: 4430567943820526679}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 0}
+  dialogue: asdf asdfasdf
+--- !u!114 &7275354180559690921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: meha
+  children:
+  - {fileID: -8631762188638130726}
+  _uniqueId: 7ddf89a3-9746-42b9-8a95-7909ee69d5a6

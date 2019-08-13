@@ -1,5 +1,8 @@
+using UnityEngine;
+
 namespace CleverCrow.Fluid.Dialogues {
     public interface IActor {
-        string Name { get; }
+        string DisplayName { get; }
+        Sprite Portrait { get; }
     }
 }
