@@ -15,11 +15,15 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
         public Image portrait;
         public Text lines;
 
+        public RectTransform choiceList;
+        public ChoiceButton choicePrefab;
+
         private void Awake () {
             var database = new DatabaseInstance();
            _ctrl = new DialogueController(database);
 
            _ctrl.Events.Speak.AddListener((actor, text) => {
+               ClearChoices();
                portrait.sprite = actor.Portrait;
                lines.text = text;
 
@@ -27,10 +31,15 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
            });
 
            _ctrl.Events.Choice.AddListener((actor, text, choices) => {
+               ClearChoices();
                portrait.sprite = actor.Portrait;
                lines.text = text;
 
-               // @TODO Add choice selection logic
+               choices.ForEach(c => {
+                   var choice = Instantiate(choicePrefab, choiceList);
+                   choice.title.text = c.Text;
+                   choice.clickEvent.AddListener(_ctrl.SelectChoice);
+               });
            });
 
            _ctrl.Events.End.AddListener(() => {
@@ -38,6 +47,12 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
            });
 
            _ctrl.Play(dialogue);
+        }
+
+        private void ClearChoices () {
+            foreach (Transform child in choiceList) {
+                Destroy(child.gameObject);
+            }
         }
 
         private IEnumerator NextDialogue () {

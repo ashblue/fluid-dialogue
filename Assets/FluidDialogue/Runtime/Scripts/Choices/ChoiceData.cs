@@ -26,6 +26,7 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
 
         public IChoice GetRuntime (IDialogueController dialogue) {
             return new ChoiceRuntime(
+                text,
                 _uniqueId,
                 children.Select(c => c.GetRuntime(dialogue)).ToList());
         }

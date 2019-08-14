@@ -26,7 +26,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
-  dialogue: 
+  dialogue: c
 --- !u!114 &-6868820908879997394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,7 +100,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
-  dialogue: 
+  dialogue: a
 --- !u!114 &-2199788058648552871
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,7 +154,7 @@ MonoBehaviour:
   - {fileID: 2969575773676471478}
   - {fileID: -8341703056822817610}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 50373, y: 50014}
+  scrollPosition: {x: 50605, y: 50022}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
-  dialogue: 
+  dialogue: b
 --- !u!114 &8793565678756733940
 MonoBehaviour:
   m_ObjectHideFlags: 0
