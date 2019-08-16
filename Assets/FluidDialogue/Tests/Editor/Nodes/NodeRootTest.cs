@@ -7,18 +7,24 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public class NextMethod {
             [Test]
             public void It_should_return_a_valid_child () {
-                var child = A.Node.Build();
-                var children = new List<INode> {child};
-                var root = new NodeRoot(null, children, null, null, null);
+                var node = A.Node.Build();
+                var nodeData = A.NodeData.WithNode(node).Build();
+                var children = new List<INodeData> { nodeData };
+                var graph = A.Graph.WithNode(nodeData).Build();
 
-                Assert.AreEqual(child, root.Next());
+                var root = new NodeRoot(graph, null, children, null, null, null);
+
+                Assert.AreEqual(node, root.Next());
             }
 
             [Test]
             public void It_should_not_return_an_invalid_child () {
                 var child = A.Node.WithIsValid(false).Build();
-                var children = new List<INode> {child};
-                var root = new NodeRoot(null, children, null, null, null);
+                var childData = A.NodeData.WithNode(child).Build();
+                var children = new List<INodeData> { childData };
+                var graph = A.Graph.WithNode(childData).Build();
+
+                var root = new NodeRoot(graph, null, children, null, null, null);
 
                 Assert.AreEqual(null, root.Next());
             }

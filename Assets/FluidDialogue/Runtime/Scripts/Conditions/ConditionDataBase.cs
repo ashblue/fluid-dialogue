@@ -1,3 +1,4 @@
+using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Conditions {
@@ -5,7 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Conditions {
         public virtual void OnInit (IDialogueController dialogue) {}
         public abstract bool OnGetIsValid ();
 
-        public override ICondition GetRuntime (IDialogueController dialogue) {
+        public override ICondition GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new ConditionRuntime(dialogue, _uniqueId, Instantiate(this));
         }
     }

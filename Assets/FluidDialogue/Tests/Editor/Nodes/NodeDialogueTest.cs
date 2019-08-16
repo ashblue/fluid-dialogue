@@ -10,7 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeDialogueTest {
         private const string DIALOGUE = "Lorem Ipsum";
         private IActor _actor;
-        private List<INode> _children;
+        private List<INodeData> _children;
         private List<IChoice> _choiceList;
         private List<ICondition> _conditions;
         private List<IAction> _enterActions;
@@ -19,7 +19,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [SetUp]
         public void BeforeEach () {
             _actor = Substitute.For<IActor>();
-            _children = new List<INode>();
+            _children = new List<INodeData>();
             _choiceList = new List<IChoice>();
             _conditions = new List<ICondition>();
             _enterActions = new List<IAction>();
@@ -27,7 +27,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         }
 
         private NodeDialogue CreateNodeDialogue () {
+            var graphBuilder = A.Graph;
+            _children.ForEach(c => graphBuilder.WithNode(c));
+
             return new NodeDialogue(
+                graphBuilder.Build(),
                 null,
                 _actor,
                 DIALOGUE,
@@ -44,7 +48,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var child = A.Node
                     .WithIsValid(true)
                     .Build();
-                _children.Add(child);
+                var childData = A.NodeData.WithNode(child).Build();
+                _children.Add(childData);
                 var node = CreateNodeDialogue();
 
                 var result = node.Next();
@@ -57,7 +62,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var child = A.Node
                     .WithIsValid(false)
                     .Build();
-                _children.Add(child);
+                var childData = A.NodeData.WithNode(child).Build();
+                _children.Add(childData);
                 var node = CreateNodeDialogue();
 
                 var result = node.Next();
@@ -73,7 +79,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                     var child = A.Node
                         .WithIsValid(true)
                         .Build();
-                    _children.Add(child);
+                    var childData = A.NodeData.WithNode(child).Build();
+                    _children.Add(childData);
                     var node = CreateNodeDialogue();
                     var playback = Substitute.For<IDialoguePlayback>();
 
@@ -141,7 +148,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         var choiceHub = A.Node
                             .WithHubChoice(choice)
                             .Build();
-                        _children.Add(choiceHub);
+                        var choiceHubData = A.NodeData.WithNode(choiceHub).Build();
+                        _children.Add(choiceHubData);
 
                         var node = CreateNodeDialogue();
                         node.Play(playback);
@@ -156,7 +164,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         var choiceHub = A.Node
                             .WithHubChoice(choice)
                             .Build();
-                        _children.Add(choiceHub);
+                        var choiceHubData = A.NodeData.WithNode(choiceHub).Build();
+                        _children.Add(choiceHubData);
 
                         _choiceList.Add(Substitute.For<IChoice>());
                         var node = CreateNodeDialogue();
@@ -173,7 +182,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                             .WithHubChoice(choice)
                             .WithIsValid(false)
                             .Build();
-                        _children.Add(choiceHub);
+                        var choiceHubData = A.NodeData.WithNode(choiceHub).Build();
+                        _children.Add(choiceHubData);
 
                         var node = CreateNodeDialogue();
                         node.Play(playback);
@@ -187,7 +197,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         var choiceHub = A.Node.Build();
                         List<IChoice> choices = null;
                         choiceHub.HubChoices.Returns(choices);
-                        _children.Add(choiceHub);
+                        var choiceHubData = A.NodeData.WithNode(choiceHub).Build();
+                        _children.Add(choiceHubData);
 
                         var node = CreateNodeDialogue();
                         node.Play(playback);

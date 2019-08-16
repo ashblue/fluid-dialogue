@@ -128,7 +128,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         public NodeDataBase CreateDataCopy () {
-            var copy = Data.GetCopy();
+            var copy = Data.GetDataCopy();
 
             var saveNeeded = new List<Object>();
             foreach (var action in copy.enterActions.Concat(copy.exitActions)) {

@@ -53,7 +53,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             DataToNode.Clear();
 
             Nodes = graph.Nodes
-                .Select(CreateNodeInstance)
+                .Select(i => CreateNodeInstance(i as NodeDataBase))
                 .ToList();
 
             BuildNodeConnections();

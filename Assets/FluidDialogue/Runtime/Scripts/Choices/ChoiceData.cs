@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
@@ -24,11 +25,12 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
             _uniqueId = Guid.NewGuid().ToString();
         }
 
-        public IChoice GetRuntime (IDialogueController dialogue) {
+        public IChoice GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new ChoiceRuntime(
+                graphRuntime,
                 text,
                 _uniqueId,
-                children.Select(c => c.GetRuntime(dialogue)).ToList());
+                children.ToList<INodeData>());
         }
 
         public void AddConnectionChild (NodeDataBase child) {

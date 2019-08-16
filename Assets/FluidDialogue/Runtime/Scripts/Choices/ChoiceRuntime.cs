@@ -1,22 +1,30 @@
 using System.Collections.Generic;
+using System.Linq;
+using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
-using UnityEngine.UI;
 
 namespace CleverCrow.Fluid.Dialogues.Choices {
     public class ChoiceRuntime : IChoice {
-        private readonly List<INode> _children;
+        private readonly IGraph _runtime;
+        private readonly List<INodeData> _children;
+        private List<INode> _childrenRuntimeCache;
 
         public string UniqueId { get; }
         public string Text { get; }
 
-        public ChoiceRuntime (string text, string uniqueId, List<INode> children) {
+        private List<INode> Children =>
+            _childrenRuntimeCache ??
+            (_childrenRuntimeCache = _children.Select(_runtime.GetCopy).ToList());
+
+        public ChoiceRuntime (IGraph runtime, string text, string uniqueId, List<INodeData> children) {
+            _runtime = runtime;
             Text = text;
             UniqueId = uniqueId;
             _children = children;
         }
 
         public INode GetValidChildNode () {
-            return _children.Find(c => c.IsValid);
+            return Children.Find(c => c.IsValid);
         }
     }
 }

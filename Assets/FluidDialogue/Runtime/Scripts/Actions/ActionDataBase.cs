@@ -1,3 +1,4 @@
+using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
@@ -14,7 +15,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         public virtual void OnReset () {}
 
-        public override IAction GetRuntime (IDialogueController dialogue) {
+        public override IAction GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new ActionRuntime(dialogue, _uniqueId, Instantiate(this));
         }
     }

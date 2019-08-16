@@ -9,8 +9,10 @@ namespace CleverCrow.Fluid.Dialogues.Choices.Tests {
             [Test]
             public void It_should_return_a_valid_child () {
                 var node = A.Node.Build();
-                var children = new List<INode> { node };
-                var choice = new ChoiceRuntime("", null, children);
+                var nodeData = A.NodeData.WithNode(node).Build();
+                var children = new List<INodeData> { nodeData };
+                var graph = A.Graph.WithNode(nodeData).Build();
+                var choice = new ChoiceRuntime(graph, "", null, children);
 
                 var result = choice.GetValidChildNode();
 
@@ -20,8 +22,10 @@ namespace CleverCrow.Fluid.Dialogues.Choices.Tests {
             [Test]
             public void It_should_not_return_an_invalid_child () {
                 var node = A.Node.WithIsValid(false).Build();
-                var children = new List<INode> { node };
-                var choice = new ChoiceRuntime("", null, children);
+                var nodeData = A.NodeData.WithNode(node).Build();
+                var children = new List<INodeData> { nodeData };
+                var graph = A.Graph.WithNode(nodeData).Build();
+                var choice = new ChoiceRuntime(graph, "", null, children);
 
                 var result = choice.GetValidChildNode();
 

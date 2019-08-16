@@ -22,8 +22,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             }
         }
 
-        public override NodeDataBase GetCopy () {
-            var copy = base.GetCopy() as NodeDataChoiceBase;
+        public override NodeDataBase GetDataCopy () {
+            var copy = base.GetDataCopy() as NodeDataChoiceBase;
             copy.choices = choices.Select(Instantiate).ToList();
 
             return copy;

@@ -1,4 +1,5 @@
 using System;
+using CleverCrow.Fluid.Dialogues.Graphs;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
@@ -20,6 +21,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             _uniqueId = Guid.NewGuid().ToString();
         }
 
-        public abstract T GetRuntime (IDialogueController dialogue);
+        public abstract T GetRuntime (IGraph graphRuntime, IDialogueController dialogue);
     }
 }

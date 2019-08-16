@@ -1,4 +1,5 @@
 using CleverCrow.Fluid.Dialogues.Builders;
+using CleverCrow.Fluid.Dialogues.Graphs;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -6,11 +7,14 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeLinkTest {
         private INode _child;
         private NodeLink _link;
+        private IGraph _graph;
 
         [SetUp]
         public void BeforeEach () {
             _child = A.Node.Build();
-            _link = new NodeLink(null, _child, null, null, null);
+            var childData = A.NodeData.WithNode(_child).Build();
+            _graph = A.Graph.WithNode(childData).Build();
+            _link = new NodeLink(_graph, null, childData, null, null, null);
         }
 
         public class IsValidProperty : NodeLinkTest {
@@ -23,7 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
             [Test]
             public void It_should_not_crash_if_there_is_no_child () {
-                _link = new NodeLink(null, null, null, null, null);
+                _link = new NodeLink(_graph, null, null, null, null, null);
 
                 Assert.DoesNotThrow(() => {
                     var value = _link.IsValid;
