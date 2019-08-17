@@ -14,6 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private NodeEditorBase _clickedNode;
         private bool _isCameraDragging;
         private Connection _connection;
+        private bool _bodyClick;
 
         public RightClickHandler (
             DialogueWindow window,
@@ -29,11 +30,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         public void Update (Event e) {
             if (e.button != 1) return;
 
-            GUI.FocusControl(null);
-
             if (e.type == EventType.MouseDown) {
                 _connection = null;
                 _clickedNode = null;
+                _bodyClick = false;
 
                 foreach (var node in _window.Nodes) {
                     var connection = node.GetConnection(e.mousePosition);
@@ -43,18 +43,23 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                         continue;
                     }
 
-                    if (node.Data.rect.Contains(e.mousePosition)) {
+                    if (node.IsHeaderPosition(e.mousePosition)) {
                         _connection = null;
                         _clickedNode = node;
+                    } else if (node.Data.rect.Contains(e.mousePosition)) {
+                        _bodyClick = true;
                     }
                 }
             }
 
             if (_connection != null) {
+                GUI.FocusControl(null);
                 ConnectionContextClick(e);
-            } else if (_clickedNode == null) {
+            } else if (_clickedNode == null && !_bodyClick) {
+                GUI.FocusControl(null);
                 EmptyContextClick(e);
             } else if (_clickedNode != null) {
+                GUI.FocusControl(null);
                 NodeContextClick(e);
             }
 

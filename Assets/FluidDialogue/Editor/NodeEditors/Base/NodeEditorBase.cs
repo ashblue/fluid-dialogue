@@ -164,5 +164,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         protected virtual void OnDeleteCleanup () {
         }
+
+        public bool IsHeaderPosition (Vector2 position) {
+            var header = new Rect(Data.rect) {height = HEADER_HEIGHT};
+            return header.Contains(position);
+        }
     }
 }

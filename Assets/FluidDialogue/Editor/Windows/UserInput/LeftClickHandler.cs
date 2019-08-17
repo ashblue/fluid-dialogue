@@ -34,7 +34,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                         continue;
                     }
 
-                    if (node.Data.rect.Contains(e.mousePosition)) {
+                    if (node.IsHeaderPosition(e.mousePosition)) {
                         _connection = null;
                         _clickedNode = node;
                     }
