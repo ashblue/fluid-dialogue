@@ -11,6 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Choices {
 
         public string UniqueId { get; }
         public string Text { get; }
+        public bool IsValid => Children.Count == 0 || Children.Find(c => c.IsValid) != null;
 
         private List<INode> Children =>
             _childrenRuntimeCache ??

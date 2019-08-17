@@ -17,7 +17,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             _conditions.Find(c => !c.GetIsValid()) == null;
 
         public List<IChoice> HubChoices =>
-            _choiceList.Where(c => c.GetValidChildNode() != null).ToList();
+            _choiceList.Where(c => c.IsValid).ToList();
 
         public NodeChoiceHub (string uniqueId, List<IChoice> choiceList, List<ICondition> conditions) {
             UniqueId = uniqueId;

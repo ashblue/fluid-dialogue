@@ -170,7 +170,7 @@ MonoBehaviour:
   - {fileID: 4430567943820526679}
   - {fileID: -8631762188638130726}
   root: {fileID: 649473658693853684}
-  scrollPosition: {x: 15073, y: 14927.5}
+  scrollPosition: {x: 15015, y: 14852.5}
 --- !u!114 &649473658693853684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 0}
-  dialogue: asdfa sdadfas asdf asdfasd
+  dialogue: asdfa sdadfas asdf asdfasda
 --- !u!114 &4430567943820526679
 MonoBehaviour:
   m_ObjectHideFlags: 0

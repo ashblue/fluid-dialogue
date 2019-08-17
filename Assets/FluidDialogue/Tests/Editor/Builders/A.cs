@@ -4,5 +4,6 @@ namespace CleverCrow.Fluid.Dialogues.Builders {
         public static DialogueNodeStubBuilder Node => new DialogueNodeStubBuilder();
         public static NodeDataStubBuilder NodeData => new NodeDataStubBuilder();
         public static ActionStubBuilder Action => new ActionStubBuilder();
+        public static ChoiceStubBuilder Choice => new ChoiceStubBuilder();
     }
 }

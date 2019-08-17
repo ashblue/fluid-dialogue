@@ -35,7 +35,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 return child.HubChoices;
             }
 
-            return _choices.Where(c => c.GetValidChildNode() != null).ToList();
+            return _choices.Where(c => c.IsValid).ToList();
         }
 
         public override void Play (IDialoguePlayback playback) {
