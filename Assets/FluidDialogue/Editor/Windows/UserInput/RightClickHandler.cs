@@ -32,6 +32,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             GUI.FocusControl(null);
 
             if (e.type == EventType.MouseDown) {
+                _connection = null;
+                _clickedNode = null;
+
                 foreach (var node in _window.Nodes) {
                     var connection = node.GetConnection(e.mousePosition);
                     if (connection != null) {

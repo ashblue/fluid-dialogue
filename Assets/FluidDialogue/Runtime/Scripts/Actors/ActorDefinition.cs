@@ -7,7 +7,7 @@ namespace CleverCrow.Fluid.Dialogues {
         private string _displayName = null;
 
         [SerializeField]
-        private Sprite _portrait;
+        private Sprite _portrait = null;
 
         public string DisplayName => _displayName;
         public Sprite Portrait => _portrait;
