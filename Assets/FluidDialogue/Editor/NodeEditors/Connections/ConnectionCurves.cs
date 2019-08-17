@@ -16,11 +16,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         }
 
         private void PaintCurve (Vector2 destination) {
+            var curveMaxDistance = Vector2.Distance(_rect.center, destination) / 200;
+            var curveWeight = Mathf.Lerp(0, 50, curveMaxDistance);
+
             Handles.DrawBezier(
                 _rect.center,
                 destination,
-                _rect.center - Vector2.left * 50f,
-                destination + Vector2.left * 50f,
+                _rect.center + Vector2.right * curveWeight,
+                destination + Vector2.left * curveWeight,
                 Color.cyan,
                 null,
                 2f
