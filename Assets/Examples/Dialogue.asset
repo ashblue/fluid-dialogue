@@ -242,8 +242,8 @@ MonoBehaviour:
   _uniqueId: f434af1e-1cff-4f86-a216-dfd33ff36df1
   rect:
     serializedVersion: 2
-    x: 15481
-    y: 14992
+    x: 15472
+    y: 14968
     width: 200
     height: 133
   nodeTitle: Custom Title

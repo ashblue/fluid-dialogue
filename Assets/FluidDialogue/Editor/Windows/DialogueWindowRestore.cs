@@ -29,10 +29,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         // @NOTE Save and restore must be done outside of the Window's OnGui loop to prevent crashing layout groups
         [UnityEditor.Callbacks.DidReloadScripts]
         public static void RestoreSavedGraph () {
+            if (!EditorPrefs.GetBool(PREF_OPEN, false)) return;
             if (!HasSavedGraphId) return;
             var saveGraph = GetGraphFromEditor();
             if (saveGraph == null) return;
-            ShowGraph(saveGraph);
+            ShowGraph(saveGraph, false);
         }
     }
 }

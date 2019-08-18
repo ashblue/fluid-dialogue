@@ -28,9 +28,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         private static DialogueGraph GraphData { get; set; }
         public DialogueGraph Graph => GraphData;
 
-        public static void ShowGraph (DialogueGraph graph) {
-            var window = GetWindow<DialogueWindow>(false);
-            window.titleContent = new GUIContent("Dialogue");
+        public static void ShowGraph (DialogueGraph graph, bool focus = true) {
+            var window = GetWindow<DialogueWindow>(false, "Dialogue", focus);
             window.SetGraph(graph);
         }
 

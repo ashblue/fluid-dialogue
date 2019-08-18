@@ -740,7 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b9c0e8c891570d448c0cbb669b4b8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 852540c35afdd7344b77359672f518e8, type: 2}
+  dialogue: {fileID: 11400000, guid: 9ee08f7122b445246ba6e627bb67b59a, type: 2}
   speakerContainer: {fileID: 1854390183}
   portrait: {fileID: 62754277}
   lines: {fileID: 991365860}
