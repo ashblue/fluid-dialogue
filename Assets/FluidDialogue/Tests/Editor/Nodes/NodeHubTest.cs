@@ -1,21 +1,25 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Builders;
 using CleverCrow.Fluid.Dialogues.Conditions;
-using CleverCrow.Fluid.Dialogues.Nodes.Hub;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeHubTest {
-        private NodeHub _hub;
-        private List<INode> _children;
+        private List<INodeData> _children;
         private List<ICondition> _conditions;
 
         [SetUp]
         public void BeforeEach () {
             _conditions = new List<ICondition>();
-            _children = new List<INode>();
-            _hub = new NodeHub(null, _children, _conditions, null, null);
+            _children = new List<INodeData>();
+        }
+
+        private NodeHub CreateNodeHub () {
+            var graphBuilder = A.Graph;
+            _children.ForEach(c => graphBuilder.WithNode(c));
+
+            return new NodeHub(graphBuilder.Build(), null, _children, _conditions, null, null);
         }
 
         public class NextMethod : NodeHubTest {
@@ -24,9 +28,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var child = A.Node
                     .WithIsValid(true)
                     .Build();
-                _children.Add(child);
+                var childData = A.NodeData.WithNode(child).Build();
+                _children.Add(childData);
+                var hub = CreateNodeHub();
 
-                var result = _hub.Next();
+                var result = hub.Next();
 
                 Assert.AreEqual(child, result);
             }
@@ -36,9 +42,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var child = A.Node
                     .WithIsValid(false)
                     .Build();
-                _children.Add(child);
+                var childData = A.NodeData.WithNode(child).Build();
+                _children.Add(childData);
+                var hub = CreateNodeHub();
 
-                var result = _hub.Next();
+                var result = hub.Next();
 
                 Assert.IsNull(result);
             }
@@ -49,7 +57,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             public void It_should_trigger_next_on_playback () {
                 var playback = Substitute.For<IDialoguePlayback>();
 
-                _hub.Play(playback);
+                var hub = CreateNodeHub();
+                hub.Play(playback);
 
                 playback.Received(1).Next();
             }
@@ -61,8 +70,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var condition = Substitute.For<ICondition>();
                 condition.GetIsValid().Returns(true);
                 _conditions.Add(condition);
+                var hub = CreateNodeHub();
 
-                Assert.IsTrue(_hub.IsValid);
+                Assert.IsTrue(hub.IsValid);
             }
 
             [Test]
@@ -70,8 +80,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 var condition = Substitute.For<ICondition>();
                 condition.GetIsValid().Returns(false);
                 _conditions.Add(condition);
+                var hub = CreateNodeHub();
 
-                Assert.IsFalse(_hub.IsValid);
+                Assert.IsFalse(hub.IsValid);
             }
         }
     }

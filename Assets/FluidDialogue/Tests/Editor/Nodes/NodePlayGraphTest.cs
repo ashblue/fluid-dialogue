@@ -9,7 +9,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_call_PlayChild_on_the_DialogueController () {
                 var graph = Substitute.For<IGraphData>();
-                var playGraph = new NodePlayGraph(null, graph, null, null, null, null);
+                var playGraph = new NodePlayGraph(null, null, graph, null, null, null, null);
                 var playback = Substitute.For<IDialoguePlayback>();
 
                 playGraph.Play(playback);

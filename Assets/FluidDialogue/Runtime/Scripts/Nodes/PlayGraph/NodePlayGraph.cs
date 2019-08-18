@@ -8,13 +8,14 @@ namespace CleverCrow.Fluid.Dialogues.Nodes.PlayGraph {
         private readonly IGraphData _graph;
 
         public NodePlayGraph (
+            IGraph runtime,
             string uniqueId,
             IGraphData graph,
-            List<INode> children,
+            List<INodeData> children,
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions)
-            : base(uniqueId, children, conditions, enterActions, exitActions) {
+            : base(runtime, uniqueId, children, conditions, enterActions, exitActions) {
             _graph = graph;
         }
 

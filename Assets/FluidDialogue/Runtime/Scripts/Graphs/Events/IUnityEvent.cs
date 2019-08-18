@@ -6,6 +6,11 @@ namespace CleverCrow.Fluid.Dialogues {
         void AddListener (UnityAction action);
     }
 
+    public interface IUnityEvent<T1> {
+        void Invoke (T1 t1);
+        void AddListener (UnityAction<T1> action);
+    }
+
     public interface IUnityEvent<T1, T2> {
         void Invoke (T1 t1, T2 t2);
         void AddListener (UnityAction<T1, T2> action);

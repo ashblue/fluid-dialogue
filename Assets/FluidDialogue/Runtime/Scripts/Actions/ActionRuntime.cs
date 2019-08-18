@@ -1,8 +1,15 @@
-using System;
-
 namespace CleverCrow.Fluid.Dialogues.Actions {
+    public interface IActionData {
+        void OnInit (IDialogueController dialogue);
+        void OnStart ();
+        ActionStatus OnUpdate ();
+        void OnExit ();
+        void OnReset ();
+    }
+
     public class ActionRuntime : IAction {
         private readonly IDialogueController _dialogueController;
+        private readonly IActionData _data;
 
         private bool _initUsed;
         private bool _startUsed;
@@ -11,13 +18,8 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
 
         public string UniqueId { get; }
 
-        public Action<IDialogueController> OnInit { private get; set; }
-        public Action OnStart { private get; set; }
-        public Func<ActionStatus> OnUpdate { private get; set; }
-        public Action OnExit { private get; set; }
-        public Action OnReset { private get; set; }
-
-        public ActionRuntime (IDialogueController dialogue, string uniqueId) {
+        public ActionRuntime (IDialogueController dialogue, string uniqueId, IActionData data) {
+            _data = data;
             _dialogueController = dialogue;
             UniqueId = uniqueId;
         }
@@ -43,7 +45,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             if (_initUsed) return;
             _initUsed = true;
 
-            OnInit?.Invoke(_dialogueController);
+            _data.OnInit(_dialogueController);
         }
 
         private void Start () {
@@ -51,7 +53,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             _startUsed = true;
             _active = true;
 
-            OnStart?.Invoke();
+            _data.OnStart();
         }
 
         private void Exit () {
@@ -59,17 +61,17 @@ namespace CleverCrow.Fluid.Dialogues.Actions {
             _resetReady = true;
             _active = false;
 
-            OnExit?.Invoke();
+            _data.OnExit();
         }
 
         private ActionStatus Update () {
-            return OnUpdate();
+            return _data.OnUpdate();
         }
 
         private void Reset () {
             if (!_resetReady) return;
             _resetReady = false;
-            OnReset?.Invoke();
+            _data.OnReset();
         }
     }
 }

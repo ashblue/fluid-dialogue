@@ -3,6 +3,7 @@ using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
+using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeDialogue : NodeBase {
@@ -13,15 +14,16 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         private List<IChoice> _emittedChoices;
 
         public NodeDialogue (
+            IGraph graph,
             string uniqueId,
             IActor actor,
             string dialogue,
-            List<INode> children,
+            List<INodeData> children,
             List<IChoice> choices,
             List<ICondition> conditions,
             List<IAction> enterActions,
             List<IAction> exitActions) :
-            base(uniqueId, children, conditions, enterActions, exitActions) {
+            base(graph, uniqueId, children, conditions, enterActions, exitActions) {
             _actor = actor;
             _dialogue = dialogue;
             _choices = choices;
@@ -29,11 +31,11 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
 
         private List<IChoice> GetValidChoices () {
             var child = Next();
-            if (child?.HubChoices != null && child.HubChoices.Count > 0) {
+            if (_choices.Count == 0 && child?.HubChoices != null && child.HubChoices.Count > 0) {
                 return child.HubChoices;
             }
 
-            return _choices.Where(c => c.GetValidChildNode() != null).ToList();
+            return _choices.Where(c => c.IsValid).ToList();
         }
 
         public override void Play (IDialoguePlayback playback) {

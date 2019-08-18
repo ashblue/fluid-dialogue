@@ -1,14 +1,18 @@
 using System.Linq;
+using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeRootData : NodeDataBase {
-        public override INode GetRuntime (IDialogueController dialogue) {
+        protected override string DefaultName => "Root";
+
+        public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new NodeRoot(
+                graphRuntime,
                 UniqueId,
-                children.Select(c => c.GetRuntime(dialogue)).ToList(),
-                conditions.Select(c => c.GetRuntime(dialogue)).ToList(),
-                enterActions.Select(c => c.GetRuntime(dialogue)).ToList(),
-                exitActions.Select(c => c.GetRuntime(dialogue)).ToList()
+                children.ToList<INodeData>(),
+                conditions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList(),
+                enterActions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList(),
+                exitActions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList()
             );
         }
     }

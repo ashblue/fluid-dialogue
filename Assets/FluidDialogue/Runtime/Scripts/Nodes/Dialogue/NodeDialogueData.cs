@@ -1,23 +1,28 @@
-using System.Collections.Generic;
 using System.Linq;
-using CleverCrow.Fluid.Dialogues.Choices;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
-    public class NodeDialogueData : NodeDataBase {
-        public IActor actor;
-        public string dialogue;
-        public List<ChoiceData> choices;
+    [CreateMenu("Dialogue", 1)]
+    public class NodeDialogueData : NodeDataChoiceBase {
+        public ActorDefinition actor;
 
-        public override INode GetRuntime (IDialogueController controller) {
+        [TextArea]
+        public string dialogue;
+
+        protected override string DefaultName => "Dialogue";
+
+        public override INode GetRuntime (IGraph graphRuntime, IDialogueController controller) {
             return new NodeDialogue(
+                graphRuntime,
                 UniqueId,
                 actor,
                 dialogue,
-                children.Select(c => c.GetRuntime(controller)).ToList(),
-                choices.Select(c => c.GetRuntime(controller)).ToList(),
-                conditions.Select(c => c.GetRuntime(controller)).ToList(),
-                enterActions.Select(a => a.GetRuntime(controller)).ToList(),
-                exitActions.Select(a => a.GetRuntime(controller)).ToList()
+                children.ToList<INodeData>(),
+                choices.Select(c => c.GetRuntime(graphRuntime, controller)).ToList(),
+                conditions.Select(c => c.GetRuntime(graphRuntime, controller)).ToList(),
+                enterActions.Select(a => a.GetRuntime(graphRuntime, controller)).ToList(),
+                exitActions.Select(a => a.GetRuntime(graphRuntime, controller)).ToList()
             );
         }
     }

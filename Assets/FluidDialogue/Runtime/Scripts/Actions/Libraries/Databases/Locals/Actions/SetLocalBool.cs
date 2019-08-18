@@ -2,6 +2,7 @@
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
+    [CreateMenu("Database/Locals/Set Bool")]
     public class SetLocalBool : SetLocalVariableBase<bool> {
         [SerializeField]
         public KeyValueDefinitionBool _variable;

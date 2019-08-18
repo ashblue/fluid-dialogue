@@ -1,37 +1,22 @@
-using System;
-using UnityEngine;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Actions {
-    public abstract class ActionDataBase : ScriptableObject, IGetRuntime<IAction> {
-        [SerializeField]
-        private string _uniqueId;
+    public abstract class ActionDataBase : NodeNestedDataBase<IAction>, IActionData {
+        public virtual void OnInit (IDialogueController dialogue) {}
 
-        protected virtual void OnInit (IDialogueController dialogue) {}
+        public virtual void OnStart () {}
 
-        protected virtual void OnStart () {}
-
-        protected virtual ActionStatus OnUpdate () {
+        public virtual ActionStatus OnUpdate () {
             return ActionStatus.Success;
         }
 
-        protected virtual void OnExit () {}
+        public virtual void OnExit () {}
 
-        protected virtual void OnReset () {}
+        public virtual void OnReset () {}
 
-        public string UniqueId => _uniqueId;
-
-        public void Setup () {
-            _uniqueId = Guid.NewGuid().ToString();
-        }
-
-        public IAction GetRuntime (IDialogueController dialogue) {
-            return new ActionRuntime(dialogue, _uniqueId) {
-                OnInit = OnInit,
-                OnStart = OnStart,
-                OnUpdate = OnUpdate,
-                OnExit = OnExit,
-                OnReset = OnReset,
-            };
+        public override IAction GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
+            return new ActionRuntime(dialogue, _uniqueId, Instantiate(this));
         }
     }
 }

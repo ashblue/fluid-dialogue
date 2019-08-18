@@ -1,0 +1,657 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9183305000158909614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 0eacc16b-09da-4963-bd52-a0f523d2eaae
+  rect:
+    serializedVersion: 2
+    x: 51260
+    y: 50235
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: 8469888643324881027}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: That sounds like best course of action. Is there anything else?
+--- !u!114 &-8341703056822817610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 686f89fa-c849-406c-978c-88c5e4911179
+  rect:
+    serializedVersion: 2
+    x: 50972
+    y: 50397
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -9183305000158909614}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: The dragons that came to our aid are on the brink of extinction. See to
+    their aid first.
+--- !u!114 &-8291345574090556126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 51f43bf4-9f8e-4c18-9a3b-fd34845dba59
+  rect:
+    serializedVersion: 2
+    x: 51819
+    y: 50359
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -3436942782412272395}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: What of the king's enemies. They said they'd send reinforcements.
+--- !u!114 &-7347677369531188231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: d2ed3f48-c82f-42e7-a047-5aed23be8f5b
+  rect:
+    serializedVersion: 2
+    x: 51819
+    y: 50507
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -1807495471838374980}
+  conditions:
+  - {fileID: 5362338249820595584}
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: They're doing fine. You've got bigger things to worry about.
+--- !u!114 &-6868820908879997394
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: Help the humans
+  children:
+  - {fileID: -3387278498358440211}
+  _uniqueId: 206f505e-fc1e-4574-a4ea-b0c85785b346
+--- !u!114 &-6450186612614065154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 9b8bf58c-0906-4ca9-a722-d589abfb87c3
+  rect:
+    serializedVersion: 2
+    x: 50693
+    y: 50161
+    width: 200
+    height: 187
+  nodeTitle: 
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices:
+  - {fileID: -6868820908879997394}
+  - {fileID: -2199788058648552871}
+  - {fileID: -230701956770334952}
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: Not great. We only have enough resources to provide relief for one group.
+    Can't save them all.
+--- !u!114 &-5972268922082454213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 4ee51cca-9848-4205-b90d-09179d05637a
+  rect:
+    serializedVersion: 2
+    x: 52270
+    y: 50209
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -1807495471838374980}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: We won't last more than a few days if we're lucky.
+--- !u!114 &-5697671711981343180
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: Any word of reinforcements?
+  children:
+  - {fileID: -8291345574090556126}
+  _uniqueId: bd7906e4-ad53-4877-8661-cd74b1d40512
+--- !u!114 &-4687762883489335130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a708f890ba314c06a22a6ea611b7447, type: 3}
+  m_Name: SetLocalBool
+  m_EditorClassIdentifier: 
+  _title: humans asked
+  _uniqueId: 4eb0d2bc-0d08-4b59-89bf-766e203c9cf8
+  _value: 1
+  _variable: {fileID: 11400000, guid: 1906dabbacd5b15429089da6c10fd23d, type: 2}
+--- !u!114 &-3436942782412272395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: ce8d80ba-88c8-4313-8fdd-84a034770626
+  rect:
+    serializedVersion: 2
+    x: 52043
+    y: 50360
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -1807495471838374980}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: I'm sorry, but we've received no word of any reinforcements.
+--- !u!114 &-3387278498358440211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 19ec0bac-6997-4ff0-89e5-908a6fd12bfa
+  rect:
+    serializedVersion: 2
+    x: 50976
+    y: 50078
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -9183305000158909614}
+  conditions: []
+  enterActions:
+  - {fileID: -4687762883489335130}
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: Humans took severe loses for a cause that has nothing to do with them.
+    We should honor them by prioritizing their recovery.
+--- !u!114 &-2199788058648552871
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: Prioritize the elves
+  children:
+  - {fileID: 2969575773676471478}
+  _uniqueId: e9aad9c8-491b-4bb2-8665-6fc4cde30c9b
+--- !u!114 &-1807495471838374980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5bb286b3994795a7780dbfc28d37fd, type: 3}
+  m_Name: Hub
+  m_EditorClassIdentifier: 
+  _uniqueId: a72a0533-4f56-46a3-9e27-f519e4a0851b
+  rect:
+    serializedVersion: 2
+    x: 51439
+    y: 50007
+    width: 100
+    height: 55
+  nodeTitle: 
+  children:
+  - {fileID: 5315272478784475652}
+  conditions: []
+  enterActions: []
+  exitActions: []
+--- !u!114 &-1617427775138242340
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: That is all.
+  children: []
+  _uniqueId: 723f170c-5d70-4e5a-869c-f8203786b28e
+--- !u!114 &-1590606014626862060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: c9653923-db27-4a89-a079-ec1a2fae9676
+  rect:
+    serializedVersion: 2
+    x: 52048
+    y: 50211
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -5972268922082454213}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: All the supplies are gone. Destroyed by the attack on the sea.
+--- !u!114 &-230701956770334952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: Assist the dragons
+  children:
+  - {fileID: -8341703056822817610}
+  _uniqueId: ad49bd44-6c31-49a6-bfbe-6978133698ac
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35851dfd8754a74b333944d50d05bbd, type: 3}
+  m_Name: ExampleConversation
+  m_EditorClassIdentifier: 
+  _nodes:
+  - {fileID: 426936237664981933}
+  - {fileID: 8793565678756733940}
+  - {fileID: 373158185418196577}
+  - {fileID: -6450186612614065154}
+  - {fileID: -3387278498358440211}
+  - {fileID: 2969575773676471478}
+  - {fileID: -8341703056822817610}
+  - {fileID: -9183305000158909614}
+  - {fileID: 8469888643324881027}
+  - {fileID: 5315272478784475652}
+  - {fileID: 6784819468853313292}
+  - {fileID: -1590606014626862060}
+  - {fileID: -5972268922082454213}
+  - {fileID: -8291345574090556126}
+  - {fileID: -3436942782412272395}
+  - {fileID: -1807495471838374980}
+  - {fileID: -7347677369531188231}
+  root: {fileID: 426936237664981933}
+  scrollPosition: {x: 51148.676, y: 50105}
+--- !u!114 &373158185418196577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: d8b91533-197e-475b-a98f-2d8451fba244
+  rect:
+    serializedVersion: 2
+    x: 50454
+    y: 50172
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -6450186612614065154}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: Not really. How are the solders holding up?
+--- !u!114 &426936237664981933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d8d0566afe4d5fa9596c80df966df6, type: 3}
+  m_Name: Root
+  m_EditorClassIdentifier: 
+  _uniqueId: cd458853-4898-4aa5-a8cc-cb7b6dce03b1
+  rect:
+    serializedVersion: 2
+    x: 50050
+    y: 50200
+    width: 100
+    height: 55
+  nodeTitle: 
+  children:
+  - {fileID: 8793565678756733940}
+  conditions: []
+  enterActions: []
+  exitActions: []
+--- !u!114 &2969575773676471478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: c6557332-f8bb-43c3-8402-3849b9298d48
+  rect:
+    serializedVersion: 2
+    x: 50978
+    y: 50237
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -9183305000158909614}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: My people have suffered more than any other in this war. Please see that
+    the elves are taken care of first.
+--- !u!114 &3777311768254997257
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: How are our supplies?
+  children:
+  - {fileID: 6784819468853313292}
+  _uniqueId: 98db76ca-7fbd-4fdf-a14a-a0cd471d6c52
+--- !u!114 &5315272478784475652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 033a0d93-1bef-4d49-991e-693d93735b23
+  rect:
+    serializedVersion: 2
+    x: 51561
+    y: 50151
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: 8469888643324881027}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: Would you like to know anything else about our forces?
+--- !u!114 &5362338249820595584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cca882da5bb4218bd3a1b8f82560fd9, type: 3}
+  m_Name: IsLocalBool
+  m_EditorClassIdentifier: 
+  _title: IsLocalBool
+  _uniqueId: b2512608-d982-457b-9d81-52037bbb4947
+  _variable: {fileID: 11400000, guid: 1906dabbacd5b15429089da6c10fd23d, type: 2}
+  _comparison: 0
+  _value: 1
+--- !u!114 &5856400390703476873
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: The humans doing okay?
+  children:
+  - {fileID: -7347677369531188231}
+  _uniqueId: 0f90d98f-fdb0-4d11-80e1-0c07dafd771c
+--- !u!114 &6784819468853313292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: a446a6a8-86b5-4b04-9bf4-d4613360060d
+  rect:
+    serializedVersion: 2
+    x: 51822
+    y: 50209
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -1590606014626862060}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: How long will our supplies last?
+--- !u!114 &8469888643324881027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee683620015454489ed039e9cb805da, type: 3}
+  m_Name: Choice Hub
+  m_EditorClassIdentifier: 
+  _uniqueId: 45a3ffd4-da82-48a4-8596-1125ec05f350
+  rect:
+    serializedVersion: 2
+    x: 51559
+    y: 50316
+    width: 200
+    height: 127
+  nodeTitle: 
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices:
+  - {fileID: 3777311768254997257}
+  - {fileID: -5697671711981343180}
+  - {fileID: 5856400390703476873}
+  - {fileID: -1617427775138242340}
+--- !u!114 &8793565678756733940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: e89a7a34-92ab-4b6d-be12-57808bba2c05
+  rect:
+    serializedVersion: 2
+    x: 50219
+    y: 50170
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: 373158185418196577}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: Hey, you doing okay?

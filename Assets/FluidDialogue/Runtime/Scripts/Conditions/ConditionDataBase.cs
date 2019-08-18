@@ -1,25 +1,13 @@
-using System;
-using UnityEngine;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues.Conditions {
-    public abstract class ConditionDataBase : ScriptableObject, IGetRuntime<ICondition> {
-        [SerializeField]
-        private string _uniqueId;
+    public abstract class ConditionDataBase : NodeNestedDataBase<ICondition>, IConditionData {
+        public virtual void OnInit (IDialogueController dialogue) {}
+        public abstract bool OnGetIsValid ();
 
-        public string UniqueId => _uniqueId;
-
-        public void Setup () {
-            _uniqueId = Guid.NewGuid().ToString();
-        }
-
-        protected abstract bool OnGetIsValid ();
-        protected virtual void OnInit (IDialogueController dialogue) {}
-
-        public ICondition GetRuntime (IDialogueController dialogue) {
-            return new ConditionRuntime (dialogue, _uniqueId) {
-                OnGetIsValid = OnGetIsValid,
-                OnInit = OnInit,
-            };
+        public override ICondition GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
+            return new ConditionRuntime(dialogue, _uniqueId, Instantiate(this));
         }
     }
 }
