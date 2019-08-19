@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "node"
+install:
+  - npm install
+script:
+  - commitlint-travis
+  - npm run build
+  - npm run semantic-release
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: bash publish-nightly.sh
+    on:
+      branch: develop

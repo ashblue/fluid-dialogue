@@ -1,0 +1,9 @@
+{
+    "name": "com.fluid.dialogue",
+    "references": [
+        "com.fluid.database"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

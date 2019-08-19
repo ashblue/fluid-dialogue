@@ -1,0 +1,12 @@
+{
+    "name": "com.fluid.dialogue.Editor",
+    "references": [
+        "com.fluid.dialogue"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
