@@ -51,8 +51,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
         public void Print () {
             PositionConnections();
-            PrintHeader();
-            PrintBody();
+
+            if (_cachedContentHeight < 1 || Window.MouseEvents.Scroll.ScrollRect.Overlaps(Data.rect)) {
+                PrintHeader();
+                PrintBody();
+            }
 
             if (IsSelected) {
                 GUI.Box(Data.rect, GUIContent.none, _styles.ContainerHighlightStyle.Style);

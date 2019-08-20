@@ -14,6 +14,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             set => _graph.scrollPosition = value;
         }
 
+        public Rect ScrollRect { get; private set; }
+
         public ScrollManager (EditorWindow window, DialogueGraph graph) {
             _graph = graph;
             _window = window;
@@ -24,6 +26,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 new Rect(0, 0, position.width, position.height),
                 ScrollPos,
                 new Rect(0, 0, WINDOW_SIZE, WINDOW_SIZE));
+
+            ScrollRect = new Rect(ScrollPos, position.size);
         }
 
         public void SetViewToRect (Rect rect) {

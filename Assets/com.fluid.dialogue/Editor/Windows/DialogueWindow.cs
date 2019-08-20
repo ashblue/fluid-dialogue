@@ -15,12 +15,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
     public partial class DialogueWindow : EditorWindow, IDialogueWindow {
         private readonly List<NodeEditorBase> _graveyard = new List<NodeEditorBase>();
 
-        private InputController _mouseEvents;
-
         private bool IsGraphPopulated => Nodes != null;
         private bool NodesOutOfSync => Nodes.Count != Graph.Nodes.Count;
         public List<NodeEditorBase> Nodes { get; private set; }
         public GraphCrud GraphCrud { get; private set; }
+        public InputController MouseEvents { get; private set; }
 
         public Dictionary<NodeDataBase, NodeEditorBase> DataToNode { get; } =
             new Dictionary<NodeDataBase, NodeEditorBase>();
@@ -44,7 +43,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             BuildNodes(graph);
 
             GraphData = graph;
-            _mouseEvents = new InputController(this);
+            MouseEvents = new InputController(this);
             SaveGraphToEditor(graph);
         }
 
@@ -91,8 +90,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             GUI.Label(new Rect(10, 10, 300, 100), $"Dialogue: {Graph.name}", EditorStyles.boldLabel);
 
             var e = Event.current;
-            _mouseEvents.Scroll.UpdateScrollView(position);
-            _mouseEvents.ProcessCanvasEvent(e);
+            MouseEvents.Scroll.UpdateScrollView(position);
+            MouseEvents.ProcessCanvasEvent(e);
 
             foreach (var node in Nodes) {
                 if (node.IsMemoryLeak) {
@@ -103,7 +102,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 node.Print();
             }
 
-            _mouseEvents.PaintSelection();
+            MouseEvents.PaintSelection();
 
             GUI.EndScrollView();
             UpdateGraveyard();
