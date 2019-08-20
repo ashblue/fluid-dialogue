@@ -71,7 +71,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
             if (!_toggleSelectionMode) return;
 
-            if (e.type == EventType.MouseDown) {
+            if (e.type == EventType.MouseDown && _clickedNode != null) {
                 if (_selection.Contains(_clickedNode)) {
                     _selection.Remove(_clickedNode);
                 } else {
