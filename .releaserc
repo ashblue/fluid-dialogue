@@ -1,0 +1,32 @@
+{
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/exec",
+      {
+        "verifyConditionsCmd": "npm run build",
+        "prepareCmd": "npm run build"
+      }
+    ],
+    "@semantic-release/git",
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "dist"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "dist.zip",
+            "label": "Package Build"
+          }
+        ]
+      }
+    ]
+  ]
+}

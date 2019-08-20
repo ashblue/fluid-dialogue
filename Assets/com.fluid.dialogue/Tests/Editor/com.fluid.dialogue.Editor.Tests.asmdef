@@ -1,0 +1,20 @@
+{
+    "name": "com.fluid.dialogue.Editor.Tests",
+    "references": [
+        "com.fluid.dialogue",
+        "com.fluid.dialogue.Editor",
+        "com.fluid.database"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
