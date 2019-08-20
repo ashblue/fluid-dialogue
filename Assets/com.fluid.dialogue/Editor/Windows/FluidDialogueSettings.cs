@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public class FluidDialogueSettings : ScriptableObject {
-        private const string ASSET_PATH = "Assets/FluidDialogue/Editor/FluidDialogueSettings.asset";
+        private const string ASSET_PATH = "Assets/Resources/FluidDialogueSettings.asset";
 
         [Tooltip("Prevents meta data like choices, actions, and conditions from being set to visible in the " +
                  "nested object Project window view. Keeping set to true is highly recommended.")]
@@ -17,6 +17,8 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
 
         private static FluidDialogueSettings GetOrCreateSettings () {
             var settings = AssetDatabase.LoadAssetAtPath<FluidDialogueSettings>(ASSET_PATH);
+            if (AssetDatabase.LoadAssetAtPath<Object>("Assets/Resources") == null)
+                AssetDatabase.CreateFolder("Assets", "Resources");
             if (settings != null) return settings;
 
             settings = CreateInstance<FluidDialogueSettings>();
