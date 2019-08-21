@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/ashblue/fluid-dialogue/compare/v1.0.0...v1.1.0) (2019-08-21)
+
+
+### Features
+
+* **packages:** latest database and moved to unity event plus ([3b1b3c8](https://github.com/ashblue/fluid-dialogue/commit/3b1b3c8))
+
 # 1.0.0 (2019-08-20)
 
 
