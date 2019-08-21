@@ -11,7 +11,8 @@
   ],
   "dependencies": {
     "clever-crow.nsubstitute": "2.0.3",
-    "com.fluid.database": "1.0.2",
+    "com.fluid.database": "2.0.0",
+    "com.fluid.unity-event-plus": "1.1.0",
     "com.unity.ads": "2.0.8",
     "com.unity.analytics": "3.3.2",
     "com.unity.collab-proxy": "1.2.16",

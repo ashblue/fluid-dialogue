@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Choices;
+using CleverCrow.Fluid.Utilities.UnityEvents;
 
 namespace CleverCrow.Fluid.Dialogues {
     public class DialogueEvents : IDialogueEvents {
