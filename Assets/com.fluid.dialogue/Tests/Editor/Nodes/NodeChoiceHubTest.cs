@@ -47,6 +47,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_return_choices_with_a_valid_child_node () {
                 var choice = Substitute.For<IChoice>();
+                choice.IsValid.Returns(true);
                 choice.GetValidChildNode()
                     .Returns(x => A.Node.Build());
                 _choiceList.Add(choice);
