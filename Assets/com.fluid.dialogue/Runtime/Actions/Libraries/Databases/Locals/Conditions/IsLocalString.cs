@@ -1,6 +1,7 @@
 using System;
 using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Conditions;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
@@ -26,7 +27,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
             _condition = new ConditionLocalStringInternal(dialogue.LocalDatabase.Strings);
         }
 
-        public override bool OnGetIsValid () {
+        public override bool OnGetIsValid (INode parent) {
             switch (_comparison) {
                 case Comparison.Equal:
                     return _condition.AreValuesEqual(_variable, _value);

@@ -15,7 +15,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public List<IAction> EnterActions { get; }
         public List<IAction> ExitActions { get; }
         public virtual bool IsValid =>
-            _conditions.Find(c => !c.GetIsValid()) == null;
+            _conditions.Find(c => !c.GetIsValid(this)) == null;
         public List<IChoice> HubChoices { get; }
         public string UniqueId { get; }
 

@@ -20,7 +20,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     }
 
     public abstract class NodeDataBase : ScriptableObject, INodeData {
-        // [HideInInspector]
+        [HideInInspector]
         [SerializeField]
         private string _uniqueId;
 
