@@ -85,6 +85,21 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
   dialogue: What of the king's enemies. They said they'd send reinforcements.
+--- !u!114 &-7811679642350466681
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949d12ec87ffe584496e1a35ca4c038f, type: 3}
+  m_Name: ExampleAction
+  m_EditorClassIdentifier: 
+  _title: ExampleAction
+  _uniqueId: e12b3421-1683-4814-b40e-28a913c61d5c
+  _text: Example action ran
 --- !u!114 &-7347677369531188231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +425,7 @@ MonoBehaviour:
   - {fileID: -1807495471838374980}
   - {fileID: -7347677369531188231}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 51823.676, y: 50046}
+  scrollPosition: {x: 49972.676, y: 49968}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,7 +665,8 @@ MonoBehaviour:
   children:
   - {fileID: 373158185418196577}
   conditions: []
-  enterActions: []
+  enterActions:
+  - {fileID: -7811679642350466681}
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}

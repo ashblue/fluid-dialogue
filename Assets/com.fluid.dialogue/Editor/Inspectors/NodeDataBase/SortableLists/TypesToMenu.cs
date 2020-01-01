@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
     public class TypesToMenu<T> {
@@ -18,19 +19,21 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         }
 
         private static List<TypeEntry> GetTypeEntries () {
-            return Assembly
-                .GetAssembly(typeof(T))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(T)) && !t.IsAbstract)
-                .Select(t => {
-                    var attr = t.GetCustomAttribute<CreateMenuAttribute>();
+            var list = new List<TypeEntry>();
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                foreach (var type in assembly.GetTypes()) {
+                    if (!type.IsSubclassOf(typeof(T)) || type.IsAbstract) continue;
+                    var attr = type.GetCustomAttribute<CreateMenuAttribute>();
 
-                    return new TypeEntry {
-                        type = t,
-                        path = attr?.Path ?? t.FullName,
+                    list.Add(new TypeEntry {
+                        type = type,
+                        path = attr?.Path ?? type.FullName,
                         priority = attr?.Priority ?? 0,
-                    };
-                })
+                    });
+                }
+            }
+
+            return list
                 .OrderByDescending(t => t.priority)
                 .ToList();
         }
