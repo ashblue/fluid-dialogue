@@ -46,6 +46,10 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
                speakerContainer.SetActive(false);
            });
 
+           _ctrl.Events.NodeEnter.AddListener((node) => {
+               Debug.Log($"Node Enter: {node.GetType()} - {node.UniqueId}");
+           });
+
            _ctrl.Play(dialogue);
         }
 

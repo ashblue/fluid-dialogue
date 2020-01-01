@@ -19,7 +19,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes.PlayGraph {
             _graph = graph;
         }
 
-        public override void Play (IDialoguePlayback playback) {
+        protected override void OnPlay (IDialoguePlayback playback) {
             playback.ParentCtrl.PlayChild(_graph);
         }
     }

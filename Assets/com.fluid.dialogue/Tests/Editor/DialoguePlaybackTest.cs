@@ -35,6 +35,8 @@ namespace CleverCrow.Fluid.Dialogues {
                 [Test]
                 public void It_should_trigger_a_speak_event_with_the_root_child_dialogue () {
                     var node = A.Node.Build();
+                    node.Play(Arg.Do<IDialoguePlayback>(p => p.Events.Speak.Invoke(null, null)));
+
                     _graph = A.Graph
                         .WithNextResult(node)
                         .Build();
@@ -42,7 +44,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
                     _playback.Play();
 
-                    node.Received(1).Play(_playback);
+                    _playback.Events.Speak.ReceivedWithAnyArgs(1).Invoke(null, null);
                 }
 
                 [Test]

@@ -29,17 +29,18 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             _choices = choices;
         }
 
-        private List<IChoice> GetValidChoices () {
+        private List<IChoice> GetValidChoices (IDialoguePlayback playback) {
             var child = Next();
             if (_choices.Count == 0 && child?.HubChoices != null && child.HubChoices.Count > 0) {
+                playback.Events.NodeEnter.Invoke(child);
                 return child.HubChoices;
             }
 
             return _choices.Where(c => c.IsValid).ToList();
         }
 
-        public override void Play (IDialoguePlayback playback) {
-            _emittedChoices = GetValidChoices();
+        protected override void OnPlay (IDialoguePlayback playback) {
+            _emittedChoices = GetValidChoices(playback);
             if (_emittedChoices.Count > 0) {
                 playback.Events.Choice.Invoke(_actor, _dialogue, _emittedChoices);
                 return;

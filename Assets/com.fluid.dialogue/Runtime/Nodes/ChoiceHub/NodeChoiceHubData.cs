@@ -10,7 +10,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             var runtimeChoices = choices.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList();
             return new NodeChoiceHub(
-                null,
+                UniqueId,
                 runtimeChoices,
                 conditions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList());
         }
