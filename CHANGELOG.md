@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/ashblue/fluid-dialogue/compare/v1.1.0...v1.1.1) (2020-01-01)
+
+
+### Bug Fixes
+
+* **actions:** actions outside of the package now populate in the menu ([0645efb](https://github.com/ashblue/fluid-dialogue/commit/0645efb))
+
 # [1.1.0](https://github.com/ashblue/fluid-dialogue/compare/v1.0.0...v1.1.0) (2019-08-21)
 
 
