@@ -90,6 +90,18 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 }
             }
 
+            public class NodeEnterEvents : NodeDialogueTest {
+                [Test]
+                public void It_should_trigger_a_NodeEnter_event () {
+                    var node = CreateNodeDialogue();
+                    var playback = Substitute.For<IDialoguePlayback>();
+
+                    node.Play(playback);
+
+                    playback.Events.NodeEnter.Received(1).Invoke(node);
+                }
+            }
+
             public class ChoiceEvents {
                 public class InternalChoices : NodeDialogueTest {
                     [Test]
@@ -154,6 +166,22 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                         node.Play(playback);
 
                         playback.Events.Choice.Received(1).Invoke(_actor, DIALOGUE, choiceHub.HubChoices);
+                    }
+
+                    [Test]
+                    public void It_should_trigger_enter_node_on_a_used_choice_hub () {
+                        var playback = Substitute.For<IDialoguePlayback>();
+                        var choice = A.Choice.Build();
+                        var choiceHub = A.Node
+                            .WithHubChoice(choice)
+                            .Build();
+                        var choiceHubData = A.NodeData.WithNode(choiceHub).Build();
+                        _children.Add(choiceHubData);
+
+                        var node = CreateNodeDialogue();
+                        node.Play(playback);
+
+                        playback.Events.NodeEnter.Received(1).Invoke(choiceHub);
                     }
 
                     [Test]

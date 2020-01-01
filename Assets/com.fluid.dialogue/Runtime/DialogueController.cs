@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
 
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialogueController {
@@ -28,6 +29,7 @@ namespace CleverCrow.Fluid.Dialogues {
 
             playback.Events.Speak.AddListener(TriggerSpeak);
             playback.Events.Choice.AddListener(TriggerChoice);
+            playback.Events.NodeEnter.AddListener(TriggerEnterNode);
             playback.Events.Begin.AddListener(TriggerBegin);
             playback.Events.End.AddListener(TriggerEnd);
 
@@ -52,6 +54,7 @@ namespace CleverCrow.Fluid.Dialogues {
             });
             playback.Events.Speak.AddListener(TriggerSpeak);
             playback.Events.Choice.AddListener(TriggerChoice);
+            playback.Events.NodeEnter.AddListener(TriggerEnterNode);
 
             _activeDialogue.Push(playback);
             playback.Play();
@@ -77,6 +80,10 @@ namespace CleverCrow.Fluid.Dialogues {
 
         private void TriggerChoice (IActor actor, string text, List<IChoice> choices) {
             Events.Choice.Invoke(actor, text, choices);
+        }
+
+        private void TriggerEnterNode (INode node) {
+            Events.NodeEnter.Invoke(node);
         }
 
         public void Next () {

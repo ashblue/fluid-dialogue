@@ -43,7 +43,12 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             return Children.Find(n => n.IsValid);
         }
 
-        public virtual void Play (IDialoguePlayback playback) {
+        public void Play (IDialoguePlayback playback) {
+            playback.Events.NodeEnter.Invoke(this);
+            OnPlay(playback);
+        }
+
+        protected virtual void OnPlay (IDialoguePlayback playback) {
             playback.Next();
         }
 

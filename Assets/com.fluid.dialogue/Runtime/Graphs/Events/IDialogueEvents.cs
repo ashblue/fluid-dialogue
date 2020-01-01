@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CleverCrow.Fluid.Dialogues.Choices;
+using CleverCrow.Fluid.Dialogues.Nodes;
 using CleverCrow.Fluid.Utilities.UnityEvents;
 
 namespace CleverCrow.Fluid.Dialogues {
@@ -8,5 +9,6 @@ namespace CleverCrow.Fluid.Dialogues {
         IUnityEvent End { get; }
         IUnityEvent<IActor, string> Speak { get; }
         IUnityEvent<IActor, string, List<IChoice>> Choice { get; }
+        IUnityEvent<INode> NodeEnter { get; }
     }
 }
