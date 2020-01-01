@@ -68,7 +68,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_return_true_if_all_conditions_are_true () {
                 var condition = Substitute.For<ICondition>();
-                condition.GetIsValid().Returns(true);
+                condition.GetIsValid(Arg.Any<INode>()).Returns(true);
                 _conditions.Add(condition);
                 var hub = CreateNodeHub();
 
@@ -78,7 +78,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             [Test]
             public void It_should_return_false_if_all_conditions_are_false () {
                 var condition = Substitute.For<ICondition>();
-                condition.GetIsValid().Returns(false);
+                condition.GetIsValid(Arg.Any<INode>()).Returns(false);
                 _conditions.Add(condition);
                 var hub = CreateNodeHub();
 

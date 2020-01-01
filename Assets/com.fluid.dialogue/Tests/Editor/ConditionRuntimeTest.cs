@@ -15,10 +15,10 @@ namespace FluidDialogue.Tests.Editor {
             public class OnGetIsValidTriggering : ConditionRuntimeTest {
                 [Test]
                 public void It_should_return_the_OnGetIsValid_value () {
-                    _data.OnGetIsValid().Returns(true);
+                    _data.OnGetIsValid(null).Returns(true);
                     var condition = new ConditionRuntime(null, null, _data);
 
-                    var result = condition.GetIsValid();
+                    var result = condition.GetIsValid(null);
 
                     Assert.IsTrue(result);
                 }
@@ -29,7 +29,7 @@ namespace FluidDialogue.Tests.Editor {
                 public void It_should_trigger_OnInit_with_a_dialogue_controller () {
                     var condition = new ConditionRuntime(null, null, _data);
 
-                    condition.GetIsValid();
+                    condition.GetIsValid(null);
 
                     _data.Received(1).OnInit(null);
                 }
@@ -38,8 +38,8 @@ namespace FluidDialogue.Tests.Editor {
                 public void It_should_trigger_OnInit_only_once () {
                     var condition = new ConditionRuntime(null, null, _data);
 
-                    condition.GetIsValid();
-                    condition.GetIsValid();
+                    condition.GetIsValid(null);
+                    condition.GetIsValid(null);
 
                     _data.Received(1).OnInit(null);
                 }

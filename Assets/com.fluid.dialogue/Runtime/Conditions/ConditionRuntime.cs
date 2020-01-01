@@ -1,7 +1,9 @@
+using CleverCrow.Fluid.Dialogues.Nodes;
+
 namespace CleverCrow.Fluid.Dialogues.Conditions {
     public interface IConditionData {
         void OnInit (IDialogueController dialogue);
-        bool OnGetIsValid ();
+        bool OnGetIsValid (INode parent);
     }
 
     public class ConditionRuntime : ICondition {
@@ -18,13 +20,13 @@ namespace CleverCrow.Fluid.Dialogues.Conditions {
             UniqueId = uniqueId;
         }
 
-        public bool GetIsValid () {
+        public bool GetIsValid (INode parent) {
             if (!_initTriggered) {
                 _data.OnInit(_dialogueController);
                 _initTriggered = true;
             }
 
-            return _data.OnGetIsValid();
+            return _data.OnGetIsValid(parent);
         }
     }
 }

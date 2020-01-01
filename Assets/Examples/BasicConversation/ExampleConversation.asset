@@ -28,6 +28,21 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: That sounds like best course of action. Is there anything else?
+--- !u!114 &-8371811054073610404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a5190ddeaf44213841a394ed935ab6b, type: 3}
+  m_Name: ExampleCondition
+  m_EditorClassIdentifier: 
+  _title: ExampleCondition
+  _uniqueId: 75fb9c16-572f-4435-83b9-ba08de0cd682
+  _isValid: 1
 --- !u!114 &-8341703056822817610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +219,33 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: We won't last more than a few days if we're lucky.
+--- !u!114 &-5749017562080709619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: 00d2804b-622a-4c1e-a2f9-13124afa8815
+  rect:
+    serializedVersion: 2
+    x: 50215
+    y: 50345
+    width: 200
+    height: 133
+  nodeTitle: 
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  dialogue: Conversation deviated as expected.
 --- !u!114 &-5697671711981343180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -424,8 +466,9 @@ MonoBehaviour:
   - {fileID: -3436942782412272395}
   - {fileID: -1807495471838374980}
   - {fileID: -7347677369531188231}
+  - {fileID: -5749017562080709619}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 51095.676, y: 50006}
+  scrollPosition: {x: 49917.676, y: 50013}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +519,7 @@ MonoBehaviour:
   nodeTitle: 
   children:
   - {fileID: 8793565678756733940}
+  - {fileID: -5749017562080709619}
   conditions: []
   enterActions: []
   exitActions: []
@@ -664,7 +708,8 @@ MonoBehaviour:
   nodeTitle: 
   children:
   - {fileID: 373158185418196577}
-  conditions: []
+  conditions:
+  - {fileID: -8371811054073610404}
   enterActions:
   - {fileID: -7811679642350466681}
   exitActions: []
