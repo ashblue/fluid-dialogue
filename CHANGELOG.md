@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/ashblue/fluid-dialogue/compare/v1.2.0...v2.0.0) (2020-01-01)
+
+
+### Features
+
+* **conditions:** added ability to access the parent node ([d4e7461](https://github.com/ashblue/fluid-dialogue/commit/d4e7461))
+
+
+### BREAKING CHANGES
+
+* **conditions:** Any existing custom conditions will need to convert `OnGetIsValid()` to
+`OnGetIsValid(INode parent)`
+
 # [1.2.0](https://github.com/ashblue/fluid-dialogue/compare/v1.1.1...v1.2.0) (2020-01-01)
 
 
