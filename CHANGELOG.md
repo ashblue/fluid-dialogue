@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/ashblue/fluid-dialogue/compare/v2.0.0...v2.1.0) (2020-01-29)
+
+
+### Features
+
+* **graph nodes:** nested graph playback now available ([ea1a23a](https://github.com/ashblue/fluid-dialogue/commit/ea1a23a))
+
 # [2.0.0](https://github.com/ashblue/fluid-dialogue/compare/v1.2.0...v2.0.0) (2020-01-01)
 
 
