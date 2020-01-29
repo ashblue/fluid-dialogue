@@ -175,10 +175,10 @@ MonoBehaviour:
   _uniqueId: 9b8bf58c-0906-4ca9-a722-d589abfb87c3
   rect:
     serializedVersion: 2
-    x: 50693
-    y: 50161
+    x: 50700
+    y: 50156
     width: 200
-    height: 187
+    height: 205
   nodeTitle: 
   children: []
   conditions: []
@@ -188,6 +188,7 @@ MonoBehaviour:
   - {fileID: -6868820908879997394}
   - {fileID: -2199788058648552871}
   - {fileID: -230701956770334952}
+  - {fileID: 5960690670116952456}
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: Not great. We only have enough resources to provide relief for one group.
     Can't save them all.
@@ -219,33 +220,6 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: We won't last more than a few days if we're lucky.
---- !u!114 &-5749017562080709619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
-  m_Name: Dialogue
-  m_EditorClassIdentifier: 
-  _uniqueId: 00d2804b-622a-4c1e-a2f9-13124afa8815
-  rect:
-    serializedVersion: 2
-    x: 50215
-    y: 50345
-    width: 200
-    height: 133
-  nodeTitle: 
-  children: []
-  conditions: []
-  enterActions: []
-  exitActions: []
-  choices: []
-  actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
-  dialogue: Conversation deviated as expected.
 --- !u!114 &-5697671711981343180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -420,6 +394,32 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: All the supplies are gone. Destroyed by the attack on the sea.
+--- !u!114 &-1221359623688907011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67818104cf34e2693b49316191c2be0, type: 3}
+  m_Name: Play Graph
+  m_EditorClassIdentifier: 
+  _uniqueId: 35cbde59-cfc9-4fe5-b9d2-33cdd8a2b553
+  rect:
+    serializedVersion: 2
+    x: 50988
+    y: 50575
+    width: 200
+    height: 56
+  nodeTitle: 
+  children:
+  - {fileID: 3721123120546049034}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  dialogueGraph: {fileID: 11400000, guid: 3bc587ffa3a101e4591aa09b8280183c, type: 2}
 --- !u!114 &-230701956770334952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,9 +466,10 @@ MonoBehaviour:
   - {fileID: -3436942782412272395}
   - {fileID: -1807495471838374980}
   - {fileID: -7347677369531188231}
-  - {fileID: -5749017562080709619}
+  - {fileID: -1221359623688907011}
+  - {fileID: 3721123120546049034}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 49917.676, y: 50013}
+  scrollPosition: {x: 50731.676, y: 50159}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,8 +485,8 @@ MonoBehaviour:
   _uniqueId: d8b91533-197e-475b-a98f-2d8451fba244
   rect:
     serializedVersion: 2
-    x: 50454
-    y: 50172
+    x: 50467
+    y: 50163
     width: 200
     height: 133
   nodeTitle: 
@@ -519,7 +520,6 @@ MonoBehaviour:
   nodeTitle: 
   children:
   - {fileID: 8793565678756733940}
-  - {fileID: -5749017562080709619}
   conditions: []
   enterActions: []
   exitActions: []
@@ -552,6 +552,34 @@ MonoBehaviour:
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
   dialogue: My people have suffered more than any other in this war. Please see that
     the elves are taken care of first.
+--- !u!114 &3721123120546049034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f157564dbc846468ec0ac2b6f7d545e, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  _uniqueId: f1937fd0-ddc0-4791-a967-64bfd733c095
+  rect:
+    serializedVersion: 2
+    x: 51229
+    y: 50544
+    width: 200
+    height: 133
+  nodeTitle: 
+  children:
+  - {fileID: -6450186612614065154}
+  conditions: []
+  enterActions: []
+  exitActions: []
+  choices: []
+  actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  dialogue: Sorry about that. How are things going again?
 --- !u!114 &3777311768254997257
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -629,6 +657,22 @@ MonoBehaviour:
   children:
   - {fileID: -7347677369531188231}
   _uniqueId: 0f90d98f-fdb0-4d11-80e1-0c07dafd771c
+--- !u!114 &5960690670116952456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb407621a43446dac370b409a9ddc29, type: 3}
+  m_Name: Choice
+  m_EditorClassIdentifier: 
+  text: Tangent
+  children:
+  - {fileID: -1221359623688907011}
+  _uniqueId: b6639707-3558-459c-b2e0-01ebc3bc951b
 --- !u!114 &6784819468853313292
 MonoBehaviour:
   m_ObjectHideFlags: 0
