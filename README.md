@@ -129,13 +129,14 @@ Custom conditions can be crafted with the following API.
 ```c#
 using CleverCrow.Fluid.Dialogues;
 using CleverCrow.Fluid.Dialogues.Conditions;
+using CleverCrow.Fluid.Dialogues.Nodes;
 
 public class CustomCondition : ConditionDataBase {
     public override void OnInit (IDialogueController dialogue) {
         // Triggered on first time setup
     }
 
-    public override bool OnGetIsValid () {
+    public override bool OnGetIsValid (INode parent) {
         // Place node condition logic here
         return true;
     }
