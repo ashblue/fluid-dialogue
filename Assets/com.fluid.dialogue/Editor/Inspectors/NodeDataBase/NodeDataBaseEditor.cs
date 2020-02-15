@@ -29,28 +29,34 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
 
         public override void OnInspectorGUI () {
             base.OnInspectorGUI();
+            SpellCheckText();
 
             _conditions.Update();
             _enterActions?.Update();
             _exitActions?.Update();
-
-            SpellCheckText();
         }
 
         private void SpellCheckText () {
-            if ((_dialogue != null || _choices != null) && GUILayout.Button("Spell Check")) {
-                SpellCheck.Instance.ClearValidation();
-            } else {
-                return;
+            if (_dialogue == null && _choices == null) return;
+            if (!GUILayout.Button("Spell Check")) return;
+
+            ShowValidation(target as NodeDataBase);
+        }
+
+        public static void ShowValidation (NodeDataBase target) {
+            var serializedObject = new SerializedObject(target);
+            var dialogue = serializedObject.FindProperty("dialogue");
+            var choices = serializedObject.FindProperty("choices");
+
+            SpellCheck.Instance.ClearValidation();
+
+            if (dialogue != null) {
+                SpellCheck.Instance.AddValidation(dialogue.displayName, dialogue.stringValue);
             }
 
-            if (_dialogue != null) {
-                SpellCheck.Instance.AddValidation(_dialogue.displayName, _dialogue.stringValue);
-            }
-
-            if (_choices != null) {
-                for (var i = 0; i < _choices.arraySize; i++) {
-                    var choice = _choices.GetArrayElementAtIndex(i).objectReferenceValue as ChoiceData;
+            if (choices != null) {
+                for (var i = 0; i < choices.arraySize; i++) {
+                    var choice = choices.GetArrayElementAtIndex(i).objectReferenceValue as ChoiceData;
                     SpellCheck.Instance.AddValidation($"Choice {i}", choice.text);
                 }
             }
