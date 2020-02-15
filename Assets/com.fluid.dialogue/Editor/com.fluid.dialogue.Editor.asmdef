@@ -1,12 +1,18 @@
 {
     "name": "com.fluid.dialogue.Editor",
     "references": [
-        "com.fluid.dialogue"
+        "com.fluid.dialogue",
+        "com.fluid.simple-spellcheck.Editor"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
