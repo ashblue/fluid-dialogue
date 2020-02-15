@@ -1,3 +1,11 @@
+# [2.2.0](https://github.com/ashblue/fluid-dialogue/compare/v2.1.0...v2.2.0) (2020-02-15)
+
+
+### Features
+
+* **spell check:** dialogue and choice nodes now have spell check ([bcbcb0d](https://github.com/ashblue/fluid-dialogue/commit/bcbcb0d))
+* **spell check:** evaluate all nodes at the dialogue level ([4d3c779](https://github.com/ashblue/fluid-dialogue/commit/4d3c779))
+
 # [2.1.0](https://github.com/ashblue/fluid-dialogue/compare/v2.0.0...v2.1.0) (2020-01-29)
 
 
