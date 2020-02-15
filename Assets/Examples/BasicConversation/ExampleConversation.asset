@@ -18,7 +18,7 @@ MonoBehaviour:
     x: 51260
     y: 50235
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: 8469888643324881027}
@@ -61,7 +61,7 @@ MonoBehaviour:
     x: 50972
     y: 50397
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -70,8 +70,8 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
-  dialogue: The dragons that came to our aid are on the brink of extinction. See to
-    their aid first.
+  dialogue: The dragons that came to our aid are on the brink of extinction. See
+    to their aid first.
 --- !u!114 &-8291345574090556126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     x: 51819
     y: 50359
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -3436942782412272395}
@@ -133,7 +133,7 @@ MonoBehaviour:
     x: 51819
     y: 50507
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -178,7 +178,7 @@ MonoBehaviour:
     x: 50700
     y: 50156
     width: 200
-    height: 205
+    height: 222
   nodeTitle: 
   children: []
   conditions: []
@@ -210,7 +210,7 @@ MonoBehaviour:
     x: 52270
     y: 50209
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -270,7 +270,7 @@ MonoBehaviour:
     x: 52043
     y: 50360
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -298,7 +298,7 @@ MonoBehaviour:
     x: 50976
     y: 50078
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -344,7 +344,7 @@ MonoBehaviour:
     x: 51439
     y: 50007
     width: 100
-    height: 55
+    height: 57
   nodeTitle: 
   children:
   - {fileID: 5315272478784475652}
@@ -384,7 +384,7 @@ MonoBehaviour:
     x: 52048
     y: 50211
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -5972268922082454213}
@@ -412,7 +412,7 @@ MonoBehaviour:
     x: 50988
     y: 50575
     width: 200
-    height: 56
+    height: 58
   nodeTitle: 
   children:
   - {fileID: 3721123120546049034}
@@ -469,7 +469,7 @@ MonoBehaviour:
   - {fileID: -1221359623688907011}
   - {fileID: 3721123120546049034}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 50731.676, y: 50159}
+  scrollPosition: {x: 50997.676, y: 50082}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ MonoBehaviour:
     x: 50467
     y: 50163
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -6450186612614065154}
@@ -516,7 +516,7 @@ MonoBehaviour:
     x: 50050
     y: 50200
     width: 100
-    height: 55
+    height: 57
   nodeTitle: 
   children:
   - {fileID: 8793565678756733940}
@@ -541,7 +541,7 @@ MonoBehaviour:
     x: 50978
     y: 50237
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -570,7 +570,7 @@ MonoBehaviour:
     x: 51229
     y: 50544
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -6450186612614065154}
@@ -614,7 +614,7 @@ MonoBehaviour:
     x: 51561
     y: 50151
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: 8469888643324881027}
@@ -691,7 +691,7 @@ MonoBehaviour:
     x: 51822
     y: 50209
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: -1590606014626862060}
@@ -719,7 +719,7 @@ MonoBehaviour:
     x: 51559
     y: 50316
     width: 200
-    height: 127
+    height: 138
   nodeTitle: 
   children: []
   conditions: []
@@ -748,7 +748,7 @@ MonoBehaviour:
     x: 50219
     y: 50170
     width: 200
-    height: 133
+    height: 142
   nodeTitle: 
   children:
   - {fileID: 373158185418196577}
