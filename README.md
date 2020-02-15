@@ -7,6 +7,7 @@ A Unity dialogue system that features an easy to use drag and drop graph. Script
 * Create custom **conditions** to determine how dialogue branches
 * Built in **local database** to set and check variables for branching
 * Allows you to **bring your own UI** or use a starter example (event driven dialogue presentation)
+* Includes a simple [spell check](https://github.com/ashblue/unity-simple-spellcheck) tool that evaluates all dialogue nodes
 
 ![](docs/example-dialogue.png)
 

@@ -56,7 +56,10 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             }
 
             if (textIsInvalid || choiceIsInvalid) {
-                var log = new LogEntry(textProp.stringValue, () => {
+                var preview = "Invalid choice(s)";
+                if (textProp != null) preview = textProp.stringValue;
+
+                var log = new LogEntry(preview, () => {
                     NodeDataBaseEditor.ShowValidation(node.targetObject as NodeDataBase);
                     Selection.activeObject = node.targetObject;
                 });
