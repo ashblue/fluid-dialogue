@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
 
         public DialogueGraph dialogue;
 
+        public GameObjectOverride[] gameObjectOverrides;
+
         [Header("Graphics")]
         public GameObject speakerContainer;
         public Image portrait;
@@ -19,7 +22,7 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
         public ChoiceButton choicePrefab;
 
         private void Awake () {
-            var database = new DatabaseInstance();
+            var database = new DatabaseInstanceExtended();
            _ctrl = new DialogueController(database);
 
            _ctrl.Events.Speak.AddListener((actor, text) => {
@@ -50,7 +53,7 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
                Debug.Log($"Node Enter: {node.GetType()} - {node.UniqueId}");
            });
 
-           _ctrl.Play(dialogue);
+           _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
         }
 
         private void ClearChoices () {
