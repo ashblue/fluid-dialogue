@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/ashblue/fluid-dialogue/compare/v2.2.0...v2.3.0) (2020-03-28)
+
+
+### Features
+
+* dialogue graphs now support scene objects ([cf78ea2](https://github.com/ashblue/fluid-dialogue/commit/cf78ea2))
+
 # [2.2.0](https://github.com/ashblue/fluid-dialogue/compare/v2.1.0...v2.2.0) (2020-02-15)
 
 
