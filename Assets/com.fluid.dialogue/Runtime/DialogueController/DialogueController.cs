@@ -4,10 +4,12 @@ using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialogueController {
         IDatabaseInstance LocalDatabase { get; }
+        IDatabaseInstanceExtended LocalDatabaseExtended { get; }
 
         void PlayChild (IGraphData graph);
     }
@@ -15,16 +17,28 @@ namespace CleverCrow.Fluid.Dialogues {
     public class DialogueController : IDialogueController {
         private readonly Stack<IDialoguePlayback> _activeDialogue = new Stack<IDialoguePlayback>();
 
+        [Obsolete("Use LocalDatabaseExtended instead")]
         public IDatabaseInstance LocalDatabase { get; }
+        public IDatabaseInstanceExtended LocalDatabaseExtended { get; }
         public IDialogueEvents Events { get; } = new DialogueEvents();
         public IDialoguePlayback ActiveDialogue => _activeDialogue.Count > 0 ? _activeDialogue.Peek() : null;
 
+        [Obsolete("Use DatabaseInstanceExtended instead. Old databases do not support GameObjects")]
         public DialogueController (IDatabaseInstance localDatabase) {
             LocalDatabase = localDatabase;
         }
 
-        public void Play (IDialoguePlayback playback) {
-            LocalDatabase.Clear();
+        public DialogueController (IDatabaseInstanceExtended localDatabase) {
+#pragma warning disable 618
+            LocalDatabase = localDatabase;
+#pragma warning restore 618
+
+            LocalDatabaseExtended = localDatabase;
+        }
+
+        public void Play (IDialoguePlayback playback, IGameObjectOverride[] gameObjectOverrides = null) {
+            SetupDatabases(gameObjectOverrides);
+
             Stop();
 
             playback.Events.Speak.AddListener(TriggerSpeak);
@@ -37,9 +51,23 @@ namespace CleverCrow.Fluid.Dialogues {
             playback.Play();
         }
 
-        public void Play (IGraphData graph) {
+        public void Play (IGraphData graph, IGameObjectOverride[] gameObjectOverrides = null) {
             var runtime = new GraphRuntime(this, graph);
-            Play(new DialoguePlayback(runtime, this, new DialogueEvents()));
+            Play(new DialoguePlayback(runtime, this, new DialogueEvents()), gameObjectOverrides);
+        }
+
+        private void SetupDatabases (IGameObjectOverride[] gameObjectOverrides) {
+#pragma warning disable 618
+            LocalDatabase.Clear();
+#pragma warning restore 618
+
+            if (LocalDatabaseExtended == null) return;
+            LocalDatabaseExtended.ClearGameObjects();
+
+            if (gameObjectOverrides == null) return;
+            foreach (var goOverride in gameObjectOverrides) {
+                LocalDatabaseExtended.GameObjects.Set(goOverride.Definition.Key, goOverride.Value);
+            }
         }
 
         public void PlayChild (IDialoguePlayback playback) {
