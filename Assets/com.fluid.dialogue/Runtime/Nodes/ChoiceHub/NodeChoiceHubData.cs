@@ -6,6 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeChoiceHubData : NodeDataChoiceBase {
         protected override string DefaultName => "Choice Hub";
         public override bool HideInspectorActions => true;
+        public override string Text { get; }
 
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             var runtimeChoices = choices.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList();

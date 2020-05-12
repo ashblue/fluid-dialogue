@@ -4,6 +4,7 @@ using CleverCrow.Fluid.Dialogues.Graphs;
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeRootData : NodeDataBase {
         protected override string DefaultName => "Root";
+        public override string Text { get; }
 
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new NodeRoot(

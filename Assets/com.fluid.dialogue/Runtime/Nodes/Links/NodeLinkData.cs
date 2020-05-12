@@ -3,6 +3,8 @@ using CleverCrow.Fluid.Dialogues.Graphs;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public class NodeLinkData : NodeDataBase {
+        public override string Text { get; }
+
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new NodeLink(
                 graphRuntime,

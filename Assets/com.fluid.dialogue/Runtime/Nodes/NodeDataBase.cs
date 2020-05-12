@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeData : IGetRuntime<INode>, IConnectionChildCollection {
+        string Text { get; }
     }
 
     public interface IConnectionChildCollection {
@@ -45,6 +46,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         protected virtual string DefaultName { get; } = "Untitled";
         public IReadOnlyList<NodeDataBase> Children => children;
         public virtual bool HideInspectorActions => false;
+        public abstract string Text { get; }
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

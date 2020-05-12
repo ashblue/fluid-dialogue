@@ -11,6 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public string dialogue;
 
         protected override string DefaultName => "Dialogue";
+        public override string Text => dialogue;
 
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController controller) {
             return new NodeDialogue(
