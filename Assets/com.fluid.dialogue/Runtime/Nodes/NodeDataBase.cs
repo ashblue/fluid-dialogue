@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CleverCrow.Fluid.Dialogues.Actions;
+using CleverCrow.Fluid.Dialogues.Choices;
 using CleverCrow.Fluid.Dialogues.Conditions;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using UnityEngine;
@@ -9,6 +10,7 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Nodes {
     public interface INodeData : IGetRuntime<INode>, IConnectionChildCollection {
         string Text { get; }
+        List<ChoiceData> Choices { get; }
     }
 
     public interface IConnectionChildCollection {
@@ -46,7 +48,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         protected virtual string DefaultName { get; } = "Untitled";
         public IReadOnlyList<NodeDataBase> Children => children;
         public virtual bool HideInspectorActions => false;
-        public abstract string Text { get; }
+        public virtual string Text => "";
+        public virtual List<ChoiceData> Choices { get; } = new List<ChoiceData>();
 
         public void Setup () {
             _uniqueId = Guid.NewGuid().ToString();

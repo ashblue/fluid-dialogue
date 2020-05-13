@@ -8,7 +8,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public DialogueGraph dialogueGraph;
 
         protected override string DefaultName => "Play Graph";
-        public override string Text { get; }
 
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new NodePlayGraph(
