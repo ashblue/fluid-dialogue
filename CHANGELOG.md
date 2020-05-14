@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/ashblue/fluid-dialogue/compare/v2.4.0...v2.4.1) (2020-05-14)
+
+
+### Bug Fixes
+
+* no longer crashes if another script is called DialogueGraph ([558c869](https://github.com/ashblue/fluid-dialogue/commit/558c869))
+
 # [2.4.0](https://github.com/ashblue/fluid-dialogue/compare/v2.3.0...v2.4.0) (2020-05-14)
 
 
