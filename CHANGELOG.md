@@ -1,3 +1,11 @@
+# [2.4.0](https://github.com/ashblue/fluid-dialogue/compare/v2.3.0...v2.4.0) (2020-05-14)
+
+
+### Features
+
+* **find-replace:** dialogue and choices now support find / replace ([2758fc9](https://github.com/ashblue/fluid-dialogue/commit/2758fc9))
+* **spellcheck:** several bug fixes, dictionary words now editable ([740386e](https://github.com/ashblue/fluid-dialogue/commit/740386e))
+
 # [2.3.0](https://github.com/ashblue/fluid-dialogue/compare/v2.2.0...v2.3.0) (2020-03-28)
 
 
