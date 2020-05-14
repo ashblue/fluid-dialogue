@@ -8,6 +8,8 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         [HideInInspector]
         public List<ChoiceData> choices = new List<ChoiceData>();
 
+        public override List<ChoiceData> Choices => choices;
+
         public override void ClearConnectionChildren () {
             base.ClearConnectionChildren();
             foreach (var choice in choices) {

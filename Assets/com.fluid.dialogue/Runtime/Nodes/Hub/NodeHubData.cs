@@ -5,7 +5,6 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     [CreateMenu("Hub/Default")]
     public class NodeHubData : NodeDataBase {
         protected override string DefaultName => "Hub";
-
         public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
             return new NodeHub(
                 graphRuntime,
