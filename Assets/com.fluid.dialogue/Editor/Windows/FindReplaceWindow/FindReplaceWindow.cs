@@ -18,6 +18,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             foreach (var graphID in graphIDs) {
                 var path = AssetDatabase.GUIDToAssetPath(graphID);
                 var graph = AssetDatabase.LoadAssetAtPath<DialogueGraph>(path);
+                if (graph == null) continue;
 
                 foreach (var node in graph.Nodes) {
                     if (IsValid(node.Text ?? "")) {
