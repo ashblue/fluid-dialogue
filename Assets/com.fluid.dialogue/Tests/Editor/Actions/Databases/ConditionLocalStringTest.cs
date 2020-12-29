@@ -6,7 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
     public class ConditionLocalStringTest {
         private const string VALUE = "a";
 
-        private ConditionLocalStringInternal _condition;
+        private ConditionStringInternal _condition;
         private IKeyValueDefinition<string> _definition;
         private IKeyValueData<string> _database;
 
@@ -14,7 +14,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         public void BeforeEach () {
             _definition = Substitute.For<IKeyValueDefinition<string>>();
             _database = Substitute.For<IKeyValueData<string>>();
-            _condition = new ConditionLocalStringInternal(_database);
+            _condition = new ConditionStringInternal(_database);
 
             _database.Get(null).ReturnsForAnyArgs(VALUE);
         }

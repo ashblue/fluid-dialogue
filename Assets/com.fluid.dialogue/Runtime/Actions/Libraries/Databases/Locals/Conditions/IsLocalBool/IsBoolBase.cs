@@ -5,9 +5,8 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
-    [CreateMenu("Database/Locals/Is Bool")]
-    public class IsLocalBool : ConditionDataBase {
-        private ConditionLocalBoolInternal _condition;
+    public abstract class IsBoolBase : ConditionDataBase {
+        private ConditionBoolInternal _condition;
 
         [SerializeField]
         private KeyValueDefinitionBool _variable = null;
@@ -23,8 +22,10 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
             NotEqual
         }
 
+        protected abstract IKeyValueData<bool> GetBoolInstance (IDialogueController dialogue);
+
         public override void OnInit (IDialogueController dialogue) {
-            _condition = new ConditionLocalBoolInternal(dialogue.LocalDatabase.Bools);
+            _condition = new ConditionBoolInternal(GetBoolInstance(dialogue));
         }
 
         public override bool OnGetIsValid (INode parent) {
@@ -39,10 +40,10 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         }
     }
 
-    public class ConditionLocalBoolInternal {
+    public class ConditionBoolInternal {
         private readonly IKeyValueData<bool> _database;
 
-        public ConditionLocalBoolInternal (IKeyValueData<bool> database) {
+        public ConditionBoolInternal (IKeyValueData<bool> database) {
             _database = database;
         }
 

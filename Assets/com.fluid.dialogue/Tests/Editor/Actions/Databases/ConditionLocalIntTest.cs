@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
     public class ConditionLocalIntTest {
-        private ConditionLocalIntInternal _condition;
+        private ConditionIntInternal _condition;
         private IKeyValueDefinition<int> _definition;
         private IKeyValueData<int> _database;
 
@@ -12,7 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         public void BeforeEach () {
             _definition = Substitute.For<IKeyValueDefinition<int>>();
             _database = Substitute.For<IKeyValueData<int>>();
-            _condition = new ConditionLocalIntInternal(_database);
+            _condition = new ConditionIntInternal(_database);
 
             _database.Get(null).ReturnsForAnyArgs(0);
         }

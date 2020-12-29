@@ -5,9 +5,8 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
-    [CreateMenu("Database/Locals/Is String")]
-    public class IsLocalString : ConditionDataBase {
-        private ConditionLocalStringInternal _condition;
+    public abstract class IsStringBase : ConditionDataBase {
+        private ConditionStringInternal _condition;
 
         [SerializeField]
         private KeyValueDefinitionString _variable = null;
@@ -23,8 +22,10 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
             NotEqual
         }
 
+        protected abstract IKeyValueData<string> GetStringInstance (IDialogueController dialogue);
+
         public override void OnInit (IDialogueController dialogue) {
-            _condition = new ConditionLocalStringInternal(dialogue.LocalDatabase.Strings);
+            _condition = new ConditionStringInternal(GetStringInstance(dialogue));
         }
 
         public override bool OnGetIsValid (INode parent) {
@@ -39,10 +40,10 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         }
     }
 
-    public class ConditionLocalStringInternal {
+    public class ConditionStringInternal {
         private readonly IKeyValueData<string> _database;
 
-        public ConditionLocalStringInternal (IKeyValueData<string> database) {
+        public ConditionStringInternal (IKeyValueData<string> database) {
             _database = database;
         }
 

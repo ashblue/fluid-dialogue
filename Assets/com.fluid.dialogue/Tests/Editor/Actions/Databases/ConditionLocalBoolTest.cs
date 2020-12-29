@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
     public class ConditionLocalBoolTest {
-        private ConditionLocalBoolInternal _boolCondition;
+        private ConditionBoolInternal _boolCondition;
         private IKeyValueDefinition<bool> _definition;
         private IKeyValueData<bool> _database;
 
@@ -12,7 +12,7 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         public void BeforeEach () {
             _definition = Substitute.For<IKeyValueDefinition<bool>>();
             _database = Substitute.For<IKeyValueData<bool>>();
-            _boolCondition = new ConditionLocalBoolInternal(_database);
+            _boolCondition = new ConditionBoolInternal(_database);
 
             _database.Get(null).ReturnsForAnyArgs(true);
         }
