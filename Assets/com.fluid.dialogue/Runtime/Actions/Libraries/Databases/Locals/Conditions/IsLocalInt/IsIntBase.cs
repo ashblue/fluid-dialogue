@@ -5,21 +5,22 @@ using CleverCrow.Fluid.Dialogues.Nodes;
 using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
-    [CreateMenu("Database/Locals/Is Float")]
-    public class ConditionLocalFloat : ConditionDataBase {
-        private ConditionLocalFloatInternal _condition;
+    public abstract class IsIntBase : ConditionDataBase {
+        private ConditionIntInternal _condition;
 
         [SerializeField]
-        private KeyValueDefinitionFloat _variable = null;
+        private KeyValueDefinitionInt _variable = null;
 
         [SerializeField]
         private NumberComparison _comparison = NumberComparison.Equal;
 
         [SerializeField]
-        private float _value = 0;
+        private int _value = 0;
+
+        protected abstract IKeyValueData<int> GetIntInstance (IDialogueController dialogue);
 
         public override void OnInit (IDialogueController dialogue) {
-            _condition = new ConditionLocalFloatInternal(dialogue.LocalDatabase.Floats);
+            _condition = new ConditionIntInternal(GetIntInstance(dialogue));
         }
 
         public override bool OnGetIsValid (INode parent) {
@@ -27,22 +28,21 @@ namespace CleverCrow.Fluid.Dialogues.Actions.Databases {
         }
     }
 
-    public class ConditionLocalFloatInternal {
-        private readonly IKeyValueData<float> _database;
+    public class ConditionIntInternal {
+        private readonly IKeyValueData<int> _database;
 
-        public ConditionLocalFloatInternal (IKeyValueData<float> database) {
+        public ConditionIntInternal (IKeyValueData<int> database) {
             _database = database;
         }
 
-        public bool IsComparisonValid (IKeyValueDefinition<float> definition, float value,
-            NumberComparison comparison) {
+        public bool IsComparisonValid (IKeyValueDefinition<int> definition, int value, NumberComparison comparison) {
             var dbValue = _database.Get(definition.Key, definition.DefaultValue);
 
             switch (comparison) {
                 case NumberComparison.Equal:
-                    return Math.Abs(dbValue - value) < 0.01f;
+                    return dbValue == value;
                 case NumberComparison.NotEqual:
-                    return Math.Abs(dbValue - value) > 0.01f;
+                    return dbValue != value;
                 case NumberComparison.GreaterThan:
                     return value > dbValue;
                 case NumberComparison.GreaterThanOrEqual:

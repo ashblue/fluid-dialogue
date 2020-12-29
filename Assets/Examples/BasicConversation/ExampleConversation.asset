@@ -144,6 +144,22 @@ MonoBehaviour:
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
   dialogue: They're doing fine. You've got bigger things to worry about.
+--- !u!114 &-7021118909226780551
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc39c8b552b94c01a6ae86d4b8cce494, type: 3}
+  m_Name: SetGlobalBool
+  m_EditorClassIdentifier: 
+  _title: SetGlobalBool humans asked
+  _uniqueId: 067fa933-713f-4ff1-860b-4051d4c9b040
+  _value: 1
+  _variable: {fileID: 11400000, guid: 1906dabbacd5b15429089da6c10fd23d, type: 2}
 --- !u!114 &-6868820908879997394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -306,6 +322,7 @@ MonoBehaviour:
   conditions: []
   enterActions:
   - {fileID: -4687762883489335130}
+  - {fileID: -7021118909226780551}
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
@@ -470,7 +487,7 @@ MonoBehaviour:
   - {fileID: -1221359623688907011}
   - {fileID: 3721123120546049034}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 50450.676, y: 49996}
+  scrollPosition: {x: 50404.676, y: 50073}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0

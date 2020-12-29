@@ -2,7 +2,8 @@
     "name": "com.fluid.dialogue",
     "references": [
         "com.fluid.database",
-        "com.fluid.unity-event-plus"
+        "com.fluid.unity-event-plus",
+        "com.fluid.simple-singleton"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
