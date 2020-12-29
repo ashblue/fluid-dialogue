@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/ashblue/fluid-dialogue/compare/v2.4.1...v2.5.0) (2020-12-29)
+
+
+### Features
+
+* **variables:** added global database actions and conditions ([4fef38c](https://github.com/ashblue/fluid-dialogue/commit/4fef38c))
+
 ## [2.4.1](https://github.com/ashblue/fluid-dialogue/compare/v2.4.0...v2.4.1) (2020-05-14)
 
 
