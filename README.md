@@ -94,6 +94,19 @@ Fluid Dialogue is used through [Unity's Package Manager](https://docs.unity3d.co
 
 The following APIs are available for customizing your dialogue experience.
 
+### Initializing a Dialogue
+
+You can initialize a dialogue using the .Play method, as show in the following script : 
+https://github.com/ashblue/fluid-dialogue/blob/develop/Assets/Examples/BasicConversation/Scripts/ExampleDialoguePlayback.cs#L56
+
+```
+   private void Awake () {
+            var database = new DatabaseInstanceExtended();
+           _ctrl = new DialogueController(database);
+           _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
+        }
+```
+
 ### Custom Actions
 
 You can create your own custom actions for the dialogue tree with the following API syntax.
