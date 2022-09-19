@@ -1,0 +1,19 @@
+name: Nightly Build
+on:
+    push:
+        branches:
+            - develop
+jobs:
+    deployNightly:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - run: HUSKY=0 npm ci
+            - run: npm run build
+            - name: Deploy nightly branch
+              run: sh ./publish-nightly.sh
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
