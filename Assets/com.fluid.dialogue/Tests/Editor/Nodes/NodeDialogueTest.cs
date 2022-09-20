@@ -35,6 +35,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 null,
                 _actor,
                 DIALOGUE,
+                null,
                 _children,
                 _choiceList,
                 _conditions,

@@ -11,10 +11,10 @@
   ],
   "dependencies": {
     "clever-crow.nsubstitute": "2.0.3",
-    "com.fluid.database": "2.0.0",
+    "com.fluid.database": "2.1.0",
     "com.fluid.find-and-replace": "1.0.1",
-    "com.fluid.simple-spellcheck": "1.1.0",
-    "com.fluid.unity-event-plus": "1.1.0",
+    "com.fluid.simple-spellcheck": "1.1.1",
+    "com.fluid.unity-event-plus": "1.2.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "4.3.0",

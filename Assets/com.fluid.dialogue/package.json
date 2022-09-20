@@ -5,9 +5,9 @@
     "description": "A Unity dialogue system that features an easy to use drag and drop graph. ScriptableObject driven with the ability to write custom actions and conditions to create complex dialogue workflows.",
     "unity": "2019.1",
     "dependencies": {
-        "com.fluid.database": "2.0.0",
-        "com.fluid.unity-event-plus": "1.1.0",
-        "com.fluid.simple-spellcheck": "1.1.0",
+        "com.fluid.database": "2.1.0",
+        "com.fluid.unity-event-plus": "1.2.0",
+        "com.fluid.simple-spellcheck": "1.1.1",
         "com.fluid.find-and-replace": "1.0.1"
     }
 }

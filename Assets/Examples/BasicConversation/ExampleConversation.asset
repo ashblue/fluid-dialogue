@@ -27,6 +27,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: That sounds like best course of action. Is there anything else?
 --- !u!114 &-8371811054073610404
 MonoBehaviour:
@@ -70,6 +71,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: The dragons that came to our aid are on the brink of extinction. See
     to their aid first.
 --- !u!114 &-8291345574090556126
@@ -99,6 +101,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: What of the king's enemies. They said they'd send reinforcements.
 --- !u!114 &-7811679642350466681
 MonoBehaviour:
@@ -143,6 +146,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: They're doing fine. You've got bigger things to worry about.
 --- !u!114 &-7021118909226780551
 MonoBehaviour:
@@ -207,6 +211,7 @@ MonoBehaviour:
   - {fileID: -230701956770334952}
   - {fileID: 5960690670116952456}
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: Not great. We only have enough resources to provide relief for one group.
     Can't save them all.
 --- !u!114 &-5972268922082454213
@@ -236,6 +241,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: We won't last more than a few days if we're lucky.
 --- !u!114 &-5697671711981343180
 MonoBehaviour:
@@ -296,6 +302,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: I'm sorry, but we've received no word of any reinforcements.
 --- !u!114 &-3387278498358440211
 MonoBehaviour:
@@ -326,6 +333,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: Humans took severe loses for a cause that has nothing to do with them.
     We should honor them by prioritizing their recovery.
 --- !u!114 &-2199788058648552871
@@ -411,6 +419,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: All the supplies are gone. Destroyed by the attack on the sea.
 --- !u!114 &-1221359623688907011
 MonoBehaviour:
@@ -487,7 +496,7 @@ MonoBehaviour:
   - {fileID: -1221359623688907011}
   - {fileID: 3721123120546049034}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 50404.676, y: 50073}
+  scrollPosition: {x: 50048.676, y: 50061}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +524,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: Not really. How are the solders holding up?
 --- !u!114 &426936237664981933
 MonoBehaviour:
@@ -568,6 +578,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: My people have suffered more than any other in this war. Please see that
     the elves are taken care of first.
 --- !u!114 &3721123120546049034
@@ -597,6 +608,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: Sorry about that. How are things going again?
 --- !u!114 &3777311768254997257
 MonoBehaviour:
@@ -641,6 +653,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 0}
   dialogue: Would you like to know anything else about our forces?
 --- !u!114 &5362338249820595584
 MonoBehaviour:
@@ -734,6 +747,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: How long will our supplies last?
 --- !u!114 &8469888643324881027
 MonoBehaviour:
@@ -793,4 +807,5 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: aebb863e25cae0a4495c09b6a617ecf6, type: 2}
+  audio: {fileID: 8300000, guid: 68d5592cda1d5bd429da0481390f1a6a, type: 3}
   dialogue: Hey, you doing okay?
