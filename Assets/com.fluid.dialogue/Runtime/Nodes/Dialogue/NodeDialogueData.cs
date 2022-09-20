@@ -6,6 +6,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
     [CreateMenu("Dialogue", 1)]
     public class NodeDialogueData : NodeDataChoiceBase {
         public ActorDefinition actor;
+        public AudioClip audio;
 
         [TextArea]
         public string dialogue;
@@ -19,6 +20,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
                 UniqueId,
                 actor,
                 dialogue,
+                audio,
                 children.ToList<INodeData>(),
                 choices.Select(c => c.GetRuntime(graphRuntime, controller)).ToList(),
                 conditions.Select(c => c.GetRuntime(graphRuntime, controller)).ToList(),

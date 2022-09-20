@@ -25,7 +25,10 @@ namespace CleverCrow.Fluid.Dialogues.Examples {
             var database = new DatabaseInstanceExtended();
            _ctrl = new DialogueController(database);
 
-           _ctrl.Events.Speak.AddListener((actor, text) => {
+           // @NOTE If you don't need audio just call _ctrl.Events.Speak((actor, text) => {}) instead
+           _ctrl.Events.SpeakWithAudio.AddListener((actor, text, audioClip) => {
+               if (audioClip) Debug.Log($"Audio Clip Detected ${audioClip.name}");
+
                ClearChoices();
                portrait.sprite = actor.Portrait;
                lines.text = text;
