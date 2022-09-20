@@ -8,7 +8,7 @@
       "url": "https://registry.npmjs.org"
     },
     "com.fluid.database": {
-      "version": "2.0.0",
+      "version": "2.1.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -32,14 +32,14 @@
       "url": "https://registry.npmjs.org"
     },
     "com.fluid.simple-spellcheck": {
-      "version": "1.1.0",
+      "version": "1.1.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://registry.npmjs.org"
     },
     "com.fluid.unity-event-plus": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
