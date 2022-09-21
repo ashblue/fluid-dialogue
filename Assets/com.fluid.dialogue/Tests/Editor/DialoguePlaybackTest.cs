@@ -48,6 +48,21 @@ namespace CleverCrow.Fluid.Dialogues {
                 }
 
                 [Test]
+                public void It_should_trigger_a_speak_with_audio_event_with_the_root_child_dialogue () {
+                    var node = A.Node.Build();
+                    node.Play(Arg.Do<IDialoguePlayback>(p => p.Events.SpeakWithAudio.Invoke(null, null, null)));
+
+                    _graph = A.Graph
+                        .WithNextResult(node)
+                        .Build();
+                    _playback = new DialoguePlayback(_graph, null, _events);
+
+                    _playback.Play();
+
+                    _playback.Events.SpeakWithAudio.ReceivedWithAnyArgs(1).Invoke(null, null, null);
+                }
+
+                [Test]
                 public void It_should_trigger_play_on_the_root_child () {
                     var node = A.Node.Build();
                     _graph = A.Graph
