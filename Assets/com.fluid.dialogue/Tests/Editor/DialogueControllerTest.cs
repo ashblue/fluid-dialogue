@@ -114,6 +114,18 @@ namespace CleverCrow.Fluid.Dialogues {
                 }
 
                 [Test]
+                public void It_should_bind_dialogue_speak_with_audio_events () {
+                    var speakResult = false;
+                    _ctrl.Events.SpeakWithAudio.AddListener((x, y, _) => speakResult = true);
+                    var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
+
+                    _ctrl.Play(playback);
+                    playback.Events.SpeakWithAudio.Invoke(null, null, null);
+
+                    Assert.IsTrue(speakResult);
+                }
+
+                [Test]
                 public void It_should_bind_dialogue_choice_events () {
                     var choiceResult = false;
                     _ctrl.Events.Choice.AddListener((x, y, z) => choiceResult = true);
@@ -166,6 +178,18 @@ namespace CleverCrow.Fluid.Dialogues {
 
                         _ctrl.PlayChild(playback);
                         playback.Events.Speak.Invoke(null, null);
+
+                        Assert.IsTrue(speakResult);
+                    }
+
+                    [Test]
+                    public void It_should_bind_the_speak_with_audio_event () {
+                        var speakResult = false;
+                        _ctrl.Events.SpeakWithAudio.AddListener((x, y, _) => speakResult = true);
+                        var playback = new DialoguePlayback(A.Graph.Build(), null, new DialogueEvents());
+
+                        _ctrl.PlayChild(playback);
+                        playback.Events.SpeakWithAudio.Invoke(null, null, null);
 
                         Assert.IsTrue(speakResult);
                     }
