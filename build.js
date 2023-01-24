@@ -1,3 +1,3 @@
-const createDist = require('upm-package-populator');
+const { populatePackage } = require('upm-package-populator');
 
-createDist('Assets/com.fluid.dialogue', '.', 'dist');
+populatePackage('.', 'Assets/com.fluid.dialogue');

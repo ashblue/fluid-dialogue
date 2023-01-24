@@ -85,7 +85,7 @@ Fluid Dialogue is used through [Unity's Package Manager](https://docs.unity3d.co
     }
   ],
   "dependencies": {
-    "com.fluid.dialogue": "1.0.0"
+    "com.fluid.dialogue": "2.6.0"
   }
 }
 ```

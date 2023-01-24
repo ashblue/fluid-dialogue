@@ -1,0 +1,22 @@
+{
+  "description": "A Unity dialogue system that features an easy to use drag and drop graph. ScriptableObject driven with the ability to write custom actions and conditions to create complex dialogue workflows.",
+  "displayName": "Fluid Dialogue",
+  "keywords": [
+    "unity",
+    "dialogue",
+    "dialogue system"
+  ],
+  "oysterVersion": "3.0.0",
+  "packageName": "com.fluid.dialogue",
+  "packageScope": "com.fluid",
+  "unityVersion": "2019.1",
+  "author": {
+    "name": "Ash Blue",
+    "email": "ash@clevercrowgames.com",
+    "url": "http://blueashes.com"
+  },
+  "repo": {
+    "gitUrl": "https://github.com/ashblue/fluid-dialogue",
+    "gitUrlNoHttp": "github.com/ashblue/fluid-dialogue"
+  }
+}

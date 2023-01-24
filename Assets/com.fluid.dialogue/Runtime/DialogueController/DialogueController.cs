@@ -42,6 +42,7 @@ namespace CleverCrow.Fluid.Dialogues {
             Stop();
 
             playback.Events.Speak.AddListener(TriggerSpeak);
+            playback.Events.SpeakWithAudio.AddListener(TriggerSpeakWithAudio);
             playback.Events.Choice.AddListener(TriggerChoice);
             playback.Events.NodeEnter.AddListener(TriggerEnterNode);
             playback.Events.Begin.AddListener(TriggerBegin);
@@ -81,6 +82,7 @@ namespace CleverCrow.Fluid.Dialogues {
                 parentDialogue.Next();
             });
             playback.Events.Speak.AddListener(TriggerSpeak);
+            playback.Events.SpeakWithAudio.AddListener(TriggerSpeakWithAudio);
             playback.Events.Choice.AddListener(TriggerChoice);
             playback.Events.NodeEnter.AddListener(TriggerEnterNode);
 
@@ -100,6 +102,10 @@ namespace CleverCrow.Fluid.Dialogues {
         private void TriggerEnd () {
             _activeDialogue.Pop();
             Events.End.Invoke();
+        }
+
+        private void TriggerSpeakWithAudio (IActor actor, string text, AudioClip audioClip) {
+            Events.SpeakWithAudio.Invoke(actor, text, audioClip);
         }
 
         private void TriggerSpeak (IActor actor, string text) {
