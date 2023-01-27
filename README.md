@@ -28,7 +28,33 @@ First you'll need to [install](#installation) the package with Unity Package Man
 1. Create -> Fluid -> Dialogue -> Graph
 1. Click "Edit Dialogue" to customize your graph
 
-To create a custom UI to display your graph, you'll need to handle a series of events emitted by the dialogue controller. You can find a full example of this in the [Examples](#examples) folder. 
+To create a custom UI to display your graph, you'll need to handle a series of events emitted by the dialogue controller. You can find a full example of this in the [Examples](#examples) folder.
+
+### Playing Dialogue
+
+To trigger dialogue playback you'll need the following snippet. This will turn your dialogue data into an ongoing conversation with events, variables, and allow you to override in-game GameObject(s).
+
+```csharp
+using System.Collections;
+using System.Linq;
+using CleverCrow.Fluid.Databases;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using UnityEngine;
+
+public class ExampleDialoguePlayback : MonoBehaviour {
+  private DialogueController _ctrl;
+  public DialogueGraph dialogue;
+  public GameObjectOverride[] gameObjectOverrides;
+  
+  private void Awake () {
+    var database = new DatabaseInstanceExtended();
+    _ctrl = new DialogueController(database);
+    _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
+  }
+}
+```
+
+For more details see the [`ExampleDialoguePlayback.cs`](https://github.com/ashblue/fluid-dialogue/blob/develop/Assets/Examples/BasicConversation/Scripts/ExampleDialoguePlayback.cs) file for a complete solution on how to manage dialogue in your game.
 
 ### Node Types
 
