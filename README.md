@@ -39,6 +39,7 @@ using System.Collections;
 using System.Linq;
 using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues;
 using UnityEngine;
 
 public class ExampleDialoguePlayback : MonoBehaviour {
@@ -49,6 +50,7 @@ public class ExampleDialoguePlayback : MonoBehaviour {
   private void Awake () {
     var database = new DatabaseInstanceExtended();
     _ctrl = new DialogueController(database);
+    _ctrl.Events.Speak.AddListener((actor, text) => { Debug.Log($"{actor.DisplayName}: {text}"); });
     _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
   }
 }
