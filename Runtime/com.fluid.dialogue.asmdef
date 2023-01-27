@@ -1,0 +1,17 @@
+{
+    "name": "com.fluid.dialogue",
+    "references": [
+        "com.fluid.database",
+        "com.fluid.unity-event-plus",
+        "com.fluid.simple-singleton"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
