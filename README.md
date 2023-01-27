@@ -39,6 +39,7 @@ using System.Collections;
 using System.Linq;
 using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues;
 using UnityEngine;
 
 public class ExampleDialoguePlayback : MonoBehaviour {
