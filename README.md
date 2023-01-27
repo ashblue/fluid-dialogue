@@ -50,6 +50,7 @@ public class ExampleDialoguePlayback : MonoBehaviour {
   private void Awake () {
     var database = new DatabaseInstanceExtended();
     _ctrl = new DialogueController(database);
+    _ctrl.Events.Speak.AddListener((actor, text) => { Debug.Log($"{actor.DisplayName}: {text}"); });
     _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
   }
 }
