@@ -47,7 +47,7 @@
     "commitizen": "^4.2.5",
     "cz-conventional-changelog": "~3.3.0",
     "husky": "^8.0.1",
-    "semantic-release": "~19.0.5",
+    "semantic-release": "~21.0.1",
     "upm-package-populator": "^2.0.0"
   },
   "config": {
