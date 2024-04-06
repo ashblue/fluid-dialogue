@@ -8,7 +8,19 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
     public static class CreateDialogueGraph {
         [MenuItem("Assets/Create/Fluid/Dialogue/Graph", priority = 0)]
         public static void CreateAsset () {
-            var graph = CreateGraph();
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            CreateAsset(path, "Dialogue");
+
+            AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>
+        /// Create a dialogue graph asset in a specific folder.
+        /// Designed to create dialogue graphs through custom Unity editor scripts.
+        /// You must call AssetDatabase.SaveAssets(); on your own to save the asset properly.
+        /// </summary>
+        public static DialogueGraph CreateAsset (string folderPath, string graphName) {
+            var graph = CreateGraph(folderPath, graphName);
 
             var root = ScriptableObject.CreateInstance<NodeRootData>();
             root.rect.position =
@@ -17,15 +29,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             graph.root = root;
 
             AssetDatabase.AddObjectToAsset(root, graph);
-            AssetDatabase.SaveAssets();
+
+            return graph;
         }
 
-        private static DialogueGraph CreateGraph () {
+        private static DialogueGraph CreateGraph (string folderPath, string graphName) {
             var graph = ScriptableObject.CreateInstance<DialogueGraph>();
-            graph.name = "Dialogue";
-            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            graph.name = graphName;
             var assetsInPath = AssetDatabase
-                .FindAssets("t:DialogueGraph", new[] {path})
+                .FindAssets("t:DialogueGraph", new[] {folderPath})
                 .Select(i => {
                     var p = AssetDatabase.GUIDToAssetPath(i);
                     var parts = p.Split('/');
@@ -40,7 +52,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 graph.name = $"{name}({count})";
             }
 
-            AssetDatabase.CreateAsset(graph, $"{path}/{graph.name}.asset");
+            AssetDatabase.CreateAsset(graph, $"{folderPath}/{graph.name}.asset");
             return graph;
         }
     }
