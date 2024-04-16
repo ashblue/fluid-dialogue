@@ -31,9 +31,13 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             base.OnInspectorGUI();
             SpellCheckText();
 
+            serializedObject.Update();
+
             _conditions.Update();
             _enterActions?.Update();
             _exitActions?.Update();
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void SpellCheckText () {
