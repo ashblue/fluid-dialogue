@@ -181,6 +181,39 @@ public class CustomCondition : ConditionDataBase {
 }
 ```
 
+### Resuming Graph Playback
+
+Graph playback can be resumed from anywhere. This includes nested graphs and the exact node you want to resume from.
+
+```C#
+var ctrl = new DialogueController(...);
+
+// Play your graph to generate runtime data and advance the graph to a specific node by hand
+ctrl.Play(...);
+
+// Record the required serialized properties
+var graph = ctrl.RootGraph; // Finds the root graph that is playing
+var parentHierarchy = dialogue.Ctrl.ParentHierarchy; // Gets the IDs of all nodes the nested graphs that are playing
+var nextNodeId = ctrl.ActiveDialogue.Pointer.Next()?.UniqueId; // You probably want the next node in your graph, not the current one
+
+// Create a new graph and resume playback
+var newCtrl = new DialogueController(...);
+
+if (newCtrl.CanPlay(graph, parentHierarchy, nextNodeId)) {
+    // Failsafe that makes sure our graph playback data is valid    
+    newCtrl.Play(graph, parentHierarchy, nextNodeId);
+} else {
+    // If the data is invalid, just play the graph from the beginning or implement your own fallback logic
+    newCtrl.Play(graph);
+}
+```
+
+## Releases
+
+Please note that whatever node you're resuming from will play that exact node with enter actions and all previous nodes will not trigger anything. This is a direct reference and does not simulate the graph from the beginning.
+
+```c#
+
 ## Releases
 
 Archives of specific versions and release notes are available on the [releases page](https://github.com/ashblue/fluid-dialogue/releases).

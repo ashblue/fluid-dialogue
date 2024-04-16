@@ -9,6 +9,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         bool IsValid { get; }
         List<IChoice> HubChoices { get; }
 
+        /// <summary>
+        /// Returns the first valid child node
+        /// </summary>
         INode Next ();
         void Play (IDialoguePlayback playback);
         IChoice GetChoice (int index);
