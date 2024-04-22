@@ -20,7 +20,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             _dialogue = serializedObject.FindProperty("dialogue");
             _choices = serializedObject.FindProperty("choices");
 
-            _conditions = new ConditionSortableList(this, "conditions", node, node.conditions);
+            if (!node.HideInspectorConditions)
+                _conditions = new ConditionSortableList(this, "conditions", node, node.conditions);
+
             if (!node.HideInspectorActions) {
                 _enterActions = new ActionsSortableList(this, "enterActions", node, node.enterActions);
                 _exitActions = new ActionsSortableList(this, "exitActions", node, node.exitActions);
@@ -33,7 +35,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
 
             serializedObject.Update();
 
-            _conditions.Update();
+            _conditions?.Update();
             _enterActions?.Update();
             _exitActions?.Update();
 
