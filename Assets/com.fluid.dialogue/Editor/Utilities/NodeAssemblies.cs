@@ -17,33 +17,52 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
             _stringToData ?? (_stringToData = GetStringToData());
 
         private static Dictionary<Type, Type> GetDataToDisplay () {
-            var displayTypes = Assembly
-                .GetAssembly(typeof(NodeEditorBase))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(NodeEditorBase)));
+            var dict = new Dictionary<Type, Type>();
 
-            return displayTypes.ToDictionary(
-                (k) => {
-                    var attribute = k.GetCustomAttribute<NodeTypeAttribute>();
-                    return attribute.Type;
-                },
-                (v) => v);
+            // Expensive to get all assemblies, but only way to get data outside the package
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                foreach (var type in assembly.GetTypes()) {
+                    if (!type.IsSubclassOf(typeof(NodeEditorBase)) || type.IsAbstract) continue;
+
+                    var attr = type.GetCustomAttribute<NodeTypeAttribute>();
+                    if (attr == null) continue;
+
+                    dict.Add(attr.Type, type);
+                }
+            }
+
+            return dict;
+        }
+
+        class TypeEntry {
+            public Type type;
+            public string path;
+            public int priority;
         }
 
         private static Dictionary<string, Type> GetStringToData () {
-            var menuTypes = Assembly
-                .GetAssembly(typeof(NodeDataBase))
-                .GetTypes()
-                .Where(t => t.IsSubclassOf(typeof(NodeDataBase))
-                            && t.GetCustomAttribute<CreateMenuAttribute>() != null)
-                .OrderByDescending(t => t.GetCustomAttribute<CreateMenuAttribute>().Priority);
+            var list = new List<TypeEntry>();
 
-            return menuTypes.ToDictionary(
-                (k) => {
-                    var attribute = k.GetCustomAttribute<CreateMenuAttribute>();
-                    return attribute.Path;
-                },
-                (v) => v);
+            // Expensive to get all assemblies, but only way to get data outside the package
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                foreach (var type in assembly.GetTypes()) {
+                    if (!type.IsSubclassOf(typeof(NodeDataBase)) || type.IsAbstract) continue;
+                    var attr = type.GetCustomAttribute<CreateMenuAttribute>();
+                    if (attr == null) continue;
+
+                    list.Add(new TypeEntry {
+                        type = type,
+                        path = attr?.Path ?? type.FullName,
+                        priority = attr?.Priority ?? 0,
+                    });
+                }
+            }
+
+            return list
+                .OrderByDescending(t => t.priority)
+                .ToDictionary(
+                    (k) => k.path,
+                    (v) => v.type);
         }
     }
 }

@@ -47,7 +47,9 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
         public string UniqueId => _uniqueId;
         protected virtual string DefaultName { get; } = "Untitled";
         public IReadOnlyList<NodeDataBase> Children => children;
+        public virtual bool HideConnections => false;
         public virtual bool HideInspectorActions => false;
+        public virtual bool HideInspectorConditions => false;
         public virtual string Text => "";
         public virtual List<ChoiceData> Choices { get; } = new List<ChoiceData>();
 

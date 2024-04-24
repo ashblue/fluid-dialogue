@@ -4,7 +4,7 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues.Editors {
     public class NodeBoxStyle {
         private GUIStyle _style;
-        private readonly Color32 _borderColor;
+        private readonly Color _borderColor;
         private readonly Color _backgroundColor;
 
         private Texture2D _texture;
@@ -39,9 +39,17 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
         }
 
         private void CreateTexture () {
-            _texture = Texture2DExtensions.CreateTexture(19, 19, _borderColor);
-            _texture.SetPixels(1, 1, 17, 17,
-                Enumerable.Repeat(_backgroundColor, 17 * 17).ToArray());
+            _texture = new Texture2D(19, 19, TextureFormat.ARGB32, false);
+            _texture.filterMode = FilterMode.Point;
+
+            // Create an array for border colors with semi-transparency
+            Color[] borderColors = Enumerable.Repeat(new Color(_borderColor.r, _borderColor.g, _borderColor.b, 128), 19 * 19).ToArray();
+            _texture.SetPixels(borderColors);
+
+            // Set the internal area to a transparent background color
+            Color[] backgroundColors = Enumerable.Repeat(new Color(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, 0.5f), 17 * 17).ToArray();
+            _texture.SetPixels(1, 1, 17, 17, backgroundColors);
+
             _texture.Apply();
         }
     }

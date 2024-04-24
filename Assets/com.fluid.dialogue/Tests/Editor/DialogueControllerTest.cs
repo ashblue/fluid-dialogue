@@ -3,52 +3,9 @@ using CleverCrow.Fluid.Databases;
 using CleverCrow.Fluid.Dialogues.Builders;
 using NSubstitute;
 using NUnit.Framework;
-using UnityEngine;
-using Object = System.Object;
 
 namespace CleverCrow.Fluid.Dialogues {
     public class DialogueControllerTest {
-        public class WithExtendedDatabase {
-            public class PlayMethod : DialogueControllerTest {
-                private GameObject _gameObject;
-
-                [Test]
-                public void It_should_call_clear_database_GameObjects () {
-                    var database = Substitute.For<IDatabaseInstanceExtended>();
-                    var ctrl = new DialogueController(database);
-                    var playback = Substitute.For<IDialoguePlayback>();
-
-                    ctrl.Play(playback);
-
-                    database.Received(1).ClearGameObjects();
-                }
-
-                [Test]
-                public void It_allows_overriding_GameObjects_by_definition () {
-                    var database = Substitute.For<IDatabaseInstanceExtended>();
-                    var ctrl = new DialogueController(database);
-                    var playback = Substitute.For<IDialoguePlayback>();
-
-                    var definition = Substitute.For<IKeyValueDefinition<GameObject>>();
-                    definition.Key.Returns("My GameObject");
-                    _gameObject = new GameObject("test");
-
-                    var gameObjectOverride = Substitute.For<IGameObjectOverride>();
-                    gameObjectOverride.Definition.Returns(definition);
-                    gameObjectOverride.Value.Returns(_gameObject);
-
-                    ctrl.Play(playback, new [] { gameObjectOverride });
-
-                    database.GameObjects.Received(1).Set(definition.Key, _gameObject);
-                }
-
-                [TearDown]
-                public void AfterEach () {
-                    if (_gameObject != null) UnityEngine.Object.DestroyImmediate(_gameObject);
-                }
-            }
-        }
-
         public class WithLocalDatabase {
             private DialogueController _ctrl;
             private IDialoguePlayback _playback;

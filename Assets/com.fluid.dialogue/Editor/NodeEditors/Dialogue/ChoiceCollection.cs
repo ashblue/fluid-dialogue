@@ -8,16 +8,16 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
     public class ChoiceCollection {
-        private readonly DialogueWindow _window;
-        private readonly NodeEditorBase _node;
-        private readonly NodeDataChoiceBase _data;
+        protected readonly DialogueWindow _window;
+        protected readonly NodeEditorBase _node;
+        protected readonly NodeDataChoiceBase _data;
 
-        private readonly List<ChoiceData> _graveyard = new List<ChoiceData>();
-        private readonly List<Connection> _connections = new List<Connection>();
-        private readonly List<SerializedObject> _serializedObjects = new List<SerializedObject>();
-        private readonly Stack<Action> _callbacks = new Stack<Action>();
-        private readonly SerializedObject _serializedData;
-        private readonly SerializedProperty _propChoices;
+        protected readonly List<ChoiceData> _graveyard = new List<ChoiceData>();
+        protected readonly List<Connection> _connections = new List<Connection>();
+        protected readonly List<SerializedObject> _serializedObjects = new List<SerializedObject>();
+        protected readonly Stack<Action> _callbacks = new Stack<Action>();
+        protected readonly SerializedObject _serializedData;
+        protected readonly SerializedProperty _propChoices;
 
         private bool IsChoiceMemoryLeak => _data.choices.Count != _connections.Count;
 
@@ -35,9 +35,9 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             Undo.SetCurrentGroupName("Add choice");
             Undo.RecordObject(_data, "Add choice");
 
-            var choice = ScriptableObject.CreateInstance<ChoiceData>();
-            choice.name = "Choice";
-            choice.Setup();
+            var choice = CreateChoice();
+
+            // Field should be overridable
             _data.choices.Add(choice);
 
             if (FluidDialogueSettings.Current.HideNestedNodeData) {
@@ -51,6 +51,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
 
             Undo.RegisterCreatedObjectUndo(choice, "Add choice");
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
+        }
+
+        protected virtual ChoiceData CreateChoice () {
+            var choice = ScriptableObject.CreateInstance<ChoiceData>();
+            choice.name = "Choice";
+            choice.Setup();
+
+            return choice;
         }
 
         public void Print (Event e) {
@@ -90,7 +98,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             return copy;
         }
 
-        private void PrintChoices (Event e) {
+        protected virtual void PrintChoices (Event e) {
             for (var i = 0; i < _propChoices.arraySize; i++) {
                 GUILayout.BeginHorizontal();
 
@@ -120,7 +128,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
             }
         }
 
-        private void ShowEditMenu (ChoiceData choice, int index) {
+        protected void ShowEditMenu (ChoiceData choice, int index) {
             GUI.FocusControl(null);
             var menu = new GenericMenu();
 
