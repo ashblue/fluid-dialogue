@@ -1,0 +1,26 @@
+{
+    "name": "com.fluid.dialogue.Editor.Tests",
+    "references": [
+        "com.fluid.dialogue",
+        "com.fluid.dialogue.Editor",
+        "com.fluid.database",
+        "com.fluid.unity-event-plus",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "NSubstitute.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": []
+}

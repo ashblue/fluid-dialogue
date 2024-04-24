@@ -1,0 +1,32 @@
+{
+  "name": "com.fluid.dialogue",
+  "version": "0.0.0",
+  "displayName": "Fluid Dialogue",
+  "description": "A Unity dialogue system that features an easy to use drag and drop graph. ScriptableObject driven with the ability to write custom actions and conditions to create complex dialogue workflows.",
+  "unity": "2019.1",
+  "dependencies": {
+    "com.fluid.database": "2.1.0",
+    "com.fluid.unity-event-plus": "1.2.0",
+    "com.fluid.simple-spellcheck": "1.1.1",
+    "com.fluid.find-and-replace": "1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashblue/fluid-dialogue.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ashblue/fluid-dialogue/issues"
+  },
+  "homepage": "https://github.com/ashblue/fluid-dialogue#readme",
+  "keywords": [
+    "unity",
+    "dialogue",
+    "dialogue system"
+  ],
+  "author": {
+    "name": "Ash Blue",
+    "email": "ash@clevercrowgames.com",
+    "url": "http://blueashes.com"
+  }
+}
