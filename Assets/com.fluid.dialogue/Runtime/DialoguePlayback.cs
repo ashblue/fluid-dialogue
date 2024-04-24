@@ -2,11 +2,19 @@
 using CleverCrow.Fluid.Dialogues.Actions;
 using CleverCrow.Fluid.Dialogues.Graphs;
 using CleverCrow.Fluid.Dialogues.Nodes;
+using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialoguePlayback {
         IDialogueEvents Events { get; }
         IDialogueController ParentCtrl { get; }
+
+        IGraph Graph { get; }
+
+        /// <summary>
+        /// Current node data being used for the runtime
+        /// </summary>
+        INode Pointer { get; }
 
         void Next ();
         void Play ();
@@ -23,6 +31,7 @@ namespace CleverCrow.Fluid.Dialogues {
         public IDialogueEvents Events { get;}
         public IDialogueController ParentCtrl { get; }
         public INode Pointer { get; private set; }
+        public IGraph Graph => _graph;
 
         public DialoguePlayback (IGraph graph, IDialogueController ctrl, IDialogueEvents events) {
             _graph = graph;
@@ -118,6 +127,23 @@ namespace CleverCrow.Fluid.Dialogues {
             var current = Pointer;
             Pointer = choice.GetValidChildNode();
             Next(current, Pointer);
+        }
+
+        public void SetPointer (string id) {
+            _playing = true;
+            Pointer = _graph.GetNodeByDataId(id);
+
+            if (Pointer == null) {
+                Debug.LogError($"Pointer not found when maually setting pointer: {id}. This graph will instantly end when run");
+            }
+        }
+
+        // Allows playing the pointer from a nested location without crashing
+        public void SetPointerAndPlay (string id) {
+            SetPointer(id);
+            Events.Begin.Invoke();
+
+            Next(null, Pointer);
         }
     }
 }

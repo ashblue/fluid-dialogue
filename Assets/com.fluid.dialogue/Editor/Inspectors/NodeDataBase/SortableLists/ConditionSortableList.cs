@@ -11,11 +11,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
         private readonly NestedDataCrud<ConditionDataBase> _conditionCrud;
 
         private static TypesToMenu<ConditionDataBase> ConditionTypes =>
-            _conditionTypes ?? (_conditionTypes = new TypesToMenu<ConditionDataBase>());
+            _conditionTypes ??= new TypesToMenu<ConditionDataBase>();
 
         public ConditionSortableList (Editor editor, string property, NodeDataBase node, List<ConditionDataBase> conditions)
             : base(editor, property) {
-            _soPrinter = new ScriptableObjectListPrinter(_serializedProp);
+            _soPrinter = new ScriptableObjectListPrinter(editor.serializedObject.FindProperty(property));
             _conditionCrud = new NestedDataCrud<ConditionDataBase>(node, conditions, ConditionTypes);
 
             _list.drawElementCallback = _soPrinter.DrawScriptableObject;

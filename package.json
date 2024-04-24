@@ -1,6 +1,6 @@
 {
   "name": "com.fluid.dialogue",
-  "version": "2.6.0",
+  "version": "0.0.0",
   "unity": "2019.1",
   "displayName": "Fluid Dialogue",
   "description": "A Unity dialogue system that features an easy to use drag and drop graph. ScriptableObject driven with the ability to write custom actions and conditions to create complex dialogue workflows.",
@@ -8,18 +8,14 @@
   "scripts": {
     "build": "node build.js",
     "semantic-release": "semantic-release",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "prepare": "husky install"
   },
   "keywords": [
-    "unity",
-    "dialogue",
-    "dialogue system"
-  ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
+  "unity",
+  "dialogue",
+  "dialogue system"
+],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ashblue/fluid-dialogue.git"

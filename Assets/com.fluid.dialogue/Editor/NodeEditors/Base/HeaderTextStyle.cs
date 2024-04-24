@@ -11,7 +11,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors {
                 if (!_init && EditorStyles.centeredGreyMiniLabel != null) {
                     _init = true;
                     _style = EditorStyles.centeredGreyMiniLabel;
-                    _style.normal.textColor = Color.black;
+                    _style.normal.textColor = ThemeUtility.IsDarkTheme ? Color.white : Color.black;
                 } else if (_style == null) {
                     _style = new GUIStyle();
                 }

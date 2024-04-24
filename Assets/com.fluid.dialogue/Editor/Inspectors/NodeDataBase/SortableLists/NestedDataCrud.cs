@@ -54,6 +54,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         public void DeleteItem (ReorderableList list) {
@@ -70,7 +71,15 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
             Undo.DestroyObjectImmediate(listItem);
 
             Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-            AssetDatabase.SaveAssets();
+
+            // Forcibly refresh the serialized object to prevent an immediate crash
+            list.serializedProperty.serializedObject.Update();
+
+            // We must refresh instead of save. Otherwise the re-orderable list will crash due to an editor bug
+            AssetDatabase.Refresh();
+
+            // Mark the asset dirty so the changes are saved
+            EditorUtility.SetDirty(graph);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
         public NodeDataBase Data { get; private set; }
         private bool IsSelected { get; set; }
 
-        protected virtual Color NodeColor => Color.gray;
+        protected virtual Color NodeColor { get; } = new Color(0.7f, 0.7f, 0.7f);
         protected virtual float NodeWidth { get; } = 100;
 
         public bool IsMemoryLeak => Data == null;
@@ -57,11 +57,7 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 PrintBody();
             }
 
-            if (IsSelected) {
-                GUI.Box(Data.rect, GUIContent.none, _styles.ContainerHighlightStyle.Style);
-            }
-
-            PrintConnections();
+            if (!Data.HideConnections) PrintConnections();
         }
 
         private void PrintHeader () {
@@ -72,7 +68,11 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 headerBox.width - PADDING_HEADER,
                 headerBox.height - PADDING_HEADER);
 
+            var prev = GUI.backgroundColor;
+            GUI.backgroundColor = _styles.BodyColor;
             GUI.Box(headerBox, GUIContent.none, _styles.HeaderStyle.Style);
+            GUI.backgroundColor = prev;
+
             GUI.Label(headerArea, NodeTitle, _styles.HeaderTextStyle.Style);
         }
 
@@ -84,7 +84,14 @@ namespace CleverCrow.Fluid.Dialogues.Editors.NodeDisplays {
                 Data.rect.width - PADDING_CONTENT,
                 Data.rect.height - PADDING_CONTENT);
 
-            GUI.Box(box, GUIContent.none, _styles.ContentStyle.Style);
+            var prev = GUI.backgroundColor;
+            GUI.backgroundColor = _styles.BodyColor;
+            if (IsSelected) {
+                GUI.Box(box, GUIContent.none, _styles.ContainerHighlightStyle.Style);
+            } else {
+                GUI.Box(box, GUIContent.none, _styles.ContentStyle.Style);
+            }
+            GUI.backgroundColor = prev;
 
             GUILayout.BeginArea(ContentArea);
 

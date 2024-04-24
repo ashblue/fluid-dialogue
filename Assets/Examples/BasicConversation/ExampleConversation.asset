@@ -15,10 +15,10 @@ MonoBehaviour:
   _uniqueId: 0eacc16b-09da-4963-bd52-a0f523d2eaae
   rect:
     serializedVersion: 2
-    x: 51260
-    y: 50235
+    x: 51272
+    y: 50247
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: 8469888643324881027}
@@ -62,7 +62,7 @@ MonoBehaviour:
     x: 50972
     y: 50397
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -92,7 +92,7 @@ MonoBehaviour:
     x: 51819
     y: 50359
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -3436942782412272395}
@@ -136,7 +136,7 @@ MonoBehaviour:
     x: 51819
     y: 50507
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -195,15 +195,15 @@ MonoBehaviour:
   _uniqueId: 9b8bf58c-0906-4ca9-a722-d589abfb87c3
   rect:
     serializedVersion: 2
-    x: 50700
-    y: 50156
+    x: 50715
+    y: 50151
     width: 200
-    height: 222
+    height: 226
   nodeTitle: 
   children: []
   conditions: []
   enterActions:
-  - {fileID: 6437907874617121193}
+  - {fileID: 3483931158575894282}
   exitActions: []
   choices:
   - {fileID: -6868820908879997394}
@@ -232,7 +232,7 @@ MonoBehaviour:
     x: 52270
     y: 50209
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -293,7 +293,7 @@ MonoBehaviour:
     x: 52043
     y: 50360
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -1807495471838374980}
@@ -322,7 +322,7 @@ MonoBehaviour:
     x: 50976
     y: 50078
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -352,6 +352,31 @@ MonoBehaviour:
   children:
   - {fileID: 2969575773676471478}
   _uniqueId: e9aad9c8-491b-4bb2-8665-6fc4cde30c9b
+--- !u!114 &-2030564491796885544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bde9a25e35e47d5bc8e840897ea28e6, type: 3}
+  m_Name: Note
+  m_EditorClassIdentifier: 
+  _uniqueId: 99fb440c-334f-4912-bd1f-2c97f48b7430
+  rect:
+    serializedVersion: 2
+    x: 50464.33
+    y: 50344.004
+    width: 200
+    height: 106
+  nodeTitle: 
+  children: []
+  conditions: []
+  enterActions: []
+  exitActions: []
+  note: This is a note I left behind
 --- !u!114 &-1807495471838374980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -410,7 +435,7 @@ MonoBehaviour:
     x: 52048
     y: 50211
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -5972268922082454213}
@@ -495,8 +520,9 @@ MonoBehaviour:
   - {fileID: -7347677369531188231}
   - {fileID: -1221359623688907011}
   - {fileID: 3721123120546049034}
+  - {fileID: -2030564491796885544}
   root: {fileID: 426936237664981933}
-  scrollPosition: {x: 50048.676, y: 50061}
+  scrollPosition: {x: 50859, y: 50000.336}
 --- !u!114 &373158185418196577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,12 +541,14 @@ MonoBehaviour:
     x: 50467
     y: 50163
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -6450186612614065154}
   conditions: []
-  enterActions: []
+  enterActions:
+  - {fileID: 1446717557922608989}
+  - {fileID: 5168258614544093285}
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
@@ -541,8 +569,8 @@ MonoBehaviour:
   _uniqueId: cd458853-4898-4aa5-a8cc-cb7b6dce03b1
   rect:
     serializedVersion: 2
-    x: 50050
-    y: 50200
+    x: 50010
+    y: 50197.33
     width: 100
     height: 57
   nodeTitle: 
@@ -551,6 +579,22 @@ MonoBehaviour:
   conditions: []
   enterActions: []
   exitActions: []
+--- !u!114 &1446717557922608989
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df570d683f114d44abe229f3daba4dbb, type: 3}
+  m_Name: ActionSetActive
+  m_EditorClassIdentifier: 
+  _title: ActionSetActive
+  _uniqueId: 53501ffe-a288-4961-9aa0-af94ccc23a0a
+  _gameObjectName: Canvas/Image
+  _setActive: 1
 --- !u!114 &2969575773676471478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,7 +613,7 @@ MonoBehaviour:
     x: 50978
     y: 50237
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -9183305000158909614}
@@ -581,6 +625,22 @@ MonoBehaviour:
   audio: {fileID: 0}
   dialogue: My people have suffered more than any other in this war. Please see that
     the elves are taken care of first.
+--- !u!114 &3483931158575894282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df570d683f114d44abe229f3daba4dbb, type: 3}
+  m_Name: ActionSetActive
+  m_EditorClassIdentifier: 
+  _title: ActionSetActive
+  _uniqueId: fca3e154-534c-4146-a028-7327d26fd819
+  _gameObjectName: Canvas/Image
+  _setActive: 0
 --- !u!114 &3721123120546049034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +659,7 @@ MonoBehaviour:
     x: 51229
     y: 50544
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -6450186612614065154}
@@ -626,6 +686,22 @@ MonoBehaviour:
   children:
   - {fileID: 6784819468853313292}
   _uniqueId: 98db76ca-7fbd-4fdf-a14a-a0cd471d6c52
+--- !u!114 &5168258614544093285
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df570d683f114d44abe229f3daba4dbb, type: 3}
+  m_Name: ActionSetActive
+  m_EditorClassIdentifier: 
+  _title: ActionSetActive
+  _uniqueId: e3641bc1-d91c-4918-a371-77add2f2ae9d
+  _gameObjectName: SetActiveTest
+  _setActive: 1
 --- !u!114 &5315272478784475652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,10 +717,10 @@ MonoBehaviour:
   _uniqueId: 033a0d93-1bef-4d49-991e-693d93735b23
   rect:
     serializedVersion: 2
-    x: 51561
-    y: 50151
+    x: 51564
+    y: 50148
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: 8469888643324881027}
@@ -704,22 +780,6 @@ MonoBehaviour:
   children:
   - {fileID: -1221359623688907011}
   _uniqueId: b6639707-3558-459c-b2e0-01ebc3bc951b
---- !u!114 &6437907874617121193
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df570d683f114d44abe229f3daba4dbb, type: 3}
-  m_Name: SetActive
-  m_EditorClassIdentifier: 
-  _title: SetActive
-  _uniqueId: b63a213c-b0fa-4526-a78b-55ced115098d
-  _gameObject: {fileID: 11400000, guid: 9f63ecc07e0124045b2c27d0dfb67d38, type: 2}
-  _setActive: 0
 --- !u!114 &6784819468853313292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,7 +798,7 @@ MonoBehaviour:
     x: 51822
     y: 50209
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: -1590606014626862060}
@@ -793,10 +853,10 @@ MonoBehaviour:
   _uniqueId: e89a7a34-92ab-4b6d-be12-57808bba2c05
   rect:
     serializedVersion: 2
-    x: 50219
-    y: 50170
+    x: 50215.664
+    y: 50153.332
     width: 200
-    height: 142
+    height: 146
   nodeTitle: 
   children:
   - {fileID: 373158185418196577}

@@ -4,10 +4,8 @@ using UnityEngine;
 
 namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
     public class SortableListBase {
-        protected readonly Editor _editor;
-        protected readonly ReorderableList _list;
-        protected readonly SerializedObject _serializedObject;
-        protected readonly SerializedProperty _serializedProp;
+        protected ReorderableList _list;
+        bool _skipFrame;
 
         public SortableListBase (Editor editor, string property) {
             if (editor == null) {
@@ -15,31 +13,25 @@ namespace CleverCrow.Fluid.Dialogues.Editors.Inspectors {
                 return;
             }
 
-            _editor = editor;
-            _serializedProp = _editor.serializedObject.FindProperty(property);
-            _serializedObject = _editor.serializedObject;
-
-            if (_serializedProp == null) {
+            var prop = editor.serializedObject.FindProperty(property);
+            if (prop == null) {
                 Debug.LogErrorFormat("Could not find property {0}", property);
                 return;
             }
 
             _list = new ReorderableList(
-                _serializedObject,
-                _serializedProp,
+                editor.serializedObject,
+                prop,
                 true, true, true, true);
 
+            var title = prop.displayName;
             _list.drawHeaderCallback = rect => {
-                EditorGUI.LabelField(rect, _serializedProp.displayName);
+                EditorGUI.LabelField(rect, title);
             };
         }
 
         public void Update () {
-            _serializedObject.Update();
-
-            _list?.DoLayoutList();
-
-            _serializedObject.ApplyModifiedProperties();
+            if (_list != null) _list.DoLayoutList();
         }
     }
 }

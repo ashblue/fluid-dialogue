@@ -13,6 +13,7 @@ namespace CleverCrow.Fluid.Dialogues.Conditions {
         private bool _initTriggered;
 
         public string UniqueId { get; }
+        public IConditionData Data => _data;
 
         public ConditionRuntime (IDialogueController dialogueController, string uniqueId, IConditionData data) {
             _data = data;

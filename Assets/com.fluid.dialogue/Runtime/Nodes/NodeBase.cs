@@ -18,6 +18,7 @@ namespace CleverCrow.Fluid.Dialogues.Nodes {
             _conditions.Find(c => !c.GetIsValid(this)) == null;
         public List<IChoice> HubChoices { get; }
         public string UniqueId { get; }
+        public IReadOnlyList<ICondition> Conditions => _conditions;
 
         protected List<INode> Children =>
             _childrenRuntimeCache ??
