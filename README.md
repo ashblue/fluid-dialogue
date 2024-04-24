@@ -32,7 +32,7 @@ To create a custom UI to display your graph, you'll need to handle a series of e
 
 ### Playing Dialogue
 
-To trigger dialogue playback you'll need the following snippet. This will turn your dialogue data into an ongoing conversation with events, variables, and allow you to override in-game GameObject(s).
+To trigger dialogue playback you'll need the following snippet. This will turn your dialogue data into an ongoing conversation with events and variables.
 
 ```csharp
 using System.Collections;
@@ -45,13 +45,12 @@ using UnityEngine;
 public class ExampleDialoguePlayback : MonoBehaviour {
   private DialogueController _ctrl;
   public DialogueGraph dialogue;
-  public GameObjectOverride[] gameObjectOverrides;
   
   private void Awake () {
     var database = new DatabaseInstanceExtended();
     _ctrl = new DialogueController(database);
     _ctrl.Events.Speak.AddListener((actor, text) => { Debug.Log($"{actor.DisplayName}: {text}"); });
-    _ctrl.Play(dialogue, gameObjectOverrides.ToArray<IGameObjectOverride>());
+    _ctrl.Play(dialogue);
   }
 }
 ```
@@ -95,6 +94,18 @@ To use the variable simply select a node on the graph. Then click the plus sign 
 Globals are mostly the same as local variables. The difference is these will be saved to a global database that persists after the conversation is over and can be referenced across multiple conversations.
 
 The GlobalDatabaseManager will be marked DoNotDestroyOnLoad to persist between scene loads. If you want to save it and write the contents to a file run `Save()` to return a string. You can then restore the database simply by calling `Load(returned save string)`.
+
+### Interacting With Runtime GameObject(s)
+
+To interact with GameObject(s) at runtime use the "SendMessage" action suite. You cannot directly reference GameObjects in the dialogue graph as they are separately serialized. Instead, you can use the "SendMessage" action to send a message to a GameObject at runtime.
+
+It's strongly recommended when sending messages you use a consistent object name like "DIALOGUE_DIRECTOR" to keep things simple and write your own custom scripts to handle the messages. This will make it easier to maintain and debug your game.
+
+![send-message.png](docs/send-message.png)
+
+You can also use the "SetActive" action to toggle GameObjects on and off. This is a great low overhead way to manage dialogue scripts easily.
+
+If you need to do a lot of heavy lifting with tons of scripting on runtime GameObjects, it's recommended you write your own custom actions to handle this. See the APIs section for more details.
 
 ### Examples
 

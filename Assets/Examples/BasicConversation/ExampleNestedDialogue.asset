@@ -18,7 +18,7 @@ MonoBehaviour:
     x: 50050
     y: 50200
     width: 100
-    height: 55
+    height: 57
   nodeTitle: 
   children:
   - {fileID: 3628622021116016526}
@@ -61,7 +61,7 @@ MonoBehaviour:
     x: 50221
     y: 50156
     width: 200
-    height: 133
+    height: 146
   nodeTitle: 
   children:
   - {fileID: 6362165008871370358}
@@ -70,6 +70,7 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: When is this all going to end.
 --- !u!114 &6362165008871370358
 MonoBehaviour:
@@ -89,7 +90,7 @@ MonoBehaviour:
     x: 50474
     y: 50157
     width: 200
-    height: 133
+    height: 146
   nodeTitle: 
   children: []
   conditions: []
@@ -97,4 +98,5 @@ MonoBehaviour:
   exitActions: []
   choices: []
   actor: {fileID: 11400000, guid: d6a8e0fd1eb801d4ca00320f6b2e9e8b, type: 2}
+  audio: {fileID: 0}
   dialogue: Decision after decision, death after death. What's the point anymore?

@@ -11,7 +11,6 @@ using UnityEngine;
 namespace CleverCrow.Fluid.Dialogues {
     public interface IDialogueController {
         IDatabaseInstance LocalDatabase { get; }
-        IDatabaseInstanceExtended LocalDatabaseExtended { get; }
 
         void PlayChild (IGraphData graph);
     }
@@ -20,9 +19,7 @@ namespace CleverCrow.Fluid.Dialogues {
         private readonly Stack<IDialoguePlayback> _activeDialogue = new Stack<IDialoguePlayback>();
         private readonly List<string> _parentHierarchy = new();
 
-        [Obsolete("Use LocalDatabaseExtended instead")]
         public IDatabaseInstance LocalDatabase { get; }
-        public IDatabaseInstanceExtended LocalDatabaseExtended { get; }
         public IDialogueEvents Events { get; } = new DialogueEvents();
 
         /// <summary>
@@ -41,28 +38,20 @@ namespace CleverCrow.Fluid.Dialogues {
         /// </summary>
         public IReadOnlyList<string> ParentHierarchy => _parentHierarchy;
 
-        [Obsolete("Use DatabaseInstanceExtended instead. Old databases do not support GameObjects")]
+
         public DialogueController (IDatabaseInstance localDatabase) {
             LocalDatabase = localDatabase;
         }
 
-        public DialogueController (IDatabaseInstanceExtended localDatabase) {
-#pragma warning disable 618
-            LocalDatabase = localDatabase;
-#pragma warning restore 618
-
-            LocalDatabaseExtended = localDatabase;
-        }
-
-        public void Play (IDialoguePlayback playback, IGameObjectOverride[] gameObjectOverrides = null) {
-            PlaybackSetup(playback, gameObjectOverrides);
+        public void Play (IDialoguePlayback playback) {
+            PlaybackSetup(playback);
             playback.Play();
         }
 
         // @NOTE gameObjectOverrides will be deprecated. It can easily be replaced with a send message system that looks up the target GameObject by string. This is a lot to maintain and messy
-        public void Play (IGraphData graph, IGameObjectOverride[] gameObjectOverrides = null) {
+        public void Play (IGraphData graph) {
             var runtime = new GraphRuntime(this, graph);
-            Play(new DialoguePlayback(runtime, this, new DialogueEvents()), gameObjectOverrides);
+            Play(new DialoguePlayback(runtime, this, new DialogueEvents()));
         }
 
         // @TODO Needs some tests
@@ -89,8 +78,8 @@ namespace CleverCrow.Fluid.Dialogues {
             playback.SetPointerAndPlay(nodeId);
         }
 
-        void PlaybackSetup (IDialoguePlayback playback, IGameObjectOverride[] gameObjectOverrides = null) {
-            SetupDatabases(gameObjectOverrides);
+        void PlaybackSetup (IDialoguePlayback playback) {
+            SetupDatabases();
 
             Stop();
 
@@ -104,18 +93,8 @@ namespace CleverCrow.Fluid.Dialogues {
             _activeDialogue.Push(playback);
         }
 
-        private void SetupDatabases (IGameObjectOverride[] gameObjectOverrides) {
-#pragma warning disable 618
+        private void SetupDatabases () {
             LocalDatabase.Clear();
-#pragma warning restore 618
-
-            if (LocalDatabaseExtended == null) return;
-            LocalDatabaseExtended.ClearGameObjects();
-
-            if (gameObjectOverrides == null) return;
-            foreach (var goOverride in gameObjectOverrides) {
-                LocalDatabaseExtended.GameObjects.Set(goOverride.Definition.Key, goOverride.Value);
-            }
         }
 
         public void PlayChild (IDialoguePlayback playback) {
