@@ -219,6 +219,106 @@ if (newCtrl.CanPlay(graph, parentHierarchy, nextNodeId)) {
 }
 ```
 
+### Custom Nodes (Experimental)
+
+You can create your own custom nodes with the following API. Please note this is experimental and missing some features.
+
+First you will need to setup the data layer. This is what will be converted to a nested ScriptableObject on demand for the graph.
+
+```c#
+using System.Linq;
+using CleverCrow.Fluid.Dialogues;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
+
+namespace YourNamespaceHere {
+    // Changing this will customize the name in the graph editor creation menu
+    [CreateMenu("Example")]
+    public class NodeExampleData : NodeDataBase {
+        public string myMessage;
+        
+        // This is the default name the node will display in the graph editor
+        protected override string DefaultName => "Example";
+        
+        public override INode GetRuntime (IGraph graphRuntime, IDialogueController dialogue) {
+            return new NodeCombat(
+                graphRuntime,
+                UniqueId,
+                myMessage,
+                children.ToList<INodeData>(),
+                conditions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList(),
+                enterActions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList(),
+                exitActions.Select(c => c.GetRuntime(graphRuntime, dialogue)).ToList()
+            );
+        }
+    }
+}
+```
+
+Next you will need to create the runtime node. This is what will be generated at runtime for every corresponding data object.
+
+```c#
+using CleverCrow.Fluid.Dialogues;
+using CleverCrow.Fluid.Dialogues.Graphs;
+using CleverCrow.Fluid.Dialogues.Nodes;
+
+namespace YourNamespaceHere {
+    public class NodeExample : NodeBase {
+        readonly string _myMessage;
+
+        public NodeCombat (
+            IGraph runtime,
+            string uniqueId,
+            // We've added our new value here. You can pass in whatever values you need. Just add more parameters to the constructor
+            string myMessage,
+            System.Collections.Generic.List<INodeData> children,
+            System.Collections.Generic.List<Fluid.Dialogues.Conditions.ICondition> conditions,
+            System.Collections.Generic.List<Fluid.Dialogues.Actions.IAction> enterActions,
+            System.Collections.Generic.List<Fluid.Dialogues.Actions.IAction> exitActions)
+            // This is what handles all the messy setup we'd normally have to do
+            : base(runtime, uniqueId, children, conditions, enterActions, exitActions) {
+            
+            _myMessage = myMessage;
+        }
+        
+        // Handles what happens when the node is played
+        protected override void OnPlay (IDialoguePlayback playback) {
+            Debug.Log(_myMessage);
+        }
+    }
+}
+```
+
+Lastly you will need to create a view layer. This is what will be displayed in the graph editor. Please note this must be nested in a folder called `Editor`.
+
+```c#
+using CleverCrow.Fluid.Dialogues.Editors;
+using CleverCrow.Fluid.Dialogues.Editors.NodeDisplays;
+using UnityEditor;
+using UnityEngine;
+
+namespace YourNamespaceHere {
+    [NodeType(typeof(NodeExampleData))]
+    public class NodeExampleEditor : NodeEditorBase {
+        protected override Color NodeColor { get; } = new(0.75f, 0.52f, 0f);
+        protected override float NodeWidth => 200;
+
+        protected override void OnPrintBody (Event e) {
+            serializedObject.Update();
+            
+            // This creates a dynamic input for the myMessage field
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("myMessage"), GUIContent.none);
+            
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+}
+```
+
+And that's it. The node will now be available in the graph editor and print our message at runtime. It even supports conditions, actions, and parent/child connections.
+
+For more details please take a look at the source code for the different node types. This will give you a better idea of how to structure more complex custom nodes with multiple choices and other details.
+
 ## Releases
 
 Please note that whatever node you're resuming from will play that exact node with enter actions and all previous nodes will not trigger anything. This is a direct reference and does not simulate the graph from the beginning.
