@@ -6,7 +6,7 @@
     "dialogue",
     "dialogue system"
   ],
-  "oysterVersion": "3.0.0",
+  "oysterVersion": "3.0.2",
   "packageName": "com.fluid.dialogue",
   "packageScope": "com.fluid",
   "unityVersion": "2019.1",
